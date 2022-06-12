@@ -10,7 +10,7 @@ public class CapSystemApplication {
 		System.out.println("Hello world!");
 		SpringApplication.run(CapSystemApplication.class, args);
 		
-		//Checking push and commit
+		//commit and push
 	}
 
 }
