@@ -9,7 +9,7 @@ public class CapSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CapSystemApplication.class, args);
 		
-		//Checking push and commit
+		//commit and push
 	}
 
 }
