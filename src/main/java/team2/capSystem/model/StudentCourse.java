@@ -10,14 +10,14 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
+@IdClass(StudentCourseId.class)
 public class StudentCourse{
 
     @Id
-    private int id;
-    
     @ManyToOne
     private Student student;
     
+    @Id
     @ManyToOne
     @JoinColumn(name="course_batch_id")
     private CourseDetail course;
