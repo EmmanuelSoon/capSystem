@@ -2,9 +2,6 @@ package team2.capSystem.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-
 import javax.persistence.*;
 
 @Entity

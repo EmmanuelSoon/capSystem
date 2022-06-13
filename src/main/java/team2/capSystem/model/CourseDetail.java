@@ -18,9 +18,9 @@ public class CourseDetail {
     private int id;
     private Date startDate;
     private Date endDate;
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL)
     private List<Lecturer> lecturers = new ArrayList<>();
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> student_course = new ArrayList<>();
     @ManyToOne
     private Course course;
