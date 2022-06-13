@@ -8,6 +8,7 @@ public class CapSystemApplication {
 
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
+		//System.out.println("Hein typing");
 		SpringApplication.run(CapSystemApplication.class, args);
 		
 		//commit and push
