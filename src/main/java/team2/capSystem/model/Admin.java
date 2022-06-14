@@ -1,14 +1,13 @@
 package team2.capSystem.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Admin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

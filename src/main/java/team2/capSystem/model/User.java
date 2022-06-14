@@ -2,10 +2,11 @@ package team2.capSystem.model;
 
 import javax.persistence.MappedSuperclass;
 
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @MappedSuperclass
 @NoArgsConstructor
+@Data
 public class User {
     protected String username;
     protected String password;
@@ -18,5 +19,6 @@ public class User {
         this.name = name;
         this.email = email;
     }
+
 
 }
