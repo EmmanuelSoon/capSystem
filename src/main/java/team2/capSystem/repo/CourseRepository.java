@@ -12,9 +12,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
   Boolean existsBy();
 
-//    @Query("select c from Course c where c.name like :name")
-//    List<Course> findCourseByName(@Param("name") String name);
-
-	public Course findCourseByName(String name);
+  @Query("SELECT c FROM Course c WHERE c.name like :name")
+  Course findCourseByName(@Param("name") String name);
+  
 
 }

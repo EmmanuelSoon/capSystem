@@ -18,20 +18,4 @@ class CapSystemApplicationTests {
 
 	@Autowired
 	private CourseRepository crepo;
-
-
-
-	@Test
-	@Order(1)
-	public void createCourse() {
-		
-		Course c = new Course("Core Spring Training",
-				"This course offers hands-on experience with Spring and its major features.");
-		crepo.save(c);
-		
-		Assertions.assertEquals(c.getName(), crepo.findById(1).get().getName());
-		
-		
-
-	}
 }
