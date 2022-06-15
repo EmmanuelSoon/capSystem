@@ -19,11 +19,11 @@ public class CourseDetail {
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
-    @ManyToMany
+    @ManyToMany  (mappedBy = "courses", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Lecturer> lecturers = new ArrayList<>();
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> student_course = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Course course;
 
     public CourseDetail(LocalDate startDate, LocalDate endDate, Course course) {

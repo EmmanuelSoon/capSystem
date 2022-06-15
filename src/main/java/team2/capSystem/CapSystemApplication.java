@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import ch.qos.logback.core.spi.LifeCycle;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -87,13 +88,13 @@ public class CapSystemApplication {
 				LocalDate end = LocalDate.of(2023, 06, 15);
 				Lecturer liufan = lecturerRepository.findByUsername("liufan");
 				Lecturer tin = lecturerRepository.findByUsername("tin");
-
-
-
 				CourseDetail porky = new CourseDetail(start, end, course);
-				porky.addLecturer(liufan);
-				porky.addLecturer(tin);
 				cdRepository.saveAndFlush(porky);
+
+				tin.getCourses().add(porky);
+				liufan.getCourses().add(porky);
+				lecturerRepository.saveAndFlush(tin);
+				lecturerRepository.saveAndFlush(liufan);
 				
 				Course course2 = courseRepository.findCourseByName("NiHonGo");
 				LocalDate start2 = LocalDate.of(2022, 06, 04);
@@ -101,11 +102,17 @@ public class CapSystemApplication {
 				Lecturer tsukiji = lecturerRepository.findByUsername("tsukiji");
 
 
-				CourseDetail javaCourse = new CourseDetail(start2, end2, course2);
-				javaCourse.addLecturer(tsukiji);
-				javaCourse.addLecturer(tin);
+				CourseDetail japCourse = new CourseDetail(start2, end2, course2);
+				cdRepository.saveAndFlush(japCourse);
+
+				tin.getCourses().add(japCourse);
+				tsukiji.getCourses().add(japCourse);
+				lecturerRepository.saveAndFlush(tin);
+				lecturerRepository.saveAndFlush(tsukiji);
+
+
 				
-				cdRepository.saveAndFlush(javaCourse);
+				
 			}
 		};
 	}
