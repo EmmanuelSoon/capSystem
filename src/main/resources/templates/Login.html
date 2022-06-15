@@ -5,7 +5,7 @@
 <body>
 	<!--<div th:replace="fragments/layout.html :: menu"/>
 	<div th:replace="fragments/layout.html :: header"/> -->
-	<form action="#" th:object="${user}" th:action="@{'/login/authenticate'}">
+	<form action="#" th:object="${user}" th:action="@{'/login/authenticate'}" method="post">
 		<table class="framed">
 			<tr>
 				<select id="type" name="LoginAs">
