@@ -13,4 +13,5 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 	@Query("SELECT l from Lecturer l WHERE l.email = :email")
 	Lecturer findLecturerByEmail(@Param("email") String email);
 
+	Lecturer findByUsername(String username);
 }
