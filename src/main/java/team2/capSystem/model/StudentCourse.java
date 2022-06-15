@@ -11,11 +11,11 @@ import javax.persistence.*;
 public class StudentCourse{
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Student student;
     
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="course_batch_id")
     private CourseDetail course;
     private double gpa;
@@ -24,5 +24,10 @@ public class StudentCourse{
         this.student = student;
         this.course = course;
         this.gpa = gpa;
+    }
+    public StudentCourse(Student student, CourseDetail course) {
+        this.student = student;
+        this.course = course;
+        this.gpa = -1.0;
     }
 }

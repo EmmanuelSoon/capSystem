@@ -3,6 +3,10 @@ package team2.capSystem.model;
 import lombok.*;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class Lecturer extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lecturerId;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",
             joinColumns = @JoinColumn(name = "lecture_id"),
