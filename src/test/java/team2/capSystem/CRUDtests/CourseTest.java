@@ -3,106 +3,83 @@ package team2.capSystem.CRUDtests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import team2.capSystem.model.Course;
 import team2.capSystem.repo.CourseRepository;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class CourseTest {
 	@Autowired
-	private CourseRepository crepo;
+	private CourseRepository courseRepo;
 
 	@Test
 	@Order(1)
-	@Rollback(value = false)
-	public void createCourse() {
+	@Rollback(false)
+	public void createCourseTest() {
 
-		Course course1 = Course.builder()
-				.name("Core Spring Training")
-				.description("This course offers hands-on experience with Spring and its major features.")
-				.build();
+		Course course = Course.builder().name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.").build();
 
-//		Course course2 = Course.builder()
-//				.name("Spring Boot Developer Training")
-//				.description(
-//				"This course offers hands-on experience with Spring Boot and its major features, including auto-configuration, Spring data, Actuator, Spring Boot testing and more.")
-//				.build();
-//
-//		Course course3 = Course.builder()
-//				.name("Spring Security Training")
-//				.description(
-//				"This course offers hands-on experience with the major features of Spring Security, which includes configuration, authentication, authorization, password handling, testing, protecting against security threats, and the OAuth2 support to secure applications.")
-//				.build();
+		courseRepo.save(course);
 
-		crepo.saveAndFlush(course1);
-//		crepo.saveAndFlush(course2);
-//		crepo.saveAndFlush(course3);
+		System.out.println("Course ID:" + course.getCourseId());
 
-		System.out.println("Course ID:" + course1.getCourseId());
-//		System.out.println("Course ID:" + course2.getCourseId());
-//		System.out.println("Course ID:" + course3.getCourseId());
-
-//		Assertions.assertNotNull(course1.getCourseId());
-//		Assertions.assertNotNull(course2.getCourseId());
-//		Assertions.assertNotNull(course3.getCourseId());
-		assertThat(course1.getCourseId()).isGreaterThan(0);
-//		assertThat(course2.getCourseId()).isGreaterThan(0);
-//		assertThat(course3.getCourseId()).isGreaterThan(0);
-
+		assertThat(course.getCourseId()).isGreaterThan(0);
 
 	}
 
 	@Test
 	@Order(2)
-	public void findCourseByName() {
-		Course course = Course.builder()
-				.name("Core Spring Training")
-				.description("This course offers hands-on experience with Spring and its major features.")
-				.build();
+	public void findCourseByNameTest() {
+		Course course = Course.builder().name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.").build();
 
-		Course course1 = crepo.findCourseByName("Core Spring Training");
-		assertThat(course1.getName()).isEqualTo("Core Spring Training");
+		courseRepo.saveAndFlush(course);
+		Course courseFind = courseRepo.findCourseByName("Core Spring Training");
+		assertThat(courseFind.getName()).isEqualTo("Core Spring Training");
 
 	}
 
 	@Test
 	@Order(3)
-	@Rollback(value = false)
-	public void editCourse() {
-		Course course = crepo.findCourseByName("Core Spring Training");
-		course.setDescription("updated description");
-		crepo.save(course);
-//		Assertions.assertEquals(course.getDescription(), "updated description");
-		assertThat(course.getDescription()).isEqualTo("updated description");
-		
+	public void listCourseTest() {
+		List<Course> courseList = (List<Course>) courseRepo.findAll();
+		assertThat(courseList).size().isGreaterThan(0);
 	}
-
-	
 
 	@Test
 	@Order(4)
-	@Rollback(value = false)
-	public void deleteCourse() {
-		Course course = crepo.findCourseByName("Core Spring Training");
-		crepo.deleteById(course.getCourseId());
-		Course deletedCourse = crepo.findCourseByName("Core Spring Training");
-//		Assertions.assertNull(course.getCourseId());
-		assertThat(deletedCourse).isNull();
+	public void editCourseTest() {
+		Course course = Course.builder().name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.").build();
+
+		courseRepo.saveAndFlush(course);
+		Course courseFind = courseRepo.findCourseByName("Core Spring Training");
+		courseFind.setDescription("updated description");
+		courseRepo.saveAndFlush(courseFind);
+		Course editedCourse = courseRepo.findCourseByName("Core Spring Training");
+		assertThat(editedCourse.getDescription()).isEqualTo("updated description");
 
 	}
 
+	@Test
+	@Order(5)
+	@Rollback(false)
+	public void deleteCourseTest() {
+		Course courseFind = courseRepo.findCourseByName("Core Spring Training");
+		courseRepo.deleteById(courseFind.getCourseId());
+		Course deletedCourse = courseRepo.findCourseByName("Core Spring Training");
+		assertThat(deletedCourse).isNull();
 
-
+	}
+	
 }
