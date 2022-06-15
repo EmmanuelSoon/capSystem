@@ -30,5 +30,8 @@ public class CourseDetail {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
+        
     }
+
+    
 }
