@@ -1,5 +1,6 @@
 package team2.capSystem.repo;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 //    List<Course> findCourseByName(@Param("name") String name);
 
 	Course findCourseByName(String name);
+
 
 }

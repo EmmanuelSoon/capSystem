@@ -19,7 +19,7 @@ public class CourseDetail {
     private int id;
     private LocalDate startDate;
     private LocalDate endDate;
-    @ManyToMany(mappedBy = "courses", cascade = CascadeType.MERGE)
+    @ManyToMany
     private List<Lecturer> lecturers = new ArrayList<>();
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> student_course = new ArrayList<>();
@@ -31,6 +31,9 @@ public class CourseDetail {
         this.endDate = endDate;
         this.course = course;
         
+    }
+    public void addLecturer(Lecturer lecturer){
+        lecturers.add(lecturer);
     }
 
     

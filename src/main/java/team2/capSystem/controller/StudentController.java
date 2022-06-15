@@ -1,5 +1,6 @@
 package team2.capSystem.controller;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,18 +45,18 @@ public class StudentController {
 
     }
 
-    @RequestMapping("/enroll")
-    public String showAvailbleCourses(HttpSession session, Model model){
-        //for this implementation we are getting all available courses by date first
-        //once we get the service layer up we will then compare with student_course to get 
-        //courses the student hasnt' taken yet
+    // @RequestMapping("/enroll")
+    // public String showAvailbleCourses(HttpSession session, Model model){
+    //     //for this implementation we are getting all available courses by date first
+    //     //once we get the service layer up we will then compare with student_course to get 
+    //     //courses the student hasnt' taken yet
 
 
-        List<CourseDetail> availCourse = cdRepo.getCourseAvail(new Date());
-        model.addAttribute("availCourses", availCourse);
-        return "students/student-enroll-course";
+    //     // List<CourseDetail> availCourse = cdRepo.getCourseAvail(new Date());
+    //     // model.addAttribute("availCourses", availCourse);
+    //     // return "students/student-enroll-course";
 
-    }
+    // }
 
 
 }

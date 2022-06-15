@@ -1,7 +1,6 @@
 package team2.capSystem;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -89,27 +88,24 @@ public class CapSystemApplication {
 				Lecturer liufan = lecturerRepository.findByUsername("liufan");
 				Lecturer tin = lecturerRepository.findByUsername("tin");
 
-				List<Lecturer> lectList = new ArrayList<Lecturer>();
-				lectList.add(liufan);
-				lectList.add(tin);
+
 
 				CourseDetail porky = new CourseDetail(start, end, course);
-				porky.setLecturers(lectList);
-				cdRepository.save(porky);
+				porky.addLecturer(liufan);
+				porky.addLecturer(tin);
+				cdRepository.saveAndFlush(porky);
 				
 				Course course2 = courseRepository.findCourseByName("NiHonGo");
 				LocalDate start2 = LocalDate.of(2022, 06, 04);
 				LocalDate end2 = LocalDate.of(2023, 06, 25);
 				Lecturer tsukiji = lecturerRepository.findByUsername("tsukiji");
 
-				List<Lecturer> javaLectList = new ArrayList<Lecturer>();
-				javaLectList.add(tsukiji);
-				javaLectList.add(tin);
 
-
-				CourseDetail java = new CourseDetail(start2, end2, course2);
-				porky.setLecturers(javaLectList);
-				cdRepository.save(java);
+				CourseDetail javaCourse = new CourseDetail(start2, end2, course2);
+				javaCourse.addLecturer(tsukiji);
+				javaCourse.addLecturer(tin);
+				
+				cdRepository.saveAndFlush(javaCourse);
 			}
 		};
 	}
@@ -121,10 +117,7 @@ public class CapSystemApplication {
 				Student s1 = studentRepository.findByUsername("emmanuel");
 				LocalDate date = LocalDate.of(2022, 06, 14);
 				List<CourseDetail> cdlist = cdRepository.findByStartDateAfter(date);
-				CourseDetail cd = cdlist.get(0);
-				// StudentCourseId scID1 = new StudentCourseId(cd, s1);
-				// StudentCourse sc1 = new StudentCourse(s1,cd,0.0);
-		
+				CourseDetail cd = cdlist.get(0);		
 				scRepository.save(new StudentCourse(s1, cd, 0.0));
 
 				Student s2 = studentRepository.findByUsername("youcheng");
