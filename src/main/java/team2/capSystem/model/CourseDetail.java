@@ -4,9 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,15 +23,12 @@ public class CourseDetail {
     private List<Lecturer> lecturers = new ArrayList<>();
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudentCourse> student_course = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Course course;
 
     public CourseDetail(LocalDate startDate, LocalDate endDate, Course course) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
-        
     }
-
-    
 }
