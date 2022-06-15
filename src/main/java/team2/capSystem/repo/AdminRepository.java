@@ -1,7 +1,5 @@
 package team2.capSystem.repo;
 
-import java.util.*;
-
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
 

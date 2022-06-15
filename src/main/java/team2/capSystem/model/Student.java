@@ -1,13 +1,13 @@
 package team2.capSystem.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Data
 @NoArgsConstructor
 public class Student extends User {
