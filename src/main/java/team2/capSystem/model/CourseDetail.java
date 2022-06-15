@@ -4,7 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +20,7 @@ public class CourseDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_batch_id")
     private int id;
+    @DateTimeFormat(pattern="dd-MMM-yyyy")
     private Date startDate;
     private Date endDate;
     @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL)
@@ -29,5 +34,8 @@ public class CourseDetail {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
+        
     }
+
+    
 }
