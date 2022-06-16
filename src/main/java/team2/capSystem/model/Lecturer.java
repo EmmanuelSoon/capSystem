@@ -19,7 +19,7 @@ public class Lecturer extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lecturerId;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @ManyToMany (fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "lecture_course",
             joinColumns = @JoinColumn(name = "lecture_id"),

@@ -21,7 +21,7 @@ public class Course {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<CourseDetail> CourseDetails = new ArrayList<>();
 
     public Course(String name, String description) {

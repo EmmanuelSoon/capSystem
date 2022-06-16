@@ -11,11 +11,11 @@ import javax.persistence.*;
 public class StudentCourse{
 
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Student student;
     
     @Id
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="course_batch_id")
     private CourseDetail course;
     private double gpa;

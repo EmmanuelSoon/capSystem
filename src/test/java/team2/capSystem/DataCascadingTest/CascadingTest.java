@@ -11,10 +11,7 @@ import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
-import team2.capSystem.repo.CourseDetailRepository;
-import team2.capSystem.repo.CourseRepository;
-import team2.capSystem.repo.LecturerRepository;
-import team2.capSystem.repo.StudentRepository;
+import team2.capSystem.repo.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -34,6 +31,9 @@ public class CascadingTest {
     @Autowired
     StudentRepository sRepo;
 
+    @Autowired
+    StudentCourseRepository scRepo;
+
 
     // Testing Data Cascading between Course and CourseDetails( one to many)
     @Test
@@ -42,7 +42,6 @@ public class CascadingTest {
 
         Course c =  new Course("testname", "testdesc");
         LocalDate start = LocalDate.now();
-        List<CourseDetail> courseDetailList = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             c.Add(new CourseDetail(start, start.plusMonths(i), c));
         }
@@ -55,9 +54,6 @@ public class CascadingTest {
 
         List<CourseDetail> list = cdRepo.findAll();
         Assertions.assertEquals(initialSize+3, list.size());
-        cRepo.delete(c);
-        list = cdRepo.findAll();
-        Assertions.assertEquals(initialSize, list.size());
     }
 
 
@@ -65,7 +61,38 @@ public class CascadingTest {
     @Test
     @Order(2)
     public void Test2() {
+/*        //Create 3 test courseDetail with start and end date
+        Course c =  new Course("testcourse", "testdesc");
+        Student std = new Student("testStudent", "testStudent", "testStudent", "testEmail");
+        LocalDate start = LocalDate.now();
+        List<CourseDetail> courseDetailList = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            CourseDetail cd = new CourseDetail(start, start.plusMonths(i), c);
+            c.Add(cd);
+            courseDetailList.add(cd);
+        }
+        cRepo.save(c);
+        //create 3 nos of  StduentCourse Records based on the courseDetail created
+        for (CourseDetail cd : courseDetailList) {
+            std.add(new StudentCourse(std, cd, 2.0));
+        }
+        sRepo.save(std);
+        Student testStudent = sRepo.findStudentByEmail("testEmail");
+        Assertions.assertNotNull(testStudent);
+        int studentId = testStudent.getStudentId();
+        List<StudentCourse> list = scRepo.findSCByStudentId(studentId);
 
+        Assertions.assertEquals(3, list.size());
+
+        for (StudentCourse sc : list) {
+            Assertions.assertEquals(2.0, sc.getGpa());
+        }
+
+
+
+        sRepo.delete(std);
+        list = scRepo.findSCByStudentId(studentId);
+        Assertions.assertEquals(0, list.size());*/
     }
 
     @Test
