@@ -29,10 +29,16 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired
 	CourseDetailRepository cdRepository;
 
+	public boolean tableExist(){
+		return courseRepository.existsBy();
+	}
 
+    public boolean courseDetailTableExist(){
+		return cdRepository.existsBy();
+	}
 
     public void createCourse(String name, String desc){
-
+        courseRepository.save(new Course(name, desc));
     };
 
     public void updateCourse(Course course, String change){
@@ -47,6 +53,11 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
+    public Course getCourseByName(String name){
+        return courseRepository.findCourseByName(name);
+    };
+
+
     public void addLecturer(CourseDetail courseDetail, Lecturer lecturer){
         lecturer.addCourseDetail(courseDetail);
         lecturerRepository.save(lecturer);
@@ -60,7 +71,17 @@ public class CourseServiceImpl implements CourseService {
         return cd;
     };
 
+    public CourseDetail findExactCourseDetail(Course course, LocalDate start, LocalDate end){
+        return cdRepository.findByCourseNameAndTime(course, start, end);
+    };
+
+
     
+    public StudentCourse addStudentToCourseDetail(CourseDetail courseDetail, Student student, double gpa){
+        StudentCourse sc = new StudentCourse( student, courseDetail, gpa);
+        scRepository.save(sc);
+        return sc;
+    };
 
 
 

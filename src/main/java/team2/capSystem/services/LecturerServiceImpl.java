@@ -20,11 +20,22 @@ public class LecturerServiceImpl implements LecturerService {
 //		return lecturerRepository.findLecturerByUsername(username);
 //	}
 
+	public boolean tableExist(){
+		return lecturerRepository.existsBy();
+	}
+	public void createLecturer(String username, String password, String name, String email){
+		lecturerRepository.save(new Lecturer(username, password, name, email));
+	};
+
 
 	@Override
 	public Lecturer getLecturer(User u) {
 		return lecturerRepository.findLecturerByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
+
+	public Lecturer findByUsername(String username){
+		return lecturerRepository.findByUsername(username);
+	};
 
 
 	@Override

@@ -14,6 +14,14 @@ public class AdminServiceImpl implements AdminService {
 	@Resource
 	private AdminRepository adminRepository;
 
+	public boolean tableExist(){
+		return adminRepository.existsBy();
+	}
+
+	public void createAdmin(String username, String password, String name, String email){
+		adminRepository.save(new Admin(username, password, name, email));
+	};
+
 
 	@Override
 	public Admin findAdminByUsername(String username) {

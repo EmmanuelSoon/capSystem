@@ -132,4 +132,14 @@ public class CascadingTest {
 
     }
 
+    @Test
+	@Order(6)
+	public void FindCourseDetailTest() {
+		Course courseFind = cRepo.findCourseByName("Java Programming");
+		CourseDetail cd = new CourseDetail(LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30), courseFind);
+		cdRepo.save(cd);
+		CourseDetail course = cdRepo.findByCourseNameAndTime(courseFind, LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30));
+		Assertions.assertNotNull(course);
+	}
+
 }

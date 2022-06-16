@@ -2,6 +2,7 @@ package team2.capSystem.CRUDtests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Order;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import team2.capSystem.model.Course;
+import team2.capSystem.model.CourseDetail;
+import team2.capSystem.repo.CourseDetailRepository;
 import team2.capSystem.repo.CourseRepository;
 
 @DataJpaTest
