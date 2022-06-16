@@ -18,6 +18,7 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 
 	Lecturer findByUsername(String username);
 	
-
+	@Query("FROM Lecturer l WHERE l.username= :username AND l.password= :password")
+	Lecturer findLecturerByUsernameAndPassword(@Param("username") String u, @Param("password") String p);
 
 }
