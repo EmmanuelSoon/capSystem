@@ -41,8 +41,12 @@ public class CourseServiceImpl implements CourseService {
 
      };
 
+    public void deleteCourse(int id){
 
-    public void addCourseDetail(CourseDetail courseDetail, List<Lecturer> lectList){
+    }
+
+
+    public void addLecturers(CourseDetail courseDetail, List<Lecturer> lectList){
         for(Lecturer lecturer: lectList){
             lecturer.getCourses().add(courseDetail);
             lecturerRepository.saveAndFlush(lecturer);
