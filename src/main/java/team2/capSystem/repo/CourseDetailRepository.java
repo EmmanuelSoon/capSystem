@@ -14,5 +14,4 @@ public interface CourseDetailRepository extends JpaRepository<CourseDetail, Inte
 
     List<CourseDetail> findByStartDateAfter(LocalDate date);
 
-
 }

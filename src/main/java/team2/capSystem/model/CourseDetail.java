@@ -17,12 +17,17 @@ public class CourseDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_batch_id")
     private int id;
+
     private LocalDate startDate;
     private LocalDate endDate;
+    
     @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Lecturer> lecturers = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<StudentCourse> student_course = new ArrayList<>();
+
     @ManyToOne
     private Course course;
 
@@ -30,5 +35,17 @@ public class CourseDetail {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
+    }
+
+
+    //Ulility Methods 
+    public void addLecturer(Lecturer lecturer){
+        this.lecturers.add(lecturer);
+        lecturer.getCourses().add(this);
+    }
+
+    public void removeLecturer(Lecturer lecturer){
+        this.lecturers.remove(lecturer);
+        lecturer.getCourses().remove(this);
     }
 }
