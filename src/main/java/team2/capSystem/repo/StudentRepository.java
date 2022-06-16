@@ -10,6 +10,9 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	
 	Boolean existsBy();
 	
+	@Query("SELECT s from Student s WHERE s.name = :name")
+	Student findStudentByName(@Param("name") String name);
+	
 	@Query("SELECT s from Student s WHERE s.email = :email")
 	Student findStudentByEmail(@Param("email") String email);
 

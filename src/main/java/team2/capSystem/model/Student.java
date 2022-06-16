@@ -19,6 +19,7 @@ public class Student extends User {
     @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<StudentCourse> courses = new ArrayList<>();
 
+    @Builder
     public Student(String username, String password, String name, String email) {
         super(username, password, name, email);
     }
