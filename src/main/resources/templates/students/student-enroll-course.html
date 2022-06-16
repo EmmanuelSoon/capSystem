@@ -10,19 +10,19 @@
 <body>
 	<h3>Enroll in a Course</h3>
 	<div>
-		<table class="table table-stripped" th:object="${studCourse}" >
+		<table class="table table-stripped" th:object="${enrollCourses}" >
 			<tr>
 				<thead>Course Name</thead>
 				<thead>Course Description</thead>
 				<thead>Start Date</thead>
                 <thead>End Date</thead>
 			</tr>
-            <tr th:if="${availCourses.empty}">
+            <tr th:if="${enrollCourses.empty}">
                 <td colspan="4"> No Courses avail</td>
             </tr>
 
-			<tr th:each="ac: ${availCourses}">
-                <td th:text="${ac.course.courseId}">Course Id</td>
+			<tr th:each="ac: ${enrollCourses}">
+                <td th:text="${ac.course.courseId}">Course Id</td> -->
                 <td th:text="${ac.course.name}">Course Name</td>
 				<td th:text="${ac.course.description}">Course Description</td>
 				<td th:text="${ac.startDate}">Course Start Date</td>

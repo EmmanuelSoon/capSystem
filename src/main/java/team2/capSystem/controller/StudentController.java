@@ -1,6 +1,7 @@
 package team2.capSystem.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,24 +40,31 @@ public class StudentController {
     public String showCourseHistory(HttpSession session, Model model){
         //scRepo.getById(session.getAttribute("studentID")
         //Todo: replace hardcoded student id when session is implemented. 
-        List<StudentCourse> reslt =  scRepo.findSCByStudentId(1);
+        List<StudentCourse> reslt =  scRepo.findSCByStudentId(2);
         model.addAttribute("studCourse", reslt);
         return "students/student-course";
 
     }
 
-    // @RequestMapping("/enroll")
-    // public String showAvailbleCourses(HttpSession session, Model model){
-    //     //for this implementation we are getting all available courses by date first
-    //     //once we get the service layer up we will then compare with student_course to get 
-    //     //courses the student hasnt' taken yet
+    @RequestMapping("/enroll")
+    public String showAvailbleCourses(HttpSession session, Model model){
 
+        List<CourseDetail> availCourse = cdRepo.findByStartDateAfter(LocalDate.now());
+        List<StudentCourse> takenCourse = scRepo.findSCByStudentId(3);
+        List<CourseDetail> enrollCourses = new ArrayList<CourseDetail>();
+        for(StudentCourse scourse : takenCourse){
+            for(CourseDetail cdCourse : availCourse){
+                if (!scourse.getCourse().equals(cdCourse)){
+                    enrollCourses.add(cdCourse);
+                }
 
-    //     // List<CourseDetail> availCourse = cdRepo.getCourseAvail(new Date());
-    //     // model.addAttribute("availCourses", availCourse);
-    //     // return "students/student-enroll-course";
+            }
+        }
+        
+        model.addAttribute("enrollCourses", enrollCourses);
+        return "students/student-enroll-course";
 
-    // }
+    }
 
 
 }
