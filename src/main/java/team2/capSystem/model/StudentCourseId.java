@@ -2,15 +2,17 @@ package team2.capSystem.model;
 
 import java.io.Serializable;
 
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class StudentCourseId implements Serializable {
-    private CourseDetail course;
-    private Student student;
+    private int course;
+    private int student;
 
-    public StudentCourseId(CourseDetail course, Student student) {
+    public StudentCourseId(int courseId, int studentId) {
         super();
-        this.course = course;
-        this.student = student;
+        this.course = courseId;
+        this.student = studentId;
     }
     
 }

@@ -25,4 +25,9 @@ public class StudentCourse{
         this.course = course;
         this.gpa = gpa;
     }
+    public StudentCourse(Student student, CourseDetail course) {
+        this.student = student;
+        this.course = course;
+        this.gpa = -1.0;
+    }
 }

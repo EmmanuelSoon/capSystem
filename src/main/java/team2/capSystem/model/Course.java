@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,8 +21,18 @@ public class Course {
     private String name;
     private String description;
 
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    List<CourseDetail> CourseDetails = new ArrayList<>();
+
     public Course(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+    public Course(String name, String description, List<CourseDetail> CourseDetails) {
+        this.name = name;
+        this.description = description;
+    }
+    public void Add(CourseDetail cd) {
+        this.CourseDetails.add(cd);
     }
 }

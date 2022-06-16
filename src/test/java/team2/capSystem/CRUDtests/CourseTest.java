@@ -26,13 +26,15 @@ public class CourseTest {
 	@Rollback(false)
 	public void createCourseTest() {
 
-		Course course = Course.builder().name("Core Spring Training")
-				.description("This course offers hands-on experience with Spring and its major features.").build();
+		Course course = Course.builder()
+				.name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.")
+				.build();
 
 		courseRepo.save(course);
 
 		System.out.println("Course ID:" + course.getCourseId());
-
+		assertThat(course).isNotNull();
 		assertThat(course.getCourseId()).isGreaterThan(0);
 
 	}
@@ -40,8 +42,10 @@ public class CourseTest {
 	@Test
 	@Order(2)
 	public void findCourseByNameTest() {
-		Course course = Course.builder().name("Core Spring Training")
-				.description("This course offers hands-on experience with Spring and its major features.").build();
+		Course course = Course.builder()
+				.name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.")
+				.build();
 
 		courseRepo.saveAndFlush(course);
 		Course courseFind = courseRepo.findCourseByName("Core Spring Training");
@@ -59,8 +63,11 @@ public class CourseTest {
 	@Test
 	@Order(4)
 	public void editCourseTest() {
-		Course course = Course.builder().name("Core Spring Training")
-				.description("This course offers hands-on experience with Spring and its major features.").build();
+		Course course = Course
+				.builder()
+				.name("Core Spring Training")
+				.description("This course offers hands-on experience with Spring and its major features.")
+				.build();
 
 		courseRepo.saveAndFlush(course);
 		Course courseFind = courseRepo.findCourseByName("Core Spring Training");

@@ -1,11 +1,15 @@
 package team2.capSystem;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import ch.qos.logback.core.spi.LifeCycle;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -23,16 +27,17 @@ public class CapSystemApplication {
 	
 	@Autowired 
 	CourseRepository courseRepository;
-	
+
+	@Autowired
+	StudentCourseRepository scRepository;
+
+	@Autowired
+	CourseDetailRepository cdRepository;
 
 	public static void main(String[] args) {
-		System.out.println("Hello world!");
-		//System.out.println("Hein typing");
-		SpringApplication.run(CapSystemApplication.class, args);
-		
-		//commit and push
+		SpringApplication.run(CapSystemApplication.class, args);		
 	}
-// (String username, String password, String name, String email
+
 	@Bean 
 	InitializingBean loadData(){
 		return () -> {
@@ -70,6 +75,61 @@ public class CapSystemApplication {
 				courseRepository.save(new Course("Pokemon 101", "How to be a pokemon master"));
 				courseRepository.save(new Course("Farming 101", "How to start your own farm"));
 				courseRepository.save(new Course("Cooking with Pork", "From meat to dish, learn all the tricks chefs use!"));
+			}
+		};
+	}
+
+	@Bean 
+	InitializingBean loadCourseDetailsData(){
+		return () -> {
+			if(!cdRepository.existsBy()){
+				Course course = courseRepository.findCourseByName("Cooking with Pork");
+				LocalDate start = LocalDate.of(2022, 06, 15);
+				LocalDate end = LocalDate.of(2023, 06, 15);
+				Lecturer liufan = lecturerRepository.findByUsername("liufan");
+				Lecturer tin = lecturerRepository.findByUsername("tin");
+				CourseDetail porky = new CourseDetail(start, end, course);
+				cdRepository.saveAndFlush(porky);
+
+				tin.getCourses().add(porky);
+				liufan.getCourses().add(porky);
+				lecturerRepository.saveAndFlush(tin);
+				lecturerRepository.saveAndFlush(liufan);
+				
+				Course course2 = courseRepository.findCourseByName("NiHonGo");
+				LocalDate start2 = LocalDate.of(2022, 06, 04);
+				LocalDate end2 = LocalDate.of(2023, 06, 25);
+				Lecturer tsukiji = lecturerRepository.findByUsername("tsukiji");
+
+
+				CourseDetail japCourse = new CourseDetail(start2, end2, course2);
+				cdRepository.saveAndFlush(japCourse);
+
+				tin.getCourses().add(japCourse);
+				tsukiji.getCourses().add(japCourse);
+				lecturerRepository.saveAndFlush(tin);
+				lecturerRepository.saveAndFlush(tsukiji);
+
+
+				
+				
+			}
+		};
+	}
+
+	@Bean 
+	InitializingBean loadStudentCourseData(){
+		return () -> {
+			if(!scRepository.existsBy()){
+				Student s1 = studentRepository.findByUsername("emmanuel");
+				LocalDate date = LocalDate.of(2022, 06, 14);
+				List<CourseDetail> cdlist = cdRepository.findByStartDateAfter(date);
+				CourseDetail cd = cdlist.get(0);		
+				scRepository.save(new StudentCourse(s1, cd, 0.0));
+
+				Student s2 = studentRepository.findByUsername("youcheng");
+				scRepository.save(new StudentCourse(s2, cd, 0.0));
+
 			}
 		};
 	}
