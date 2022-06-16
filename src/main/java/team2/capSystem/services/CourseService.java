@@ -11,8 +11,9 @@ public interface CourseService {
     void createCourse(String name, String desc);
     void updateCourse(Course course, String change);
     void getCourse(int id);
+    void deleteCourse(int id);
 
-    void addCourseDetail(CourseDetail courseDetail, List<Lecturer> lectList);
+    void addLecturers(CourseDetail courseDetail, List<Lecturer> lectList);
     CourseDetail createCourseDetail(Course course, LocalDate start, LocalDate end);
 
 
