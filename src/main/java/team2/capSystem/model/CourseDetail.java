@@ -26,6 +26,8 @@ public class CourseDetail {
     private List<StudentCourse> student_course = new ArrayList<>();
     @ManyToOne
     private Course course;
+    private int maxSize = 20;
+
 
     public CourseDetail(LocalDate startDate, LocalDate endDate, Course course) {
         this.startDate = startDate;
