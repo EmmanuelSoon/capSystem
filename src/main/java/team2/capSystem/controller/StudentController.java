@@ -24,22 +24,29 @@ import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.CourseDetailRepository;
 import team2.capSystem.repo.StudentCourseRepository;
 import team2.capSystem.repo.StudentRepository;
+import team2.capSystem.services.CourseService;
+import team2.capSystem.services.StudentService;
 
 @Controller
-@RequestMapping("/student")
+@RequestMapping(path = "/student")
 public class StudentController {
     
     @Autowired StudentRepository sRepo;
     @Autowired StudentCourseRepository scRepo;
     @Autowired CourseDetailRepository cdRepo;
     
+    @Autowired 
+    private StudentService studService;
+    // @Autowired
+    // private CourseService courseService;
+
     
     @GetMapping("/")
     public String showDashboard(){
         return "students/student-dashboard";
     }
 
-    @RequestMapping("/course-history")
+    @RequestMapping(path = "/course-history")
     public String showCourseHistory(HttpSession session, Model model){
         //scRepo.getById(session.getAttribute("studentID")
         //Todo: replace hardcoded student id when session is implemented. 
@@ -49,7 +56,7 @@ public class StudentController {
 
     }
 
-    @RequestMapping("/enroll")
+    @RequestMapping(path = "/enroll")
     public String showAvailbleCourses(HttpSession session, Model model){
 
         List<CourseDetail> availCourse = cdRepo.findByStartDateAfter(LocalDate.now());
@@ -73,7 +80,7 @@ public class StudentController {
     public String enrollCourse(@PathVariable("courseId") Integer courseId) {
     	Optional<Student> stuList = sRepo.findById(3);
     	Optional<CourseDetail> cdetailList=cdRepo.findById(courseId);
-    	scRepo.save(new StudentCourse(stuList.get(),cdetailList.get()));
+    	scRepo.save(new StudentCourse(stuList.get(), cdetailList.get()));
     	return "students/student-course";
     }
 

@@ -10,7 +10,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
 	Boolean existsBy();
 	
 	@Query("SELECT a from Admin a WHERE a.username = :username")
-	Admin findAdminByUsername(@Param("email") String username);
+	Admin findAdminByUsername(@Param("username") String username);
   
 	@Query("SELECT a from Admin a WHERE a.name = :name")
 	Admin findAdminByName(@Param("name") String name);

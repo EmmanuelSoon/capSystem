@@ -15,15 +15,22 @@ public class LecturerServiceImpl implements LecturerService {
 	private LecturerRepository lecturerRepository;
 
 
-	@Override
-	public Lecturer findLecturerByUsername(String username) {
-		return lecturerRepository.findLecturerByUsername(username);
-	}
+//	@Override
+//	public Lecturer findLecturerByUsername(String username) {
+//		return lecturerRepository.findLecturerByUsername(username);
+//	}
 
 
 	@Override
 	public Lecturer getLecturer(User u) {
 		return lecturerRepository.findLecturerByUsernameAndPassword(u.getUsername(), u.getPassword());
+	}
+
+
+	@Override
+	public Lecturer findLecturerByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
