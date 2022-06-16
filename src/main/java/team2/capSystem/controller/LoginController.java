@@ -6,7 +6,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import team2.capSystem.helper.MyBag;
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.Admin;
 import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
@@ -39,8 +39,8 @@ public class LoginController {
 		case "admin":
 			Admin adm = adminService.getAdmin(user);
 			if(adm != null) {
-				MyBag p = new MyBag(adm);
-				session.setAttribute("profile", p);
+				userSessionDetails p = new userSessionDetails(adm, adm.getStaffId(), role);
+				session.setAttribute("userSessionDetails", p);
 				return "index";
 			}
 			break;
@@ -48,8 +48,8 @@ public class LoginController {
 		case "lecturer":
 			Lecturer lec = lecturerService.getLecturer(user);
 			if(lec != null) {
-				MyBag p = new MyBag(lec);
-				session.setAttribute("profile", p);
+				userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
+				session.setAttribute("userSessionDetails", p);
 				return "index";
 			}
 			break;
@@ -57,8 +57,8 @@ public class LoginController {
 		case "student":
 			Student stu = studentService.getStudent(user);
 			if(stu != null) {
-				MyBag p = new MyBag(stu);
-				session.setAttribute("profile", p);
+				userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
+				session.setAttribute("userSessionDetails", p);
 				return "index";
 			}
 			break;
