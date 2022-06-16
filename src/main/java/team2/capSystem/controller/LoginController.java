@@ -67,58 +67,6 @@ public class LoginController {
 		}
 		
 		return "Login";
-		
-		
-//		if (LoginAs.equals("admin"))
-//		{
-//			System.out.println("entered if");
-//			System.out.println(user);
-//			
-//			
-//			User u = adminService.findAdminByEmail(user.getUsername());
-//			
-//			System.out.println("Got user");
-//			
-//			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-//			{
-//				System.out.println("Entered log out if");
-//				return "logout";
-//			}
-//			
-//		}
-//		else if (LoginAs.equals("lecturer"))
-//		{
-//			System.out.println("entered lecturer if");
-//			System.out.println(user);
-//			
-//			User u = lecturerService.findLecturerByEmail(user.getUsername());
-//			
-//			System.out.println("Got lecturer user");
-//			
-//			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-//			{
-//				System.out.println("Entered lecturer log out if");
-//				return "logout";
-//			}
-//			
-//		}
-//		else if (LoginAs.equals("student"))
-//		{
-//			System.out.println("entered student if");
-//			System.out.println(user);
-//			
-//			User u = studentService.findStudentByEmail(user.getUsername());
-//			
-//			System.out.println("Gotstudent user");
-//			
-//			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-//			{
-//				System.out.println("Entered stuednt log out if");
-//				return "logout";
-//			}
-//			
-//		}
-
 	}
 	
 	@RequestMapping("/logout")
