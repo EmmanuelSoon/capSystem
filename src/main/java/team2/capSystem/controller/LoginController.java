@@ -1,7 +1,6 @@
 package team2.capSystem.controller;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
@@ -16,23 +15,23 @@ import team2.capSystem.services.*;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	private AdminService adminService;
 	@Autowired
 	private StudentService studentService;
 	@Autowired
 	private LecturerService lecturerService;
-	
-	@RequestMapping(value="/")
+
+	@RequestMapping(value = "/")
 	public String standard(Model model, HttpSession session) {
-		if(session.getAttribute("validated") != null || session.getAttribute("admvalidated") !=null) {
+		if (session.getAttribute("validated") != null || session.getAttribute("admvalidated") != null) {
 			return "logout";
 		}
 		model.addAttribute("user", new User());
 		return "login";
 	}
-	
+
 	@RequestMapping("/login/authenticate")
 	public String login(@ModelAttribute("user") User user, HttpSession session, @RequestParam("LoginAs") String role) {
 		

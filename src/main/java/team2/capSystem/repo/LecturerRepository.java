@@ -10,6 +10,9 @@ public interface LecturerRepository extends JpaRepository<Lecturer, Integer> {
 	
 	Boolean existsBy();
 	
+	@Query("SELECT l from Lecturer l WHERE l.username = :username")
+	Lecturer findLecturerByUsername(@Param("username") String username);
+  
 	@Query("SELECT l from Lecturer l WHERE l.email = :email")
 	Lecturer findLecturerByEmail(@Param("email") String email);
 	
