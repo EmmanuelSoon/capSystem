@@ -4,6 +4,6 @@ import team2.capSystem.model.*;
 
 public interface StudentService {
 		
-	Student findStudentByEmail(String email);
+	Student findStudentByUsername(String username);
 
 }

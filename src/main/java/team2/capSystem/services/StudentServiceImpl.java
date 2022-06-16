@@ -15,8 +15,8 @@ public class StudentServiceImpl implements StudentService {
 
 
 	@Override
-	public Student findStudentByEmail(String email) {
-		return studentRepository.findStudentByEmail(email);
+	public Student findStudentByUsername(String email) {
+		return studentRepository.findStudentByUsername(email);
 	}
 
 }

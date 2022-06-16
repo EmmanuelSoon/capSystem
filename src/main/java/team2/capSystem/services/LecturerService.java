@@ -4,6 +4,6 @@ import team2.capSystem.model.*;
 
 public interface LecturerService {
 		
-	Lecturer findLecturerByEmail(String email);
+	Lecturer findLecturerByUsername(String username);
 
 }

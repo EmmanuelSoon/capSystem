@@ -15,8 +15,8 @@ public class LecturerServiceImpl implements LecturerService {
 
 
 	@Override
-	public Lecturer findLecturerByEmail(String email) {
-		return lecturerRepository.findLecturerByEmail(email);
+	public Lecturer findLecturerByUsername(String username) {
+		return lecturerRepository.findLecturerByUsername(username);
 	}
 
 }

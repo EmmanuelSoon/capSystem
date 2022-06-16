@@ -1,89 +1,92 @@
 package team2.capSystem.controller;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import team2.capSystem.model.User;
+import team2.capSystem.model.*;
 import team2.capSystem.services.*;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	private AdminService adminService;
 	@Autowired
 	private StudentService studentService;
 	@Autowired
 	private LecturerService lecturerService;
-	
-	@RequestMapping(value="/")
+
+	@RequestMapping(value = "/")
 	public String standard(Model model, HttpSession session) {
-		if(session.getAttribute("validated") != null || session.getAttribute("admvalidated") !=null) {
+		if (session.getAttribute("validated") != null || session.getAttribute("admvalidated") != null) {
 			return "logout";
 		}
 		model.addAttribute("user", new User());
 		return "login";
 	}
-	
+
 	@RequestMapping("/login/authenticate")
-	public String login(@ModelAttribute("user") User user, HttpSession session, @RequestParam(name="LoginAs") String LoginAs) {
+	public String login(@ModelAttribute("user") User user, HttpSession session,
+			@RequestParam(name = "LoginAs") String LoginAs) {
 		System.out.println(LoginAs);
-		
-		if (LoginAs.equals("admin"))
-		{
-			System.out.println("entered if");
-			System.out.println(user);
-			
-			
-			User u = adminService.findAdminByEmail(user.getUsername());
-			
-			System.out.println("Got user");
-			
-			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-			{
-				System.out.println("Entered log out if");
-				return "logout";
-			}
-			
+
+		switch (LoginAs) {
+		case "admin":
+			return redirectToAdminDashBoard(user, session);
+		case "lecturer":
+			return redirectToLecturerDashBoard(user, session);
+		case "student":
+			return redirectToStudentDashBoard(user, session);
+		default:
+			return "login";
 		}
-		else if (LoginAs.equals("lecturer"))
-		{
-			System.out.println("entered lecturer if");
-			System.out.println(user);
-			
-			User u = lecturerService.findLecturerByEmail(user.getUsername());
-			
-			System.out.println("Got lecturer user");
-			
-			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-			{
-				System.out.println("Entered lecturer log out if");
-				return "logout";
+	}
+
+	private String redirectToAdminDashBoard(User user, HttpSession session) {
+
+		Admin admin = adminService.findAdminByUsername(user.getUsername());
+
+		if (admin != null) {
+			if (admin.getUsername().equals(user.getUsername()) && admin.getPassword().equals(user.getPassword())) {
+				session.setAttribute("userRole", "admin");
+				session.setAttribute("userID", admin.getStaffId());
+				return "AdminDashboard";
 			}
-			
 		}
-		else if (LoginAs.equals("student"))
-		{
-			System.out.println("entered student if");
-			System.out.println(user);
-			
-			User u = studentService.findStudentByEmail(user.getUsername());
-			
-			System.out.println("Gotstudent user");
-			
-			if((u.getEmail().equals(user.getUsername())) && (u.getPassword().equals((user.getPassword()))))
-			{
-				System.out.println("Entered stuednt log out if");
-				return "logout";
-			}
-			
-		}
-		
-		
 		return "login";
+
+	}
+
+	private String redirectToLecturerDashBoard(User user, HttpSession session) {
+
+		Lecturer lecturer = lecturerService.findLecturerByUsername(user.getUsername());
+
+		if (lecturer != null) {
+			if (lecturer.getUsername().equals(user.getUsername()) && lecturer.getPassword().equals(user.getPassword())) {
+				session.setAttribute("userRole", "admin");
+				session.setAttribute("userID", lecturer.getLecturerId());
+				return "LecturerDashboard";
+			}
+		}
+		return "login";
+
+	}
+
+	private String redirectToStudentDashBoard(User user, HttpSession session) {
+
+		Student student = studentService.findStudentByUsername(user.getUsername());
+
+		if (student != null) {
+			if (student.getUsername().equals(user.getUsername()) && student.getPassword().equals(user.getPassword())) {
+				session.setAttribute("userRole", "admin");
+				session.setAttribute("userID", student.getStudentId());
+				return "StudentDashboard";
+			}
+		}
+		return "login";
+
 	}
 }
