@@ -34,7 +34,7 @@ public class CourseTest {
 		courseRepo.save(course);
 
 		System.out.println("Course ID:" + course.getCourseId());
-
+		assertThat(course).isNotNull();
 		assertThat(course.getCourseId()).isGreaterThan(0);
 
 	}

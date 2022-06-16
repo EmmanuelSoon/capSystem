@@ -10,10 +10,10 @@ import org.hibernate.annotations.FetchMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@EqualsAndHashCode(callSuper=false)
-@NoArgsConstructor
 @Data
+@Entity
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class Lecturer extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,7 @@ public class Lecturer extends User{
     )
     private List<CourseDetail> courses = new ArrayList<>();
 
+    @Builder
     public Lecturer(String username, String password, String name, String email) {
         super(username, password, name, email);
     }

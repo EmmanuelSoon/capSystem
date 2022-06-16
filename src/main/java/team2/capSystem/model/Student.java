@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@EqualsAndHashCode(callSuper=false)
 @Data
+@Entity
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class Student extends User {
 
     @Id
@@ -19,7 +19,10 @@ public class Student extends User {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentCourse> courses = new ArrayList<>();
 
+    @Builder
     public Student(String username, String password, String name, String email) {
         super(username, password, name, email);
     }
+    
+   
 }

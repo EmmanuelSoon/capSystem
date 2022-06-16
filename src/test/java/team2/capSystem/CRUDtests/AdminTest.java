@@ -34,6 +34,7 @@ public class AdminTest {
     			.build();
     	adminRepo.save(admin);
     	System.out.println("Admin ID: "+ admin.getStaffId());
+		assertThat(admin).isNotNull();
     	assertThat(admin.getStaffId()).isGreaterThan(0);
     }
     
