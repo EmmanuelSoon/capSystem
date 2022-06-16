@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team2.capSystem.model.CourseDetail;
+import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.CourseDetailRepository;
 import team2.capSystem.repo.StudentCourseRepository;
@@ -64,6 +67,14 @@ public class StudentController {
         model.addAttribute("enrollCourses", enrollCourses);
         return "students/student-enroll-course";
 
+    }
+    
+    @GetMapping("/enrollCourse/{courseId}")
+    public String enrollCourse(@PathVariable("courseId") Integer courseId) {
+    	Optional<Student> stuList = sRepo.findById(3);
+    	Optional<CourseDetail> cdetailList=cdRepo.findById(courseId);
+    	scRepo.save(new StudentCourse(stuList.get(),cdetailList.get()));
+    	return "students/student-course";
     }
 
 

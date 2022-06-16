@@ -22,10 +22,11 @@
             </tr>
 
 			<tr th:each="ac: ${enrollCourses}">
-                <td th:text="${ac.course.courseId}">Course Id</td> -->
+                <td th:text="${ac.course.courseId}" style="visibility:hidden;">Course Id</td> -->
                 <td th:text="${ac.course.name}">Course Name</td>
 				<td th:text="${ac.course.description}">Course Description</td>
 				<td th:text="${ac.startDate}">Course Start Date</td>
+				<td><a th:href="@{student/enrollCourse}+{$ac.course.courseId}">Enroll Course</a></td>
 			</tr>
 		</table>
 	</div>
