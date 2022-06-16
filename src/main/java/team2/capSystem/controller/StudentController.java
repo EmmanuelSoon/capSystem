@@ -41,7 +41,7 @@ public class StudentController {
     // private CourseService courseService;
 
     
-    @GetMapping("/")
+    @RequestMapping("/student-dashboard")
     public String showDashboard(){
         return "students/student-dashboard";
     }

@@ -20,9 +20,9 @@ public class LecturerController {
     // @Autowired
     // private CourseService courseService;
 
-    @RequestMapping(value="/", method=RequestMethod.GET)
+    @RequestMapping(value="/dashboard")
     public String displayDashboard() {
-        return "/lecturer/dashboard";
+        return "/lecturer/lecturerDashboard";
     }
     
     

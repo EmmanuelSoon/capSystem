@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
     
 
-    @GetMapping(value="/")
+	@RequestMapping(value="/dashboard")
     public String displayDashboard() {
-        return "/admin/dashboard";
+        return "/admin/adminDashboard";
     }
     
 }

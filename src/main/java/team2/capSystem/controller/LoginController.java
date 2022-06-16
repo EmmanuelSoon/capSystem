@@ -41,7 +41,7 @@ public class LoginController {
 			if(adm != null) {
 				userSessionDetails p = new userSessionDetails(adm, adm.getStaffId(), role);
 				session.setAttribute("userSessionDetails", p);
-				return "index";
+				return "forward:/admin/dashboard";
 			}
 			break;
 			
@@ -50,7 +50,7 @@ public class LoginController {
 			if(lec != null) {
 				userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
 				session.setAttribute("userSessionDetails", p);
-				return "index";
+				return "forward:/lecturer/dashboard";
 			}
 			break;
 			
@@ -59,7 +59,7 @@ public class LoginController {
 			if(stu != null) {
 				userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
 				session.setAttribute("userSessionDetails", p);
-				return "index";
+				return "forward:/student/student-dashboard";
 			}
 			break;
 			
