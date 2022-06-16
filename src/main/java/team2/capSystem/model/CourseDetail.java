@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,16 +17,16 @@ public class CourseDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_batch_id")
     private int id;
-    private Date startDate;
-    private Date endDate;
-    @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL)
+    private LocalDate startDate;
+    private LocalDate endDate;
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Lecturer> lecturers = new ArrayList<>();
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<StudentCourse> student_course = new ArrayList<>();
     @ManyToOne
     private Course course;
 
-    public CourseDetail(Date startDate, Date endDate, Course course) {
+    public CourseDetail(LocalDate startDate, LocalDate endDate, Course course) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
