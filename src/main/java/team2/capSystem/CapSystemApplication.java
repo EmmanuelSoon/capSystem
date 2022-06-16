@@ -211,21 +211,21 @@ public class CapSystemApplication {
 		};
 	}
 
-	@Bean 
-	InitializingBean loadStudentCourseData(){
-		return () -> {
-			if(!scRepository.existsBy()){
-				Student s1 = studentRepository.findByUsername("emmanuel");
-				LocalDate date = LocalDate.of(2022, 06, 14);
-				List<CourseDetail> cdlist = cdRepository.findByStartDateAfter(date);
-				CourseDetail cd = cdlist.get(0);		
-				scRepository.save(new StudentCourse(s1, cd, 0.0));
-
-				Student s2 = studentRepository.findByUsername("youcheng");
-				scRepository.save(new StudentCourse(s2, cd, 0.0));
-
-			}
-		};
-	}
+//	@Bean 
+//	InitializingBean loadStudentCourseData(){
+//		return () -> {
+//			if(!scRepository.existsBy()){
+//				Student s1 = studentRepository.findByUsername("emmanuel");
+//				LocalDate date = LocalDate.of(2022, 06, 14);
+//				List<CourseDetail> cdlist = cdRepository.findByStartDateAfter(date);
+//				CourseDetail cd = cdlist.get(0);		
+//				scRepository.save(new StudentCourse(s1, cd, 0.0));
+//
+//				Student s2 = studentRepository.findByUsername("youcheng");
+//				scRepository.save(new StudentCourse(s2, cd, 0.0));
+//
+//			}
+//		};
+//	}
 
 }
