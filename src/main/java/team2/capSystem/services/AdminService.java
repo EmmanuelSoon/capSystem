@@ -4,7 +4,7 @@ import team2.capSystem.model.*;
 
 public interface AdminService {
 		
-	Admin findAdminByEmail(String email);
+	Admin findAdminByUsername(String email);
 	
 	Admin getAdmin(User u);
 
