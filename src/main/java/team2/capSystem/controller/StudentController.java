@@ -58,17 +58,23 @@ public class StudentController {
 
     @RequestMapping(path = "/enroll")
     public String showAvailbleCourses(HttpSession session, Model model){
-
+        System.out.println(LocalDate.now());
         List<CourseDetail> availCourse = cdRepo.findByStartDateAfter(LocalDate.now());
-        List<StudentCourse> takenCourse = scRepo.findSCByStudentId(3);
+        List<StudentCourse> takenCourse = scRepo.findSCByStudentId(2);
         List<CourseDetail> enrollCourses = new ArrayList<CourseDetail>();
-        for(StudentCourse scourse : takenCourse){
+        if (takenCourse.size() != 0){
+            
             for(CourseDetail cdCourse : availCourse){
-                if (!scourse.getCourse().equals(cdCourse)){
-                    enrollCourses.add(cdCourse);
-                }
+                for(StudentCourse scourse : takenCourse){
+                    if (!scourse.getCourse().equals(cdCourse)){
+                        enrollCourses.add(cdCourse);
+                    }
 
+                }
             }
+        }
+        else{
+            enrollCourses = availCourse;
         }
         
         model.addAttribute("enrollCourses", enrollCourses);
@@ -78,7 +84,7 @@ public class StudentController {
     
     @GetMapping("/enrollCourse/{courseId}")
     public String enrollCourse(@PathVariable("courseId") Integer courseId) {
-    	Optional<Student> stuList = sRepo.findById(3);
+    	Optional<Student> stuList = sRepo.findById(2);
     	Optional<CourseDetail> cdetailList=cdRepo.findById(courseId);
     	scRepo.save(new StudentCourse(stuList.get(), cdetailList.get()));
     	return "students/student-course";
