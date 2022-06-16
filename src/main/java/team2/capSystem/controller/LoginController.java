@@ -39,7 +39,7 @@ public class LoginController {
 		case "admin":
 			Admin adm = adminService.getAdmin(user);
 			if(adm != null) {
-				MyBag p = new MyBag(user);
+				MyBag p = new MyBag(adm);
 				session.setAttribute("profile", p);
 				return "index";
 			}
@@ -48,7 +48,7 @@ public class LoginController {
 		case "lecturer":
 			Lecturer lec = lecturerService.getLecturer(user);
 			if(lec != null) {
-				MyBag p = new MyBag(user);
+				MyBag p = new MyBag(lec);
 				session.setAttribute("profile", p);
 				return "index";
 			}
@@ -57,7 +57,7 @@ public class LoginController {
 		case "student":
 			Student stu = studentService.getStudent(user);
 			if(stu != null) {
-				MyBag p = new MyBag(user);
+				MyBag p = new MyBag(stu);
 				session.setAttribute("profile", p);
 				return "index";
 			}
