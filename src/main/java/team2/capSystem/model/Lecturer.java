@@ -19,7 +19,7 @@ public class Lecturer extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lecturerId;
 
-    @ManyToMany (fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",
             joinColumns = @JoinColumn(name = "lecture_id"),
@@ -30,5 +30,17 @@ public class Lecturer extends User{
     @Builder
     public Lecturer(String username, String password, String name, String email) {
         super(username, password, name, email);
+    }
+
+    //Utility methods 
+
+    public void addCourseDetail(CourseDetail course){
+        this.courses.add(course);
+        course.getLecturers().add(this);
+    }
+
+    public void removeCourseDetail(CourseDetail course){
+        this.courses.remove(course);
+        course.getLecturers().remove(this);
     }
 }

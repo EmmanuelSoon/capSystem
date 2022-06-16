@@ -6,12 +6,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.w3c.dom.ls.LSInput;
 import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
+import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.*;
+import team2.capSystem.services.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DataJpaTest
+@Import(CourseServiceImpl.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CascadingTest {
 
@@ -34,6 +39,8 @@ public class CascadingTest {
     @Autowired
     StudentCourseRepository scRepo;
 
+    @Autowired
+	CourseServiceImpl courseService;
 
     // Testing Data Cascading between Course and CourseDetails( one to many)
     @Test
@@ -99,10 +106,29 @@ public class CascadingTest {
     @Order(3)
     public void Test3() {
 
+
     }
     @Test
     @Order(4)
     public void Test4() {
+
+    }
+
+    @Test
+    @Order(5)
+    public void Test5() {
+        Course c =  new Course("testcourse", "testdesc");
+        cRepo.save(c);
+        Lecturer testlect = new Lecturer("test", "test", "test", "test@gmail.com");
+        lRepo.save(testlect);
+
+        CourseDetail testc = courseService.createCourseDetail(c, LocalDate.of(2021, 06, 15), LocalDate.of(2022, 06, 15));
+        courseService.addLecturer(testc, testlect);
+
+        testlect = lRepo.findLecturerByName("test");
+
+
+        Assertions.assertEquals(testlect.getCourses().get(0), testc);
 
     }
 
