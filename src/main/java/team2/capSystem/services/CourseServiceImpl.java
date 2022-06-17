@@ -18,6 +18,9 @@ public class CourseServiceImpl implements CourseService {
 	@Autowired 
 	StudentRepository studentRepository;
 	
+    @Autowired 
+	LecturerRepository lecturerRepository;
+
 	@Autowired 
 	CourseRepository courseRepository;
 
@@ -55,14 +58,13 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findCourseByName(name);
     };
 
-
-    public void addCourse(CourseDetail courseDetail, Course Course){
-    //     String username = course.getUsername();
-    //     Course newCourse = courseRepository.findByUsername(username);
-    //     newCourse.addCourseDetail(courseDetail);
-    //     //cdRepository.save(courseDetail);
-    //     courseRepository.save(newCourse);
-    };
+    public void addLecturer(CourseDetail courseDetail, Lecturer lecturer){
+        String username = lecturer.getUsername();
+        Lecturer newLecturer = lecturerRepository.findByUsername(username);
+        newLecturer.addCourseDetail(courseDetail);
+        //cdRepository.save(courseDetail);
+        lecturerRepository.save(newLecturer);
+    }
 
 
     public CourseDetail createCourseDetail(Course course, LocalDate start, LocalDate end){
