@@ -19,9 +19,6 @@ public class CourseServiceImpl implements CourseService {
 	StudentRepository studentRepository;
 	
 	@Autowired 
-	LecturerRepository lecturerRepository;
-	
-	@Autowired 
 	CourseRepository courseRepository;
 
 	@Autowired
@@ -59,12 +56,12 @@ public class CourseServiceImpl implements CourseService {
     };
 
 
-    public void addLecturer(CourseDetail courseDetail, Lecturer lecturer){
-        String username = lecturer.getUsername();
-        Lecturer newLecturer = lecturerRepository.findByUsername(username);
-        newLecturer.addCourseDetail(courseDetail);
-        //cdRepository.save(courseDetail);
-        lecturerRepository.save(newLecturer);
+    public void addCourse(CourseDetail courseDetail, Course Course){
+    //     String username = course.getUsername();
+    //     Course newCourse = courseRepository.findByUsername(username);
+    //     newCourse.addCourseDetail(courseDetail);
+    //     //cdRepository.save(courseDetail);
+    //     courseRepository.save(newCourse);
     };
 
 
@@ -86,6 +83,28 @@ public class CourseServiceImpl implements CourseService {
         return sc;
     };
 
+
+	public List<Course> getAllCourses(){
+		return courseRepository.findAll();
+	}
+
+	public Course saveCourse(Course Course){
+		return courseRepository.save(Course);
+	}
+
+	public Course findCourseById(int id){
+		return courseRepository.findById(id).get();
+	};
+
+	public void deleteCourseById(int id){
+		Course course = courseRepository.findById(id).get();
+		if(course != null){
+			courseRepository.delete(course);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	};
 
 
 }

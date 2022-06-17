@@ -1,6 +1,8 @@
 package team2.capSystem.services;
 
 
+import java.util.List;
+
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +48,28 @@ public class StudentServiceImpl implements StudentService {
         return sc;
 	};
 
+	public List<Student> getAllStudents(){
+		return studentRepository.findAll();
+	};
+
+	public Student saveStudent(Student student){
+		return studentRepository.save(student);
+	}
+
+	public Student findStudentById(int id){
+		return studentRepository.findById(id).get();
+	}
+
+	public void deleteStudentById(int id){
+		Student student = studentRepository.findById(id).get();
+		if(student != null){
+			student.setActive(false);
+			student.getCourses().clear();
+			studentRepository.save(student);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	}
 
 }

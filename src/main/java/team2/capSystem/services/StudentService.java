@@ -1,5 +1,7 @@
 package team2.capSystem.services;
 
+import java.util.List;
+
 import team2.capSystem.model.*;
 
 public interface StudentService {
@@ -14,4 +16,12 @@ public interface StudentService {
 	Student getStudent(User u);
 
 	StudentCourse AddCourseDetailToStudent(Student student, CourseDetail courseDetail, double gpa);
+	
+	List<Student> getAllStudents();
+
+	Student saveStudent(Student student);
+
+	Student findStudentById(int id);
+
+	void deleteStudentById(int id);
 }
