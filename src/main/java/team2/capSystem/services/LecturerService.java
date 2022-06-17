@@ -15,5 +15,6 @@ public interface LecturerService {
 	Lecturer findByUsername(String username);
 
 	void deleteLecturer(Lecturer lecturer);
+	void saveLecturer(Lecturer lecturer);
 
 }

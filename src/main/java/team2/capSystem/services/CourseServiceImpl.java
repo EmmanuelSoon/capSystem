@@ -51,7 +51,14 @@ public class CourseServiceImpl implements CourseService {
      };
 
     public void deleteCourse(int id){
+        Optional<Course> c = courseRepository.findById(id);
+        if (c.isPresent()) {
+            deleteCourse(c.get());
+        }
+    }
 
+    public void deleteCourse(Course c) {
+        courseRepository.delete(c);
     }
 
     public Course getCourseByName(String name){
@@ -86,6 +93,12 @@ public class CourseServiceImpl implements CourseService {
         return sc;
     };
 
+    public List<CourseDetail> getAllCourseDetails() {
+        return cdRepository.findAll();
+    }
 
+    public void saveCourse(Course c) {
+        courseRepository.save(c);
+    }
 
 }

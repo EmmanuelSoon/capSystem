@@ -14,4 +14,5 @@ public interface StudentService {
 	Student getStudent(User u);
 
 	StudentCourse AddCourseDetailToStudent(Student student, CourseDetail courseDetail, double gpa);
+	void saveStudent(Student updatedStd);
 }

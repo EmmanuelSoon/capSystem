@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.convert.Jsr310Converters;
 import org.w3c.dom.ls.LSInput;
 import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
@@ -45,10 +46,13 @@ public class CascadingTest {
     @Autowired
     LecturerServiceImpl lecturerService;
 
+    @Autowired
+    StudentServiceImpl studentService;
+
     // Testing Data Cascading between Course and CourseDetails( one to many)
     @Test
     @Order(1)
-    public void Test1() {
+    public void createTest() {
 
         Course c =  new Course("testname", "testdesc");
         LocalDate start = LocalDate.now();
@@ -56,65 +60,82 @@ public class CascadingTest {
             c.Add(new CourseDetail(start, start.plusMonths(i), c));
         }
 
-        int initialSize = cdRepo.findAll().size();
+        int initialSize = courseService.getAllCourseDetails().size();
 
-        cRepo.save(c);
-        Course retrievedCourse = cRepo.findCourseByName("testname");
+        courseService.saveCourse(c);
+        Course retrievedCourse = courseService.getCourseByName("testname");
+
         Assertions.assertNotNull(retrievedCourse);
 
-        List<CourseDetail> list = cdRepo.findAll();
-        Assertions.assertEquals(initialSize+3, list.size());
+        int updatedSize = courseService.getAllCourseDetails().size();
+        Assertions.assertEquals(initialSize+3, updatedSize);
     }
 
 
     // Testing Data Cascading between Student, StudentCourse
     @Test
     @Order(2)
-    public void Test2() {
-/*        //Create 3 test courseDetail with start and end date
-        Course c =  new Course("testcourse", "testdesc");
-        Student std = new Student("testStudent", "testStudent", "testStudent", "testEmail");
-        LocalDate start = LocalDate.now();
-        List<CourseDetail> courseDetailList = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            CourseDetail cd = new CourseDetail(start, start.plusMonths(i), c);
-            c.Add(cd);
-            courseDetailList.add(cd);
-        }
-        cRepo.save(c);
-        //create 3 nos of  StduentCourse Records based on the courseDetail created
-        for (CourseDetail cd : courseDetailList) {
-            std.add(new StudentCourse(std, cd, 2.0));
-        }
-        sRepo.save(std);
-        Student testStudent = sRepo.findStudentByEmail("testEmail");
-        Assertions.assertNotNull(testStudent);
-        int studentId = testStudent.getStudentId();
-        List<StudentCourse> list = scRepo.findSCByStudentId(studentId);
+    public void updateTest() {
 
-        Assertions.assertEquals(3, list.size());
+        studentService.createStudent("teststd", "testpw", "testname", "testemail");
+        Student s = studentService.findStudentByUsername("teststd");
+        Assertions.assertNotNull(s);
+        Assertions.assertEquals("teststd", s.getUsername());
+        Assertions.assertEquals("testpw", s.getPassword());
 
-        for (StudentCourse sc : list) {
-            Assertions.assertEquals(2.0, sc.getGpa());
-        }
+        s.setUsername("teststd-updated");
+        studentService.saveStudent(s);
 
-
-
-        sRepo.delete(std);
-        list = scRepo.findSCByStudentId(studentId);
-        Assertions.assertEquals(0, list.size());*/
+        Student after = studentService.findStudentByUsername("teststd-updated");
+        Assertions.assertEquals("teststd-updated", after.getUsername());
+        Assertions.assertEquals("testname", after.getName());
+        Assertions.assertEquals("testemail", after.getEmail());
+        Assertions.assertNull(studentService.findStudentByUsername("teststd"));
     }
 
     @Test
     @Order(3)
-    public void Test3() {
+    public void deleteTest1() {
+        //lecturer and course
+        Lecturer l = new Lecturer("test", "test", "test", "test@gmail.com");
+        Course c =  new Course("testname", "testdesc");
+        CourseDetail cd1 = new CourseDetail(LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30), c);
+        CourseDetail cd2 = new CourseDetail(LocalDate.of(2022, 1, 01), LocalDate.of(2023, 12, 30), c);
+        List<CourseDetail> list = new ArrayList<>();
+        list.add(cd1);
+        list.add(cd2);
+        c.setCourseDetails(list);
+        l.setCourses(list);
+        lecturerService.saveLecturer(l);
+        courseService.saveCourse(c);
+        Assertions.assertNotNull(lecturerService.findByUsername("test"));
+        Assertions.assertNotNull(courseService.getCourseByName("testname"));
+        Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd1.getStartDate(), cd1.getEndDate()));
+        Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd2.getStartDate(), cd2.getEndDate()));
+        Assertions.assertEquals(2, lecturerService.findByUsername("test").getCourses().size());
 
 
+        lecturerService.delete(lecturerService.findByUsername("test"));
+        Assertions.assertEquals(0, lecturerService.findByUsername("test").getCourses().size());
+        Assertions.assertEquals(false, lecturerService.findByUsername("test").getActive());
+
+        courseService.deleteCourse(courseService.getCourseByName("testname"));
+        Assertions.assertNull(courseService.getCourseByName("testname"));
+        Assertions.assertNull(courseService.findExactCourseDetail(c, cd1.getStartDate(), cd1.getEndDate()));
+        Assertions.assertNull(courseService.findExactCourseDetail(c, cd2.getStartDate(), cd2.getEndDate()));
     }
     @Test
     @Order(4)
-    public void Test4() {
-
+    public void deleteTest2() {
+        Student s = new Student("teststd", "testpw", "testname", "testemail");
+        Course c =  new Course("testname", "testdesc");
+        CourseDetail cd = new CourseDetail(LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30), c);
+        c.Add(cd);
+        studentService.saveStudent(s);
+        courseService.saveCourse(c);
+        Assertions.assertNotNull(studentService.findStudentByUsername("teststd"));
+        Assertions.assertNotNull(courseService.getCourseByName("testname"));
+        Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd.getStartDate(), cd.getEndDate()));
     }
 
     @Test

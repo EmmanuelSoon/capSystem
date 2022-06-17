@@ -22,7 +22,7 @@ public class Course {
     private String description;
 
     //Parent
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     List<CourseDetail> CourseDetails = new ArrayList<>();
 
     public Course(String name, String description) {

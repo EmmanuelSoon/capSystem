@@ -57,5 +57,16 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(lecturer);
 	};
 
+	public void saveLecturer(Lecturer lecturer) {
+		// please retrieve lecturer that need to be updated prior to calling this method when you want to update entity
+		lecturerRepository.save(lecturer);
+	}
+
+	public void delete(Lecturer l) {
+		l.getCourses().clear();
+		l.setActive(false);
+		lecturerRepository.save(l);
+	}
+
 
 }

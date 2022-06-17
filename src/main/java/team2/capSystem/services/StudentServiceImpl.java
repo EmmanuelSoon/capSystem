@@ -46,5 +46,14 @@ public class StudentServiceImpl implements StudentService {
         return sc;
 	};
 
+	public void saveStudent(Student updatedStd) {
+		// please retrieve student that need to be updated prior to calling this method when you want to update entity
+		studentRepository.save(updatedStd);
+	}
+
+	public void addCourseDetailToStudent(Student s, CourseDetail c) {
+		s.getCourses().add(new StudentCourse(s, c));
+		studentRepository.save(s);
+	}
 
 }
