@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @DataJpaTest
-@Import(CourseServiceImpl.class)
+@Import({CourseServiceImpl.class, LecturerServiceImpl.class, SeedDBServiceImpl.class, AdminServiceImpl.class, StudentServiceImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CascadingTest {
 
@@ -41,6 +41,9 @@ public class CascadingTest {
 
     @Autowired
 	CourseServiceImpl courseService;
+
+    @Autowired
+    LecturerServiceImpl lecturerService;
 
     // Testing Data Cascading between Course and CourseDetails( one to many)
     @Test
@@ -142,4 +145,27 @@ public class CascadingTest {
 		Assertions.assertNotNull(course);
 	}
 
+    
+    @Test
+	@Order(7)
+	public void DeleteLecturerTest() {
+        lecturerService.createLecturer("test", "test", "test", "test@gmail.com");
+        Lecturer liufan = lecturerService.findByUsername("liufan");
+        Lecturer tin = lecturerService.findByUsername("tin");
+        Lecturer test = lecturerService.findByUsername("test");
+        
+        
+        Course cookingCourse = courseService.getCourseByName("Cooking with Pork");
+        CourseDetail cook1 = courseService.createCourseDetail(cookingCourse, LocalDate.of(2023, 06, 15), LocalDate.of(2024, 06, 15));
+        courseService.addLecturer(cook1, liufan);
+        courseService.addLecturer(cook1, tin);
+        courseService.addLecturer(cook1, test);
+
+        lecturerService.deleteLecturer(test);
+        Assertions.assertNull(lecturerService.findByUsername("test"));
+
+		CourseDetail course = cdRepo.findByCourseNameAndTime(cookingCourse, LocalDate.of(2023, 06, 15), LocalDate.of(2024, 06, 15));
+        Assertions.assertEquals(course.getLecturers().size(), 2);
+
+	}
 }

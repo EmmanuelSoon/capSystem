@@ -55,6 +55,6 @@ public class CourseDetail {
 
     public void removeLecturer(Lecturer lecturer){
         this.lecturers.remove(lecturer);
-        lecturer.getCourses().remove(this);
+        //lecturer.getCourses().remove(this);
     }
 }
