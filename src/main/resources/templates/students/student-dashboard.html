@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="ISO-8859-1">
-        <link rel="stylesheet" type="text/css" media="all" 
-                  th:href="@{/css/style.css}" />
-        <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <title>Student Dashboard</title>
-        </head>
+<header th:replace="fragments/header :: html_head"></header>
 <body>
-    <div th:replace="fragments/header :: header">...</div>
-    <h1>testing dashboard</h1>
-    <br>
-    <li><a th:href="@{/student/course-history}">My Courses</a></li>
-    <li><a th:href="@{/student/enroll}">Enroll in a course</a></li>
+	<div th:replace="fragments/header :: menu"></div>
+	<div>
+	    <h1>testing dashboard</h1>
+	    <br>
+	    <li><a th:href="@{/student/course-history}">My Courses</a></li>
+	    <li><a th:href="@{/student/enroll}">Enroll in a course</a></li>
+	</div>
+	<div th:replace="fragments/header :: jsLink"></div>
 </body>
+
+</html>
