@@ -97,8 +97,27 @@ public class CourseServiceImpl implements CourseService {
         return cdRepository.findAll();
     }
 
-    public void saveCourse(Course c) {
-        courseRepository.save(c);
-    }
+	public List<Course> getAllCourses(){
+		return courseRepository.findAll();
+	}
+
+	public Course saveCourse(Course Course){
+		return courseRepository.save(Course);
+	}
+
+	public Course findCourseById(int id){
+		return courseRepository.findById(id).get();
+	};
+
+	public void deleteCourseById(int id){
+		Course course = courseRepository.findById(id).get();
+		if(course != null){
+			courseRepository.delete(course);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	};
+
 
 }

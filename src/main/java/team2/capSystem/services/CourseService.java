@@ -22,6 +22,10 @@ public interface CourseService {
     void deleteCourse(int id);
     Course getCourseByName(String name);
     
+    List<Course> getAllCourses();
+	Course saveCourse(Course course);
+	Course findCourseById(int id);
+	void deleteCourseById(int id);
 
     //Course Details 
     void addLecturer(CourseDetail courseDetail, Lecturer lecturer);

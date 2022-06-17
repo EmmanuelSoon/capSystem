@@ -1,5 +1,7 @@
 package team2.capSystem.services;
 
+import java.util.List;
+
 import team2.capSystem.model.*;
 
 public interface LecturerService {
@@ -17,4 +19,11 @@ public interface LecturerService {
 	void deleteLecturer(Lecturer lecturer);
 	void saveLecturer(Lecturer lecturer);
 
+	List<Lecturer> getAllLecturers();
+
+	Lecturer saveLecturer(Lecturer lecturer);
+
+	Lecturer findLecturerById(int id);
+
+	void deleteLecturerById(int id);
 }
