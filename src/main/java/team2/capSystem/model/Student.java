@@ -17,7 +17,7 @@ public class Student extends User {
     private int studentId;
     
     //Parent
-    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<StudentCourse> courses = new ArrayList<>();
 
     @Builder
