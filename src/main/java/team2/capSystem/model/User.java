@@ -1,5 +1,6 @@
 package team2.capSystem.model;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import lombok.*;
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class User {
+	@Column(unique = true)
     protected String username;
     protected String password;
     protected String name;

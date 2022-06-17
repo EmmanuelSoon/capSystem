@@ -6,7 +6,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//import team2.capSystem.helper.userSessionDetails;
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.Admin;
 import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
@@ -70,8 +70,9 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(Model model, HttpSession session) {
 		session.invalidate();
-		return "logout";
+		model.addAttribute("user", new User());
+		return "Login";
 	}
 }
