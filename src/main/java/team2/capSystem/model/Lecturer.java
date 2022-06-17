@@ -8,12 +8,13 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
 public class Lecturer extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,14 @@ public class Lecturer extends User{
             joinColumns = @JoinColumn(name = "lecture_id"),
             inverseJoinColumns =  @JoinColumn(name = "course_batch_id")
     )
-    private List<CourseDetail> courses = new ArrayList<>();
+    private List<CourseDetail> courses = new ArrayList<CourseDetail>();
 
     @Builder
     public Lecturer(String username, String password, String name, String email) {
         super(username, password, name, email);
     }
+
+    
 
     //Utility methods 
 

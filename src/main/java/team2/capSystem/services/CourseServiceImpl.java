@@ -6,6 +6,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
@@ -59,9 +60,11 @@ public class CourseServiceImpl implements CourseService {
 
 
     public void addLecturer(CourseDetail courseDetail, Lecturer lecturer){
-        lecturer.addCourseDetail(courseDetail);
-        lecturerRepository.save(lecturer);
-        cdRepository.save(courseDetail);
+        String username = lecturer.getUsername();
+        Lecturer newLecturer = lecturerRepository.findByUsername(username);
+        newLecturer.addCourseDetail(courseDetail);
+        //cdRepository.save(courseDetail);
+        lecturerRepository.save(newLecturer);
     };
 
 

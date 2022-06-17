@@ -21,7 +21,7 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    private List<Lecturer> lecturers = new ArrayList<>();
+    private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
