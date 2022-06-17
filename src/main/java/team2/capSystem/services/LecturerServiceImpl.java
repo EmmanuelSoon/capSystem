@@ -47,12 +47,14 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	public void deleteLecturer(Lecturer lecturer){
-		List<CourseDetail> cdList = lecturer.getCourses();
-		for (CourseDetail cd : cdList){
-			cd.removeLecturer(lecturer);
-			cdRepository.save(cd);
-		}
-		lecturerRepository.delete(lecturer);
+		// List<CourseDetail> cdList = lecturer.getCourses();
+		// for (CourseDetail cd : cdList){
+		// 	cd.removeLecturer(lecturer);
+		// 	cdRepository.save(cd);
+		// }
+		// lecturerRepository.delete(lecturer);
+		lecturer.setActive(false);
+		lecturerRepository.save(lecturer);
 	};
 
 
