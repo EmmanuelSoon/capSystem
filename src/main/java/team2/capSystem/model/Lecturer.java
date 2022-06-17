@@ -19,6 +19,7 @@ public class Lecturer extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lecturerId;
 
+    //Parent (dont have delete because the coursedetail can still continue even when one lecturer is dropped)
     @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",

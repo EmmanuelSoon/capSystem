@@ -16,7 +16,8 @@ public class Student extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
     
-    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    //Parent
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<StudentCourse> courses = new ArrayList<>();
 
     @Builder

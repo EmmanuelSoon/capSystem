@@ -21,7 +21,8 @@ public class Course {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    //Parent
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     List<CourseDetail> CourseDetails = new ArrayList<>();
 
     public Course(String name, String description) {

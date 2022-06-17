@@ -19,13 +19,15 @@ public class CourseDetail {
     private LocalDate startDate;
     private LocalDate endDate;
     
+    //Child
     @ManyToMany(mappedBy = "courses")
     private List<Lecturer> lecturers = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    //Parent
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<StudentCourse> student_course = new ArrayList<>();
 
+    //Child
     @ManyToOne 
     private Course course;
 

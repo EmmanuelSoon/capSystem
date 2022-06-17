@@ -10,10 +10,12 @@ import javax.persistence.*;
 @IdClass(StudentCourseId.class)
 public class StudentCourse{
 
+    //Child
     @Id
     @ManyToOne
     private Student student;
     
+    //Child
     @Id
     @ManyToOne
     @JoinColumn(name="course_batch_id")
