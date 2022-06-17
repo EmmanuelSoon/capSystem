@@ -29,12 +29,21 @@ public class CourseDetail {
     @ManyToOne 
     private Course course;
 
+    private int maxSize = 5;
+
     public CourseDetail(LocalDate startDate, LocalDate endDate, Course course) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.course = course;
     }
 
+    
+    public CourseDetail(LocalDate startDate, LocalDate endDate, Course course, int maxSize) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.course = course;
+        this.maxSize = maxSize;
+    }
 
     //Ulility Methods 
     public void addLecturer(Lecturer lecturer){
