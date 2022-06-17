@@ -33,7 +33,7 @@ public class Course {
         this.name = name;
         this.description = description;
     }
-    public void addCourseDetail(CourseDetail cd) {
+    public void Add(CourseDetail cd) {
         this.CourseDetails.add(cd);
     }
 }

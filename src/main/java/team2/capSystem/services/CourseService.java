@@ -28,7 +28,7 @@ public interface CourseService {
 	void deleteCourseById(int id);
 
     //Course Details 
-    void addCourse(CourseDetail courseDetail, Course Course);
+    void addLecturer(CourseDetail courseDetail, Lecturer lecturer);
     CourseDetail createCourseDetail(Course course, LocalDate start, LocalDate end);
     CourseDetail findExactCourseDetail(Course course, LocalDate start, LocalDate end);
 
