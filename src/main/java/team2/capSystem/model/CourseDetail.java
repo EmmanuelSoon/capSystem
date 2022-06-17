@@ -21,7 +21,7 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    private List<Lecturer> lecturers = new ArrayList<>();
+    private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
     @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
@@ -55,6 +55,6 @@ public class CourseDetail {
 
     public void removeLecturer(Lecturer lecturer){
         this.lecturers.remove(lecturer);
-        lecturer.getCourses().remove(this);
+        //lecturer.getCourses().remove(this);
     }
 }

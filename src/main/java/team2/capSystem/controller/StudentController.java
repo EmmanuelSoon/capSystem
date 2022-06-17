@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
@@ -82,11 +84,12 @@ public class StudentController {
 
     }
     
-    @GetMapping("/enrollCourse/{courseId}")
-    public String enrollCourse(@PathVariable("courseId") Integer courseId) {
-    	Optional<Student> stuList = sRepo.findById(2);
-    	Optional<CourseDetail> cdetailList=cdRepo.findById(courseId);
-    	scRepo.save(new StudentCourse(stuList.get(), cdetailList.get()));
+    @PostMapping("/enrollCourse/{courseId}")
+    public String enrollCourse(@ModelAttribute CourseDetail cd, Model model, HttpSession session) {
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+    	Student stud = sRepo.findById(usd.getUserId()).get();
+    	//Optional<CourseDetail> cdetailList = cdRepo.findById(courseId);
+    	scRepo.save(new StudentCourse(stud, cd));
     	return "students/student-course";
     }
 

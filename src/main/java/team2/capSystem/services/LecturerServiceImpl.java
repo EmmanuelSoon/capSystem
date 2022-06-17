@@ -1,11 +1,13 @@
 package team2.capSystem.services;
 
 
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.*;
 import org.springframework.stereotype.*;
 
-import team2.capSystem.model.Lecturer;
-import team2.capSystem.model.User;
+import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
 @Service
@@ -13,6 +15,10 @@ public class LecturerServiceImpl implements LecturerService {
 	
 	@Resource
 	private LecturerRepository lecturerRepository;
+
+	@Resource
+	private CourseDetailRepository cdRepository;
+
 
 
 //	@Override
@@ -27,8 +33,6 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(new Lecturer(username, password, name, email));
 	};
 
-
-	@Override
 	public Lecturer getLecturer(User u) {
 		return lecturerRepository.findLecturerByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
@@ -37,11 +41,19 @@ public class LecturerServiceImpl implements LecturerService {
 		return lecturerRepository.findByUsername(username);
 	};
 
-
-	@Override
 	public Lecturer findLecturerByEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void deleteLecturer(Lecturer lecturer){
+		List<CourseDetail> cdList = lecturer.getCourses();
+		for (CourseDetail cd : cdList){
+			cd.removeLecturer(lecturer);
+			cdRepository.save(cd);
+		}
+		lecturerRepository.delete(lecturer);
+	};
+
 
 }

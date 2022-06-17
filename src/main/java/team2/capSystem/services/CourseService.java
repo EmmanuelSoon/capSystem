@@ -10,7 +10,6 @@ import team2.capSystem.model.*;
 
 
 @Service
-@Transactional
 public interface CourseService {
     
     boolean tableExist();

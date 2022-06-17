@@ -14,6 +14,7 @@ public class User {
     protected String password;
     protected String name;
     protected String email;
+    protected Boolean active = true;
 
     public User(String username, String password, String name, String email) {
         this.username = username;
