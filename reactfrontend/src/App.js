@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    students: []
+  };
+
+  async componentDidMount() {
+    const response = await fetch('/admin/student');
+    const body = await response.json();
+    this.setState({students: body});
+  }
+
+  render() {
+    const {students} = this.state;
+    return (
+        <div className="App">
+          <header className="App-header">
+            <div className="App-intro">
+              <h2>Student (Testing Link)</h2>
+              {students.map(student =>
+                  <div key={student.id}>
+                    {student.name} ({student.email})
+                  </div>
+              )}
+            </div>
+          </header>
+        </div>
+    );
+  }
 }
-
 export default App;

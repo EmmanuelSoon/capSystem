@@ -189,4 +189,10 @@ public class CascadingTest {
         Assertions.assertEquals(course.getLecturers().size(), 2);
 
 	}
+
+    @Test
+	@Order(7)
+	public void getAllStudentsTest() {
+        Assertions.assertEquals(studentService.getAllStudents().size(), 8);
+	}
 }

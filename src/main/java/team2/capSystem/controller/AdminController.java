@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping(path = "/admin", produces = "application/json")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     
     @Autowired
@@ -56,17 +58,17 @@ public class AdminController {
     /*-----------------------------------READ FUNCTIONS--------------------------------------*/
      
 
-    @GetMapping("/student/list")
+    @GetMapping("/student")
     public List<Student> getStudents(){
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/lecturer/list")
+    @GetMapping("/lecturer")
     public List<Lecturer> getLecturers(){
         return lecturerService.getAllLecturers();
     }
     
-    @GetMapping("/course/list")
+    @GetMapping("/course")
     public List<Course> getCourses(){
         return courseService.getAllCourses();
     }
