@@ -68,9 +68,7 @@ public class StudentServiceImpl implements StudentService {
 	public void deleteStudentById(int id){
 		Student student = studentRepository.findById(id).get();
 		if(student != null){
-			student.setActive(false);
-			student.getCourses().clear();
-			studentRepository.save(student);
+			studentRepository.delete(student);
 		}
 		else{
 			throw new NullPointerException();
