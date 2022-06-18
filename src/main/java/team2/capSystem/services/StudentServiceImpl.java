@@ -82,12 +82,8 @@ public class StudentServiceImpl implements StudentService {
 		s.getCourses().add(new StudentCourse(s, c));
 		studentRepository.save(s);
 	}
-<<<<<<< Updated upstream
-	//controller methods
-=======
 
 	//Student controller methods
->>>>>>> Stashed changes
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
 		return scRepository.findSCByStudentId(usd.getUserId());

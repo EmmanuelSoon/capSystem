@@ -25,16 +25,10 @@ public interface StudentService {
 	Student findStudentById(int id);
 
 	void deleteStudentById(int id);
-<<<<<<< Updated upstream
-	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);
-
-	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
-=======
 	
 	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);
 
 	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
 
 	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
->>>>>>> Stashed changes
 }
