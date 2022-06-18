@@ -32,4 +32,9 @@ public class StudentCourse{
         this.course = course;
         this.gpa = -1.0;
     }
+
+    @Override
+    public String toString(){
+        return student.name + ": " + course.getCourse().getName() + ", " + gpa;
+    }
 }

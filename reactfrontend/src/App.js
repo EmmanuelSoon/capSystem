@@ -21,7 +21,7 @@ class App extends Component {
             <div className="App-intro">
               <h2>Student (Testing Link)</h2>
               {students.map(student =>
-                  <div key={student.id}>
+                  <div key={student.studentId}>
                     {student.name} ({student.email})
                   </div>
               )}
