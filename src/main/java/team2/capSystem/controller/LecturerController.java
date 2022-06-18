@@ -39,20 +39,32 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/course-taught")
-	public String viewCoursetaught(HttpSession session, Model model) {
+	public String viewCoursetaught(HttpSession session, Model model, String keyword) {
 
-		ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
-		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
-		Lecturer lecturer = (Lecturer) user.getUser();
-		List<CourseDetail> courseDetail = lecturer.getCourses();
+		try {
+			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
+			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
+			Lecturer lecturer = (Lecturer) user.getUser();
+			List<CourseDetail> courseDetail = lecturer.getCourses();
 
-		for (CourseDetail crsdtl : courseDetail) {
-			Course course = crsdtl.getCourse();
-			lecturerCoursesTaught lectght = new lecturerCoursesTaught(crsdtl.getId(), course.getCourseId(),
-					course.getName(), course.getDescription(), crsdtl.getStartDate(), crsdtl.getEndDate());
-			lectCrsTght.add(lectght);
+			for (CourseDetail crsdtl : courseDetail) {
+				Course course = crsdtl.getCourse();
+				lecturerCoursesTaught lectght = new lecturerCoursesTaught(crsdtl.getId(), course.getCourseId(),
+						course.getName(), course.getDescription(), crsdtl.getStartDate(), crsdtl.getEndDate());
+
+				{
+					if (keyword == null || keyword == "") {
+						lectCrsTght.add(lectght);
+					} else if (keyword != null && keyword != "" && lectght.getCourseName().toLowerCase().contains(keyword.toLowerCase())) {
+						lectCrsTght.add(lectght);
+					}
+				}
+			}
+			model.addAttribute("lecturerCourseTaught", lectCrsTght);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		model.addAttribute("lecturerCourseTaught", lectCrsTght);
+
 		return "/lecturer/lecturer-course-taught";
 	}
 
