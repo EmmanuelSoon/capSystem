@@ -2,6 +2,10 @@ package team2.capSystem.services;
 
 import java.util.List;
 
+<<<<<<< Updated upstream
+=======
+import team2.capSystem.helper.userSessionDetails;
+>>>>>>> Stashed changes
 import team2.capSystem.model.*;
 
 public interface StudentService {
@@ -17,6 +21,7 @@ public interface StudentService {
 
 	StudentCourse AddCourseDetailToStudent(Student student, CourseDetail courseDetail, double gpa);
 
+<<<<<<< Updated upstream
 	List<Student> getAllStudents();
 
 	Student saveStudent(Student student);
@@ -24,4 +29,9 @@ public interface StudentService {
 	Student findStudentById(int id);
 
 	void deleteStudentById(int id);
+=======
+	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);
+
+	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
+>>>>>>> Stashed changes
 }

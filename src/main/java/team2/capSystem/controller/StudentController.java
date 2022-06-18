@@ -50,46 +50,48 @@ public class StudentController {
 
     @RequestMapping(path = "/course-history")
     public String showCourseHistory(HttpSession session, Model model){
-        //scRepo.getById(session.getAttribute("studentID")
-        //Todo: replace hardcoded student id when session is implemented. 
-        List<StudentCourse> reslt =  scRepo.findSCByStudentId(2);
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        List<StudentCourse> reslt =  studService.getStudentCourseBySession(usd);
         model.addAttribute("studCourse", reslt);
         return "students/student-course";
 
     }
 
+    //to do service
     @RequestMapping(path = "/enroll")
     public String showAvailbleCourses(HttpSession session, Model model){
-        System.out.println(LocalDate.now());
-        List<CourseDetail> availCourse = cdRepo.findByStartDateAfter(LocalDate.now());
-        List<StudentCourse> takenCourse = scRepo.findSCByStudentId(2);
-        List<CourseDetail> enrollCourses = new ArrayList<CourseDetail>();
-        if (takenCourse.size() != 0){
-            
-            for(CourseDetail cdCourse : availCourse){
-                for(StudentCourse scourse : takenCourse){
-                    if (!scourse.getCourse().equals(cdCourse)){
-                        enrollCourses.add(cdCourse);
-                    }
-
-                }
-            }
-        }
-        else{
-            enrollCourses = availCourse;
-        }
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        // List<CourseDetail> availCourse = cdRepo.findByStartDateAfter(LocalDate.now());
+        // List<StudentCourse> takenCourse = scRepo.findSCByStudentId(usd.getUserId());
+        // List<CourseDetail> enrollCourses = new ArrayList<CourseDetail>();
+        // if (takenCourse.size() != 0){
+        //     for(CourseDetail cdCourse : availCourse){
+        //         for(StudentCourse scourse : takenCourse){
+        //             if (scourse.getCourse().getCourse().getCourseId() == cdCourse.getCourse().getCourseId()){
+        //                 continue;
+        //             }
+        //         }
+        //         enrollCourses.add(cdCourse);
+        //     }
+        // }
+        // else{
+        //     enrollCourses = availCourse;
+        // }
         
+        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd);
+
         model.addAttribute("enrollCourses", enrollCourses);
         return "students/student-enroll-course";
 
     }
     
-    @PostMapping("/enrollCourse/{courseId}")
+    @PostMapping("/enrollCourse")
     public String enrollCourse(@ModelAttribute CourseDetail cd, Model model, HttpSession session) {
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
     	Student stud = sRepo.findById(usd.getUserId()).get();
     	//Optional<CourseDetail> cdetailList = cdRepo.findById(courseId);
     	scRepo.save(new StudentCourse(stud, cd));
+        System.out.println(cd.toString());
     	return "students/student-course";
     }
 

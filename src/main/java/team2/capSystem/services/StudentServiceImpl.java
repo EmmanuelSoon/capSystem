@@ -1,14 +1,20 @@
 package team2.capSystem.services;
 
 
+<<<<<<< Updated upstream
 import java.util.List;
+=======
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+>>>>>>> Stashed changes
 
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
-
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -17,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	StudentCourseRepository scRepository;
+
+	@Resource
+	CourseDetailRepository cdRepository;
 
 	@Resource
 	private StudentRepository studentRepository;
@@ -48,6 +57,7 @@ public class StudentServiceImpl implements StudentService {
         return sc;
 	};
 
+<<<<<<< Updated upstream
 	public List<Student> getAllStudents(){
 		return studentRepository.findAll();
 	};
@@ -77,5 +87,28 @@ public class StudentServiceImpl implements StudentService {
 		s.getCourses().add(new StudentCourse(s, c));
 		studentRepository.save(s);
 	}
+=======
+	//controller methods
+
+	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
+		return scRepository.findSCByStudentId(usd.getUserId());
+	}
+
+	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd){
+		List<StudentCourse> takenCourse = getStudentCourseBySession(usd);
+		List<CourseDetail> availCourse = cdRepository.findByStartDateAfter(LocalDate.now());
+		
+		for (StudentCourse sc : takenCourse){
+			availCourse = availCourse.stream()
+               .filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
+               .collect(Collectors.toList());
+		}
+
+		return availCourse;
+	}
+
+
+
+>>>>>>> Stashed changes
 
 }
