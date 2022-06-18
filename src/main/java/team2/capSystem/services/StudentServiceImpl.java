@@ -1,13 +1,9 @@
 package team2.capSystem.services;
 
 
-<<<<<<< Updated upstream
 import java.util.List;
-=======
 import java.time.LocalDate;
-import java.util.List;
 import java.util.stream.Collectors;
->>>>>>> Stashed changes
 
 import javax.annotation.*;
 
@@ -57,7 +53,6 @@ public class StudentServiceImpl implements StudentService {
         return sc;
 	};
 
-<<<<<<< Updated upstream
 	public List<Student> getAllStudents(){
 		return studentRepository.findAll();
 	};
@@ -87,7 +82,6 @@ public class StudentServiceImpl implements StudentService {
 		s.getCourses().add(new StudentCourse(s, c));
 		studentRepository.save(s);
 	}
-=======
 	//controller methods
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
@@ -109,6 +103,5 @@ public class StudentServiceImpl implements StudentService {
 
 
 
->>>>>>> Stashed changes
 
 }
