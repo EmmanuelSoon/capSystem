@@ -2,33 +2,25 @@ import React, {Component} from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 
-class App extends Component {
-  state = {
-    students: []
-  };
 
-  async componentDidMount() {
-    const response = await fetch('/admin/student');
-    const body = await response.json();
-    this.setState({students: body});
-  }
+import Main from './Components/MainComponent'
+
+class App extends Component {
+
 
   render() {
-    const {students} = this.state;
     return (
-        <div className="App">
-          <header className="App-header">
-            <div className="App-intro">
-              <h2>Student (Testing Link)</h2>
-              {students.map(student =>
-                  <div key={student.studentId}>
-                    {student.name} ({student.email})
-                  </div>
-              )}
-            </div>
-          </header>
+      <BrowserRouter>
+        <div>
+          <Main/>
         </div>
-    );
+      </BrowserRouter>
+
+
+    )
   }
 }
+
+
+
 export default App;
