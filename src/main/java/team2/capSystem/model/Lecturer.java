@@ -21,7 +21,7 @@ public class Lecturer extends User{
     private int lecturerId;
 
     //Parent (dont have delete because the coursedetail can still continue even when one lecturer is dropped)
-    @ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",
             joinColumns = @JoinColumn(name = "lecture_id"),
@@ -40,7 +40,7 @@ public class Lecturer extends User{
 
     public void addCourseDetail(CourseDetail course){
         this.courses.add(course);
-        course.getLecturers().add(this);
+        //course.getLecturers().add(this);
     }
 
     public void removeCourseDetail(CourseDetail course){

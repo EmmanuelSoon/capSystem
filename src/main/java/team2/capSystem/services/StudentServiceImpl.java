@@ -1,12 +1,16 @@
 package team2.capSystem.services;
 
 
+import java.util.List;
+import java.time.LocalDate;
+import java.util.stream.Collectors;
+
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
-
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -15,6 +19,9 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	StudentCourseRepository scRepository;
+
+	@Resource
+	CourseDetailRepository cdRepository;
 
 	@Resource
 	private StudentRepository studentRepository;
@@ -45,6 +52,64 @@ public class StudentServiceImpl implements StudentService {
         scRepository.save(sc);
         return sc;
 	};
+
+	public List<Student> getAllStudents(){
+		return studentRepository.findAll();
+	};
+
+	public Student saveStudent(Student student){
+		return studentRepository.save(student);
+	}
+
+	public Student findStudentById(int id){
+		return studentRepository.findById(id).get();
+	}
+
+	public void deleteStudentById(int id){
+		Student student = studentRepository.findById(id).get();
+		if(student != null){
+			student.setActive(false);
+			student.getCourses().clear();
+			studentRepository.save(student);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	}
+
+
+	public void addCourseDetailToStudent(Student s, CourseDetail c) {
+		s.getCourses().add(new StudentCourse(s, c));
+		studentRepository.save(s);
+	}
+
+	//Student controller methods
+
+	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
+		return scRepository.findSCByStudentId(usd.getUserId());
+	}
+
+	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd){
+		List<StudentCourse> takenCourse = getStudentCourseBySession(usd);
+		List<CourseDetail> availCourse = cdRepository.findByStartDateAfter(LocalDate.now());
+		
+		for (StudentCourse sc : takenCourse){
+			availCourse = availCourse.stream()
+               .filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
+               .collect(Collectors.toList());
+		}
+
+		return availCourse;
+	}
+
+	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId){
+		Student student = getStudent(usd.getUser());
+		CourseDetail cd = cdRepository.findById(courseDetailId).get();
+		addCourseDetailToStudent(student, cd);
+	}
+
+
+
 
 
 }

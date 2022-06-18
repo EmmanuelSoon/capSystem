@@ -57,5 +57,36 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(lecturer);
 	};
 
+	public List<Lecturer> getAllLecturers(){
+		return lecturerRepository.findAll();
+	}
+
+	public Lecturer saveLecturer(Lecturer lecturer){
+		return lecturerRepository.save(lecturer);
+	}
+
+	public Lecturer findLecturerById(int id){
+		return lecturerRepository.findById(id).get();
+	};
+
+	public void deleteLecturerById(int id){
+		Lecturer lecturer = lecturerRepository.findById(id).get();
+		if(lecturer != null){
+			lecturer.setActive(false);
+			lecturer.getCourses().clear();
+			lecturerRepository.save(lecturer);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	};
+
+
+	public void delete(Lecturer l) {
+		l.getCourses().clear();
+		l.setActive(false);
+		lecturerRepository.save(l);
+	}
+
 
 }

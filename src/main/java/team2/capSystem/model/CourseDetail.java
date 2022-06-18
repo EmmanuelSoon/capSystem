@@ -24,11 +24,11 @@ public class CourseDetail {
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
-    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<StudentCourse> student_course = new ArrayList<>();
 
     //Child
-    @ManyToOne 
+    @ManyToOne
     private Course course;
 
     private int maxSize = 5;

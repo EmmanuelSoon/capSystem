@@ -51,7 +51,14 @@ public class CourseServiceImpl implements CourseService {
      };
 
     public void deleteCourse(int id){
+        Optional<Course> c = courseRepository.findById(id);
+        if (c.isPresent()) {
+            deleteCourse(c.get());
+        }
+    }
 
+    public void deleteCourse(Course c) {
+        courseRepository.delete(c);
     }
 
     public Course getCourseByName(String name){
@@ -86,6 +93,31 @@ public class CourseServiceImpl implements CourseService {
         return sc;
     };
 
+    public List<CourseDetail> getAllCourseDetails() {
+        return cdRepository.findAll();
+    }
+
+	public List<Course> getAllCourses(){
+		return courseRepository.findAll();
+	}
+
+	public Course saveCourse(Course Course){
+		return courseRepository.save(Course);
+	}
+
+	public Course findCourseById(int id){
+		return courseRepository.findById(id).get();
+	};
+
+	public void deleteCourseById(int id){
+		Course course = courseRepository.findById(id).get();
+		if(course != null){
+			courseRepository.delete(course);
+		}
+		else{
+			throw new NullPointerException();
+		}
+	};
 
 
 }
