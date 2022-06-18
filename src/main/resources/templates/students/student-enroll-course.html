@@ -20,25 +20,30 @@
             <tr th:if="${enrollCourses.empty}">
                 <td colspan="4"> No Courses avail</td>
             </tr>
-
 			<tr th:each="ac: ${enrollCourses}">
                 <td th:text="${ac.course.courseId}" style="visibility:hidden;">Course Id</td> -->
                 <td th:text="${ac.course.name}">Course Name</td>
 				<td th:text="${ac.course.description}">Course Description</td>
 				<td th:text="${ac.startDate}">Course Start Date</td>
 				<td th:text="${ac.endDate}">Course End Date</td>
-				<td>
+				<td th:text="${ac.id}">Course End Date</td>
+				<!-- <td>
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 						Enroll
 					</button>
-				</td>
-				<!--<td><a th:href="@{student/enrollCourse}+{$ac.course.courseId}">Enroll Course</a></td>-->
+				</td> -->
+				<form action="#" th:action="@{/student/enrollCourse/}" method="post">
+					<input type="hidden" th:value="${ac.id}" name="cdId">
+				<button type="submit" class="btn btn-primary">
+					Enroll
+				</button>
+				</form>
 			</tr>
 		</table>
 		</div>
 		
 		<!-- Modal -->
-		<form action="#" th:action="@{/enrollCourse}" th:object="${CourseDetail}" method="post">
+		<form action="#" th:action="@{/enrollCourse/}" th:object="${CourseDetail}" method="post">
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
