@@ -63,6 +63,11 @@ public class AdminController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping(value = "/student/{id}")
+    public Student getStudent(@PathVariable int id){
+        return studentService.findStudentById(id);
+    }
+
     @GetMapping("/lecturer")
     public List<Lecturer> getLecturers(){
         return lecturerService.getAllLecturers();
@@ -123,6 +128,12 @@ public class AdminController {
             currStudent.setEmail(student.getEmail());
             currStudent.setName(student.getName());
             currStudent.setUsername(student.getUsername());
+            if (student.getActive() == true){
+                currStudent.setActive(true);
+            }
+            else {
+                currStudent.setActive(false);
+            }
             studentService.saveStudent(currStudent);
             
             return ResponseEntity.ok(currStudent);
@@ -181,7 +192,7 @@ public class AdminController {
     public ResponseEntity deleteStudent(@PathVariable int id){
         try{
             studentService.deleteStudentById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(studentService.getAllStudents());
         } 
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");

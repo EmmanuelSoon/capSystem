@@ -26,6 +26,7 @@ class Main extends Component {
             <Route path="/admin" exact = {true} component={Home} />
             <Route path="/admin/student" exact={true} component={Student} />
             <Route path="/admin/student/:id" component={EditStudent}/>
+            <Route path="/admin/student/new" component={EditStudent}/>
             <Redirect to="/admin" /> 
         </Switch>
       </div>

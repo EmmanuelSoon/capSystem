@@ -24,11 +24,11 @@ class Student extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        }).then(() => {
-            let updatedStudents = [...this.state.students].filter(i => i.studentId !== id);
-            this.setState({students: updatedStudents});
-        });
-    }
+        })
+        .then(response => response.json())
+        .then(data => this.setState({students: data}));
+    };
+    
       
     render() {
         const {students, isLoading} = this.state;
@@ -56,12 +56,12 @@ class Student extends Component {
                         {student.email}
                     </td>
                     <td>
-                        {student.active}
+                        {String(student.active)}
                     </td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentid}>Edit</Button>
-                            <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Delete</Button>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentId}>Edit</Button>
+                            <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Change Status</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -70,6 +70,9 @@ class Student extends Component {
 
         return (
             <Container>
+                <div className="float-right">
+                    <Button color="success" tag={Link} to="/admin/student/new">Add Client</Button>
+                </div>
                 <h3>Students</h3>
                 <Table>
                     <thead>
