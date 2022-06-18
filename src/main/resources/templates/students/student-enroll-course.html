@@ -14,7 +14,7 @@
 					<th>End Date</thead>
 				</tr>
 				<tr th:if="${enrollCourses.empty}">
-					<td colspan="4"> No Courses avail</td>
+					<td colspan="4" class="p-4 border">No Course Available!!!</td>
 				</tr>
 				<tr th:each="ac: ${enrollCourses}">
 					<td th:text="${ac.course.name}">Course Name</td>

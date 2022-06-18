@@ -3,7 +3,9 @@ package team2.capSystem.services;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.*;
 
@@ -84,7 +86,11 @@ public class StudentServiceImpl implements StudentService {
 	//Student controller methods
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
-		return scRepository.findSCByStudentId(usd.getUserId());
+		List<StudentCourse> studentCourseList= scRepository.findSCByStudentId(usd.getUserId());
+		studentCourseList = studentCourseList.stream()
+				.filter(x->x.getGpa() > 0)
+				.collect(Collectors.toList());
+		return studentCourseList;
 	}
 
 	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd){

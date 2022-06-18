@@ -3,26 +3,28 @@
 <header th:replace="fragments/header :: html_head"></header>
 <body>
 	<div th:replace="fragments/header :: menu"></div>
-	<h3>Student Course</h3>
-	<h4>Current Grade=5.0</h4>
-	<div>
-		<table class="table table-stripped" th:object="${studCourse}" >
-			<tr>
-				<td>Course Name</td>
-				<td>Course Description</td>
-				<td>Grade</td>
-			</tr>
-            <tr th:if="${studCourse.empty}">
-                <td colspan="4"> No Courses listed </td>
-            </tr>
+	<div class="container">
+		<h3>Student Course</h3>
+		<h4>Current Grade=5.0</h4>
+		<div>
+			<table class="table table-striped" th:object="${studCourse}" >
+				<tr>
+					<td>Course Name</td>
+					<td>Course Description</td>
+					<td>Grade</td>
+				</tr>
+				<tr th:if="${studCourse.empty}">
+					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
+				</tr>
 
-			<tr th:each="sc: ${studCourse}">
-                <td th:text="${sc.course.course.courseId}">Course Id</td>
-				<td th:text="${sc.course.course.name}">Course Name</td>
-				<td th:text="${sc.course.course.description}">Course Description</td>
-				<td th:text="${sc.gpa}">Grade</td>
-			</tr>
-		</table>
+				<tr th:each="sc: ${studCourse}">
+					<td th:text="${sc.course.course.courseId}">Course Id</td>
+					<td th:text="${sc.course.course.name}">Course Name</td>
+					<td th:text="${sc.course.course.description}">Course Description</td>
+					<td th:text="${sc.gpa}">Grade</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<div th:replace="fragments/header :: jsLink"></div>
 </body>
