@@ -1,10 +1,13 @@
 package team2.capSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -22,17 +25,16 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    @JsonIgnore
+    @JsonBackReference
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<StudentCourse> student_course = new ArrayList<>();
 
     //Child
     @ManyToOne
-    @JsonIgnore
     private Course course;
 
     private int maxSize = 5;

@@ -18,8 +18,8 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<form th:action="@{/lecturer/course-taught}" method="get">
-		<input type="text" name="keyword" th:value="${keyword}" placeholder="Find Courses" size="50">
-		<button type="submit" class="btn btn-info">Search</button>
+		<input type="text" name="keyword" th:value="${keyword}" size="50">
+		<button type="submit" class="btn btn-info">Search Courses</button>
 		<a th:href="@{/lecturer/course-taught}" class="btn btn-default btn-info">
 			<span> Reset Search </span></a>
 	</form>

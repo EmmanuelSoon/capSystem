@@ -1,16 +1,28 @@
 package team2.capSystem.controller;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import team2.capSystem.model.*;
 import team2.capSystem.services.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -63,7 +75,18 @@ public class AdminController {
     public List<Lecturer> getLecturers(){
         return lecturerService.getAllLecturers();
     }
-    
+
+    @GetMapping(value = "/lecturer/{id}")
+    public Lecturer getLecturer(@PathVariable int id){
+        return lecturerService.findLecturerById(id);
+    }
+
+    @GetMapping(value = "/student/course/{id}")
+    public List<StudentCourseJson> getGPAForStudent(@PathVariable int id){
+        List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
+        return studentService.convertSCToJson(scList);
+    }
+
     @GetMapping("/course")
     public List<Course> getCourses(){
         return courseService.getAllCourses();
@@ -146,6 +169,7 @@ public class AdminController {
             currLecturer.setEmail(lecturer.getEmail());
             currLecturer.setName(lecturer.getName());
             currLecturer.setUsername(lecturer.getUsername());
+            currLecturer.setActive(lecturer.getActive());
             lecturerService.saveLecturer(lecturer);
             
             return ResponseEntity.ok(currLecturer);
@@ -207,6 +231,20 @@ public class AdminController {
             courseService.deleteCourseById(id);
             return ResponseEntity.ok().build();
         } 
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+        }
+    }
+
+    @DeleteMapping(value = "student/course/{username}/{id}")
+    public ResponseEntity deleteEnrolment(@PathVariable int id, @PathVariable String username){
+        try{
+            Student currStudent = studentService.findStudentByUsername(username);
+            StudentCourse sc = studentService.findCourseByCourseIdStudentId(id, currStudent.getStudentId());
+            studentService.removeStudentCourse(sc);
+            List<StudentCourse> scList = studentService.findCoursesByStudentId(currStudent.getStudentId());
+            return ResponseEntity.ok(studentService.convertSCToJson(scList));
+        }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
         }

@@ -12,7 +12,7 @@ public interface StudentService {
 	
 	void createStudent(String username, String password, String name, String email);
 	
-	Student findStudentByUsername(String email);
+	Student findStudentByUsername(String username);
 	
 	Student getStudent(User u);
 
@@ -30,5 +30,13 @@ public interface StudentService {
 
 	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
 
-	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
+	String studentEnrollCourse(userSessionDetails usd, int courseDetailId);
+
+	List<StudentCourse> findCoursesByStudentId(int id);
+
+	List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList);
+
+	StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId);
+
+	void removeStudentCourse(StudentCourse sc);
 }

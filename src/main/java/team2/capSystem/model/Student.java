@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Student extends User {
     
     //Parent
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<StudentCourse> courses = new ArrayList<>();
 
     @Builder

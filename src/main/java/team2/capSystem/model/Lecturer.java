@@ -7,6 +7,9 @@ import javax.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +23,8 @@ public class Lecturer extends User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lecturerId;
 
-    //Parent (dont have delete because the coursedetail can still continue even when one lecturer is dropped)
+    //Parent 
+    @JsonManagedReference
     @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",

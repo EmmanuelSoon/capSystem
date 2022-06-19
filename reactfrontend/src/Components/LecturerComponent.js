@@ -3,22 +3,22 @@ import { Button, ButtonGroup, Table , Container} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
-class Student extends Component {
+class Lecturer extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {students: []};
+        this.state = {lecturers: []};
         this.remove = this.remove.bind(this);
     }
 
     async componentDidMount() {
-        fetch('/admin/student')
+        fetch('/admin/lecturer')
             .then(response => response.json())
-            .then(data => this.setState({students: data}));
+            .then(data => this.setState({lecturers: data}));
       }
 
       async remove(id) {
-        await fetch(`/admin/student/${id}`, {
+        await fetch(`/admin/lecturer/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -26,42 +26,42 @@ class Student extends Component {
             }
         })
         .then(response => response.json())
-        .then(data => this.setState({students: data}));
+        .then(data => this.setState({lecturers: data}));
     };
     
       
     render() {
-        const {students, isLoading} = this.state;
+        const {lecturers, isLoading} = this.state;
 
         if (isLoading) {
             return <p>Loading...</p>;
         }
 
-        const studentList = students.map(student => {
+        const lecturerList = lecturers.map(lecturer => {
             return (
-                <tr key= {student.studentId}>
+                <tr key= {lecturer.lecturerId}>
                     <td>
-                        {student.studentId}
+                        {lecturer.lecturerId}
                     </td>
                     <td>
-                        {student.name}
+                        {lecturer.name}
                     </td>
                     <td>
-                        {student.username}
+                        {lecturer.username}
                     </td>
                     <td>
-                        {student.password}
+                        {lecturer.password}
                     </td>
                     <td>
-                        {student.email}
+                        {lecturer.email}
                     </td>
                     <td>
-                        {String(student.active)}
+                        {String(lecturer.active)}
                     </td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentId}>Edit</Button>
-                            <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Delete</Button>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/lecturer/" + lecturer.lecturerId}>Edit</Button>
+                            <Button size="sm" color="danger" onClick={() => this.remove(lecturer.lecturerId)}>Delete</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -71,23 +71,26 @@ class Student extends Component {
         return (
             <Container fluid>
                 <div className="float-right">
-                    <Button color="success" tag={Link} to="/admin/student/new">Add Student</Button>
+                    <Button color="success" tag={Link} to="/admin/lecturer/new">Add Lecturer</Button>
                 </div>
-                <h3>Students</h3>
+                <h3>Lecturers</h3>
                 <Table>
                     <thead>
                         <tr>
                             <th>
-                                student Name
+                                lecturer ID
                             </th>
                             <th>
-                                student Username
+                                lecturer Name
                             </th>
                             <th>
-                                student Password
+                                lecturer Username
                             </th>
                             <th>
-                                student Email 
+                                lecturer Password
+                            </th>
+                            <th>
+                                lecturer Email 
                             </th>
                             <th>
                                 Currently Active
@@ -95,7 +98,7 @@ class Student extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {studentList}
+                        {lecturerList}
                     </tbody>
                 </Table>
             </Container>
@@ -106,4 +109,4 @@ class Student extends Component {
 
 }
 
-export default Student;
+export default Lecturer;
