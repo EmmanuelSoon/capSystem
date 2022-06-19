@@ -1,5 +1,6 @@
 package team2.capSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Course {
 
     //Parent
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonIgnore
     List<CourseDetail> CourseDetails = new ArrayList<>();
 
     public Course(String name, String description) {

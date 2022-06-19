@@ -5,6 +5,7 @@ import {Switch, Route, Redirect } from 'react-router-dom';
 import Student from './StudentComponent';
 import Home from './HomeComponent';
 import EditStudent from './EditStudentComponent';
+import Course from "./CourseComponent";
 
 class Main extends Component {
 
@@ -27,7 +28,8 @@ class Main extends Component {
             <Route path="/admin/student" exact={true} component={Student} />
             <Route path="/admin/student/:id" component={EditStudent}/>
             <Route path="/admin/student/new" component={EditStudent}/>
-            <Redirect to="/admin" /> 
+            <Route path="/admin/courselist" exact={true} component={Course}/>
+            <Redirect to="/admin" />
         </Switch>
       </div>
 

@@ -1,25 +1,16 @@
 package team2.capSystem.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import team2.capSystem.model.*;
 import team2.capSystem.services.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 
 @RestController
@@ -220,4 +211,15 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
         }
     }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
+    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
+        Course c = courseService.findCourseById(courseId);
+        if (c != null)
+            return  c.getCourseDetails();
+        else
+            return null;
+    }
+
 }
