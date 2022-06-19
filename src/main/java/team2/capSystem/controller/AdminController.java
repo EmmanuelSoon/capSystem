@@ -1,6 +1,7 @@
 package team2.capSystem.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,10 +83,17 @@ public class AdminController {
     }
 
     @GetMapping(value = "/student/course/{id}")
-    public List<StudentCourseJson> getGPAForStudent(@PathVariable int id){
+    public List<StudentCourseJson> getCoursesForStudent(@PathVariable int id){
         List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
         return studentService.convertSCToJson(scList);
     }
+
+    @GetMapping(value = "/lecturer/course/{id}")
+    public List<CourseDetailJson> getCoursesForLecturer(@PathVariable int id){
+        List<CourseDetail> cdList = lecturerService.findCoursesByLecturerId(id);
+        return courseService.convertCoursesToJson(cdList);
+    }
+
 
     @GetMapping("/course")
     public List<Course> getCourses(){
@@ -250,6 +258,18 @@ public class AdminController {
         }
     }
 
+    @DeleteMapping (value = "lecturer/course/{username}/{id}")
+    public ResponseEntity deleteCourseForLecturer(@PathVariable int id, @PathVariable String username){
+        try{
+            Lecturer currLecturer = lecturerService.findByUsername(username);
+            
+
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
     public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
