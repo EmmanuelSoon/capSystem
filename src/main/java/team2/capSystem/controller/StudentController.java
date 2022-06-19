@@ -70,7 +70,8 @@ public class StudentController {
     @RequestMapping("/enrollCourse/" )
     public String enrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        studService.studentEnrollCourse(usd,id);
+        String returnString = studService.studentEnrollCourse(usd,id);
+        System.out.println(returnString);
     	return "redirect:/student/course-history";
     }
 

@@ -29,6 +29,9 @@ public class StudentServiceImpl implements StudentService {
 	@Resource
 	private StudentRepository studentRepository;
 
+	@Resource
+	CourseRepository cRepo;
+
 	public boolean tableExist(){
 		return studentRepository.existsBy();
 	}
@@ -112,10 +115,17 @@ public class StudentServiceImpl implements StudentService {
 		return availCourse;
 	}
 
-	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId){
+	public String studentEnrollCourse(userSessionDetails usd, int courseDetailId){
+		//add check for class size limit
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
-		addCourseDetailToStudent(student, cd);
+		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
+		if (cd.getMaxSize() > enrolled.size()){
+			addCourseDetailToStudent(student, cd);
+			return "Enrollment succesful";
+		}
+		return "Enrollment not succesful";
+
 	}
 
 	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList){
