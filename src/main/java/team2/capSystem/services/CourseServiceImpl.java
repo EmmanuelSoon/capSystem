@@ -121,7 +121,8 @@ public class CourseServiceImpl implements CourseService {
 
 
     public CourseDetail findCourseDetailById(int id){
-        return cdRepository.getReferenceById(id);
+
+        return cdRepository.findById(id).get();
     };
 
 

@@ -31,7 +31,7 @@ class Course extends Component {
                     <td>{course.description}</td>
                     <td>
                     <ButtonGroup>
-                        <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batch Details</Button>
+                        <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
                         <Button color="danger">Delete Course</Button>
                     </ButtonGroup></td>
                 </tr>

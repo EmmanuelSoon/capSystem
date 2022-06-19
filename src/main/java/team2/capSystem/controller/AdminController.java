@@ -1,6 +1,6 @@
 package team2.capSystem.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDate;
@@ -11,19 +11,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import team2.capSystem.model.*;
 import team2.capSystem.services.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 
 
 @RestController
@@ -108,6 +98,12 @@ public class AdminController {
             return  c.getCourseDetails();
         else
             return null;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/batch/{id}")
+    public CourseDetail getBatchById(@PathVariable int id) {
+        CourseDetail cd = courseService.findCourseDetailById(id);
+        return cd;
     }
 
     /*-----------------------------------CREATE FUNCTIONS--------------------------------------*/
