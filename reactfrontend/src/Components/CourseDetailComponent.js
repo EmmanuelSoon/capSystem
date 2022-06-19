@@ -26,19 +26,22 @@ class CourseDetail extends Component {
         }
         const batches = this.state.batches;
 
+        const action = (batch) =>{
+            if (batch.full === true) {
+                return (
+                    <div>
+                        <Button color="secondary">Fullly Resgistered</Button></div>
+                );
+            }
+            else {
+                return (
+                    <div>
+                        <Button color="success" tag={Link} to={"/admin"}>Register Student</Button></div>
+                );
+            }
+        };
+
         const batchList = batches.map(batch => {
-            const action = (batch) =>{
-              if (batch.full === true) {
-                  return (
-                      <Button color="secondary">Fullly Resgistered</Button>
-                  );
-              }
-              else {
-                  return (
-                      <Button color="primary" tag={Link} to={"/admin"}>Register new Student</Button>
-                  );
-              }
-            };
             return (
                 <tr>
                     <td>{batch.startDate}</td>
@@ -46,8 +49,8 @@ class CourseDetail extends Component {
                     <td>{batch.size} / {batch.maxSize}</td>
                     <td>
                         <ButtonGroup>
-                            <Button color="primary" tag={Link} to={"/admin"}>View Batch Details</Button>
-                            {action}
+                            <Button color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
+                            {action(batch)}
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -59,8 +62,8 @@ class CourseDetail extends Component {
                 <div>
                     <h2>Batch Details</h2>
                 </div>
-                <Table>
-                    <thead>
+                <Table className="text-center">
+                    <thead >
                     <tr>
                         <th>Start Date</th>
                         <th>End Date</th>

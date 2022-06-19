@@ -70,8 +70,8 @@ class Lecturer extends Component {
         });
 
         return (
-            <Container fluid>
-                <div className="float-right">
+            <Container className='mt-5'>
+                <div className="float-end">
                     <Button color="success" tag={Link} to="/admin/lecturer/new">Add Lecturer</Button>
                 </div>
                 <h3>Lecturers</h3>
