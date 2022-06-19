@@ -14,4 +14,8 @@ public interface StudentCourseRepository extends JpaRepository<StudentCourse, In
     //select * from coursedetail join studentcourse on coursedetail.id = studentcourse.coursebatchid where studetncourse.student id = id
     @Query("Select sc from StudentCourse sc where sc.student.studentId = :id")
     public List<StudentCourse> findSCByStudentId(@Param("id") Integer id);
+
+    public List<StudentCourse> findByCourse(CourseDetail cd);
 }
+
+
