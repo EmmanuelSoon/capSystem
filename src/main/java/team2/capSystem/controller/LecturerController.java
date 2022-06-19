@@ -33,8 +33,6 @@ public class LecturerController {
 
 	@RequestMapping(value = "/dashboard")
 	public String displayDashboard(Model model) {
-		lecturerCoursesTaught lectCrsTght = new lecturerCoursesTaught();
-		model.addAttribute("lecturerCoursesTaught", lectCrsTght);
 		return "/lecturer/lecturer-dashboard";
 	}
 
@@ -44,7 +42,7 @@ public class LecturerController {
 		try {
 			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
-			Lecturer lecturer = (Lecturer) user.getUser();
+			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
 			List<CourseDetail> courseDetail = lecturer.getCourses();
 
 			for (CourseDetail crsdtl : courseDetail) {
