@@ -16,7 +16,7 @@ public class StudentCourse{
 
     //Child
     @Id
-    @ManyToOne
+    @ManyToOne 
     @JsonBackReference
     private Student student;
     

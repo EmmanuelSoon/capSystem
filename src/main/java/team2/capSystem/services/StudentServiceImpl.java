@@ -1,6 +1,7 @@
 package team2.capSystem.services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.stream.Collector;
@@ -116,6 +117,38 @@ public class StudentServiceImpl implements StudentService {
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		addCourseDetailToStudent(student, cd);
 	}
+
+	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList){
+		List<StudentCourseJson> scJsonList = new ArrayList<StudentCourseJson>();
+
+        for (StudentCourse sc : scList){
+            int studentId = sc.getStudent().getStudentId();
+            int courseDetailId = sc.getCourse().getId();
+            String courseName = sc.getCourse().getCourse().getName();
+            LocalDate startDate = sc.getCourse().getStartDate();
+            LocalDate endDate = sc.getCourse().getEndDate();
+            double gpa = sc.getGpa();
+            StudentCourseJson scJson = new StudentCourseJson(studentId, courseDetailId, courseName, startDate, endDate, gpa);
+            scJsonList.add(scJson);
+        }
+
+        return scJsonList;
+	};
+
+	public StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId){
+		return scRepository.findCourseByCourseIdStudentId(courseId, studentId);
+	};
+
+	public void removeStudentCourse(StudentCourse sc){
+		Student student = studentRepository.getReferenceById(sc.getStudent().getStudentId());
+		CourseDetail cd = cdRepository.getReferenceById(sc.getCourse().getId());
+		student.getCourses().remove(sc);
+		cd.getStudent_course().remove(sc);
+		studentRepository.save(student);
+		cdRepository.save(cd);
+		scRepository.delete(sc);
+	};
+
 
 
 

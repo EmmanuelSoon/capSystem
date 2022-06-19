@@ -83,20 +83,7 @@ public class AdminController {
     @GetMapping(value = "/student/course/{id}")
     public List<StudentCourseJson> getGPAForStudent(@PathVariable int id){
         List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
-        List<StudentCourseJson> scJsonList = new ArrayList<StudentCourseJson>();
-
-        for (StudentCourse sc : scList){
-            int studentId = sc.getStudent().getStudentId();
-            int courseDetailId = sc.getCourse().getId();
-            String courseName = sc.getCourse().getCourse().getName();
-            LocalDate startDate = sc.getCourse().getStartDate();
-            LocalDate endDate = sc.getCourse().getEndDate();
-            double gpa = sc.getGpa();
-            StudentCourseJson scJson = new StudentCourseJson(studentId, courseDetailId, courseName, startDate, endDate, gpa);
-            scJsonList.add(scJson);
-        }
-
-        return scJsonList;
+        return studentService.convertSCToJson(scList);
     }
     
     @GetMapping("/course")
@@ -247,4 +234,18 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
         }
     }
+
+    @DeleteMapping(value = "student/course/{username}/{id}")
+    public ResponseEntity deleteEnrolment(@PathVariable int id, @PathVariable String username){
+        try{
+            Student currStudent = studentService.findStudentByUsername(username);
+            StudentCourse sc = studentService.findCourseByCourseIdStudentId(id, currStudent.getStudentId());
+            studentService.removeStudentCourse(sc);
+            List<StudentCourse> scList = studentService.findCoursesByStudentId(currStudent.getStudentId());
+            return ResponseEntity.ok(studentService.convertSCToJson(scList));
+        } 
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+        }
+    } 
 }
