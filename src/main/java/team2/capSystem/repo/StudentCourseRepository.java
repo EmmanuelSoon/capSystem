@@ -1,5 +1,6 @@
 package team2.capSystem.repo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,7 @@ public interface StudentCourseRepository extends JpaRepository<StudentCourse, In
     @Query("Select sc from StudentCourse sc where sc.student.studentId = :studentId AND sc.course.id = :courseId")
     public StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId);
     public List<StudentCourse> findByCourse(CourseDetail cd);
+;
 }
 
 

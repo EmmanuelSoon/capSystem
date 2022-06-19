@@ -43,7 +43,10 @@
 
       </div>
       <div class="d-flex justify-content-end">
-        <span class="navbar-text mx-3">User Name</span>
+        <!-- <a href="@{/student/profile}">
+          <span class="navbar-text mx-3" th:utext="${userSessionDetails.p.user.name}"></span>
+        </a> -->
+        <span class="navbar-text mx-3" th:utext="${session.userSessionDetails.user.name}"></span>
         <span class="navbar-text mx-3">Logout</span>
       </div>
     </nav>
