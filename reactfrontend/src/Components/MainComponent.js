@@ -8,6 +8,7 @@ import EditStudent from './EditStudentComponent';
 import Lecturer from './LecturerComponent';
 import EditLecturer from './EditLecturerComponent';
 import StudentCourse from './StudentCourseComponent';
+import Header from './HeaderComponent';
 
 class Main extends Component {
 
@@ -25,6 +26,7 @@ class Main extends Component {
     
     return ( //any function that does not match home or menu will be redirected to dashboard
       <div>
+        <Header /> 
         <Switch>
             <Route path="/admin" exact = {true} component={Home} />
             <Route path="/admin/student" exact={true} component={Student} />

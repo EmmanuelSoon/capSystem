@@ -78,6 +78,9 @@ class Student extends Component {
                     <thead>
                         <tr>
                             <th>
+                                student ID
+                            </th>
+                            <th>
                                 student Name
                             </th>
                             <th>

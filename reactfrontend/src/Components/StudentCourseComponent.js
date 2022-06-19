@@ -81,7 +81,7 @@ class StudentCourse extends Component {
         return (
             <Container fluid>
                 <div className="float-right">
-                    <Button color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button>
+                    {/* <Button color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
                 </div>
                 <h3>{this.state.student.name}'s Current Enrolment</h3>
                 <Table>
@@ -97,7 +97,7 @@ class StudentCourse extends Component {
                                 Course End Date
                             </th>
                             <th>
-                                student GPA
+                                Student GPA
                             </th>
                         </tr>
                     </thead>

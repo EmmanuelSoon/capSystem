@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    @JsonBackReference
+    @JsonIgnore
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent

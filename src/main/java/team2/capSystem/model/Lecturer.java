@@ -24,7 +24,7 @@ public class Lecturer extends User{
     private int lecturerId;
 
     //Parent 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",
