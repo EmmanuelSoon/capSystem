@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
+import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -18,6 +21,10 @@ public class LecturerServiceImpl implements LecturerService {
 
 	@Resource
 	private CourseDetailRepository cdRepository;
+	
+	@Resource
+	private StudentCourseRepository scRepository;
+
 
 
 
@@ -86,5 +93,14 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(l);
 	}
 
+	//lecturer controller method
+
+	public List<StudentCourse> getSCList(CourseDetail cd){
+		return scRepository.findByCourse(cd);
+	}
+	
+	
+	
+	
 
 }
