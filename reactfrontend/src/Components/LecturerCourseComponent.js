@@ -3,8 +3,8 @@ import { Button, ButtonGroup, Table , Container} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
-class StudentCourse extends Component {
-    defaultStudent = {
+class LecturerCourse extends Component {
+    defaultLecturer = {
         name: '',
         username: '',
         password: '',
@@ -15,23 +15,23 @@ class StudentCourse extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {studentCourses: [], student: this.defaultStudent};
+        this.state = {lecturerCourses: [], lecturer: this.defaultLecturer};
         this.remove = this.remove.bind(this);
     }
 
     async componentDidMount() {
-        fetch(`/admin/student/course/${this.props.match.params.id}`)
+        fetch(`/admin/lecturer/course/${this.props.match.params.id}`)
             .then(response => response.json())
-            .then(data => this.setState({studentCourses: data}));
+            .then(data => this.setState({lecturerCourses: data}));
 
-        if(this.state.studentCourses !== null){
-            const currentStudent = await (await fetch(`/admin/student/${this.props.match.params.id}`)).json();
-            this.setState({student: currentStudent});
+        if(this.state.lecturerCourses !== null){
+            const currentLecturer = await (await fetch(`/admin/lecturer/${this.props.match.params.id}`)).json();
+            this.setState({lecturer: currentLecturer});
         }
       }
 
       async remove(id) {
-        await fetch(`/admin/student/course/${this.state.student.username}/${id}`, {
+        await fetch(`/admin/lecturer/course/${this.state.lecturer.username}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -39,12 +39,12 @@ class StudentCourse extends Component {
             }
         })
         .then(response => response.json())
-        .then(data => this.setState({studentCourses: data}));
+        .then(data => this.setState({lecturerCourses: data}));
     };
     
       
     render() {
-        const {studentCourses, isLoading} = this.state;
+        const {lecturerCourses, isLoading} = this.state;
 
         if (isLoading) {
             return <p>Loading...</p>;
@@ -52,26 +52,26 @@ class StudentCourse extends Component {
 
 
 
-        const studentCourseList = studentCourses.map(studentCourseDetail => {
+        const lecturerCourseList = lecturerCourses.map(lecturerCourseDetail => {
             return (
-                <tr key= {studentCourseDetail.courseDetailId}>
+                <tr key= {lecturerCourseDetail.id}>
                     <td>
-                        {studentCourseDetail.courseName}
+                        {lecturerCourseDetail.course.name}
                     </td>
                     <td>
-                        {studentCourseDetail.startDate}
+                        {lecturerCourseDetail.startDate}
                     </td>
                     <td>
-                        {studentCourseDetail.endDate}
+                        {lecturerCourseDetail.endDate}
                     </td>
                     <td>
-                        {studentCourseDetail.gpa}
+                        {lecturerCourseDetail.size}/{lecturerCourseDetail.maxSize}
                     </td>
 
                     <td>
                         <ButtonGroup>
                             {/* <Button size="sm" color="primary" tag={Link} to={"/admin/student/course" + studentCourseDetail.studentId}>Edit</Button> */}
-                            <Button size="sm" color="danger" onClick={() => this.remove(studentCourseDetail.courseDetailId)}>Delete</Button>
+                            <Button size="sm" color="danger" onClick={() => this.remove(lecturerCourseDetail.id)}>Drop Lecturer</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@ class StudentCourse extends Component {
                 <div className="float-right">
                     {/* <Button color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
                 </div>
-                <h3>{this.state.student.name}'s Current Enrolment</h3>
+                <h3>{this.state.lecturer.name}'s Courses</h3>
                 <Table>
                     <thead>
                         <tr>
@@ -96,13 +96,10 @@ class StudentCourse extends Component {
                             <th>
                                 Course End Date
                             </th>
-                            <th>
-                                Student GPA
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {studentCourseList}
+                        {lecturerCourseList}
                     </tbody>
                 </Table>
             </Container>
@@ -113,4 +110,4 @@ class StudentCourse extends Component {
 
 }
 
-export default StudentCourse;
+export default LecturerCourse;

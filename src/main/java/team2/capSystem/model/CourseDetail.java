@@ -1,11 +1,12 @@
 package team2.capSystem.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    @JsonBackReference
+    @Getter(onMethod_=@JsonIgnore) 
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
@@ -62,5 +63,12 @@ public class CourseDetail {
     public void removeLecturer(Lecturer lecturer){
         this.lecturers.remove(lecturer);
         //lecturer.getCourses().remove(this);
+    }
+
+    public int getSize() {
+        return student_course.size();
+    }
+    public boolean isFull() {
+        return student_course.size() >= maxSize;
     }
 }

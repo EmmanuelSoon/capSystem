@@ -61,6 +61,7 @@ class Lecturer extends Component {
                     <td>
                         <ButtonGroup>
                             <Button size="sm" color="primary" tag={Link} to={"/admin/lecturer/" + lecturer.lecturerId}>Edit</Button>
+                            <Button size="sm" color="secondary" tag={Link} to={"/admin/lecturer/course/" + lecturer.lecturerId}>Courses Taught</Button>
                             <Button size="sm" color="danger" onClick={() => this.remove(lecturer.lecturerId)}>Delete</Button>
                         </ButtonGroup>
                     </td>

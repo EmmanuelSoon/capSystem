@@ -1,6 +1,8 @@
 package team2.capSystem.services;
 
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -86,21 +88,27 @@ public class LecturerServiceImpl implements LecturerService {
 		}
 	};
 
-
 	public void delete(Lecturer l) {
 		l.getCourses().clear();
 		l.setActive(false);
 		lecturerRepository.save(l);
 	}
 
-	//lecturer controller method
-
+  //for the controller
 	public List<StudentCourse> getSCList(CourseDetail cd){
 		return scRepository.findByCourse(cd);
 	}
-	
-	
-	
-	
+
+	public List<CourseDetail> findCoursesByLecturerId(int id){
+		Lecturer lecturer = lecturerRepository.getReferenceById(id);
+		return lecturer.getCourses();
+	};
+
+	public	void removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer){
+		lecturer.getCourses().remove(cd);
+		lecturerRepository.save(lecturer);
+	};
+
+
 
 }

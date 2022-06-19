@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,6 +74,11 @@ public class StudentController {
         String returnString = studService.studentEnrollCourse(usd,id);
         System.out.println(returnString);
     	return "redirect:/student/course-history";
+    }
+
+    @RequestMapping("/profile")
+    public String showProfile(HttpSession session,Model model){
+        return "students/student-profile";
     }
 
 

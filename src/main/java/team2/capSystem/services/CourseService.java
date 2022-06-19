@@ -31,7 +31,7 @@ public interface CourseService {
     void addLecturer(CourseDetail courseDetail, Lecturer lecturer);
     CourseDetail createCourseDetail(Course course, LocalDate start, LocalDate end);
     CourseDetail findExactCourseDetail(Course course, LocalDate start, LocalDate end);
-
+    CourseDetail findCourseDetailById(int id);
     
     
     //StudentCourses 

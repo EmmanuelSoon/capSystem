@@ -61,6 +61,7 @@ class Student extends Component {
                     <td>
                         <ButtonGroup>
                             <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentId}>Edit</Button>
+                            <Button size="sm" color="secondary" tag={Link} to={"/admin/student/course/" + student.studentId}>Enrolment</Button>
                             <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Delete</Button>
                         </ButtonGroup>
                     </td>
@@ -74,9 +75,12 @@ class Student extends Component {
                     <Button color="success" tag={Link} to="/admin/student/new">Add Student</Button>
                 </div>
                 <h3>Students</h3>
-                <Table>
+                <Table className='text-center'>
                     <thead>
                         <tr>
+                            <th>
+                                student ID
+                            </th>
                             <th>
                                 student Name
                             </th>

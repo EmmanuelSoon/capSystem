@@ -1,6 +1,7 @@
 package team2.capSystem.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,14 +83,31 @@ public class AdminController {
     }
 
     @GetMapping(value = "/student/course/{id}")
-    public List<StudentCourseJson> getGPAForStudent(@PathVariable int id){
+    public List<StudentCourseJson> getCoursesForStudent(@PathVariable int id){
         List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
         return studentService.convertSCToJson(scList);
     }
 
+    @GetMapping(value = "/lecturer/course/{id}")
+    public List<CourseDetail> getCoursesForLecturer(@PathVariable int id){
+        List<CourseDetail> cdList = lecturerService.findCoursesByLecturerId(id);
+        // return courseService.convertCoursesToJson(cdList);
+        return cdList;
+    }
+
+
     @GetMapping("/course")
     public List<Course> getCourses(){
         return courseService.getAllCourses();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
+    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
+        Course c = courseService.findCourseById(courseId);
+        if (c != null)
+            return  c.getCourseDetails();
+        else
+            return null;
     }
 
     /*-----------------------------------CREATE FUNCTIONS--------------------------------------*/
@@ -236,7 +254,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping(value = "student/course/{username}/{id}")
+    @DeleteMapping(value = "/student/course/{username}/{id}")
     public ResponseEntity deleteEnrolment(@PathVariable int id, @PathVariable String username){
         try{
             Student currStudent = studentService.findStudentByUsername(username);
@@ -250,14 +268,19 @@ public class AdminController {
         }
     }
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
-    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
-        Course c = courseService.findCourseById(courseId);
-        if (c != null)
-            return  c.getCourseDetails();
-        else
-            return null;
+    @DeleteMapping (value = "/lecturer/course/{username}/{id}")
+    public ResponseEntity deleteCourseForLecturer(@PathVariable int id, @PathVariable String username){
+        try{
+            Lecturer currLecturer = lecturerService.findByUsername(username);
+            CourseDetail cd = courseService.findCourseDetailById(id);
+            lecturerService.removeLecturerFromCourseDetail(cd, currLecturer);
+            return ResponseEntity.ok(lecturerService.findCoursesByLecturerId(currLecturer.getLecturerId()));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+        }
     }
+
+
 
 }
