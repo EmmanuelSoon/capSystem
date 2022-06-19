@@ -118,10 +118,6 @@ class EditStudent extends Component {
             <Container>
                 {title}
                 <Form onSubmit={this.handleSubmit}>
-                    <div className="panel panel-default">
-                        <FormErrors formErrors={this.state.formErrors} />
-                    </div>
-
                     <FormGroup className={`${this.errorClass(this.state.formErrors.name)}`}>
                         <Label for="name">Name</Label>
                         <Input type="text" name="name" id="name" value={item.name || ''}
@@ -142,7 +138,7 @@ class EditStudent extends Component {
                         <Input type="text" name="email" id="email" value={item.email || ''}
                                onChange={this.handleChange} autoComplete="email"/>
                     </FormGroup>
-                    <FormGroup className='mb-5'>
+                    <FormGroup>
                         <Label for="active">Current Status</Label>
                             <Input type='select' name="active" id="active" value={item.active || ''}
                                onChange={this.handleChange}>
@@ -150,6 +146,10 @@ class EditStudent extends Component {
                                 <option value={false}>False</option>
                             </Input>
                     </FormGroup>
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
+
                     <FormGroup >
                         <Button color="primary" type="submit" disabled = {!this.state.formValid}>Save</Button>{' '}
                         <Button color="secondary" tag={Link} to="/admin/student">Cancel</Button>
