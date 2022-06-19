@@ -31,4 +31,6 @@ public interface StudentService {
 	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
 
 	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
+
+	List<StudentCourse> findCoursesByStudentId(int id);
 }

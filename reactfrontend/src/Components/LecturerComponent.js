@@ -69,9 +69,9 @@ class Lecturer extends Component {
         });
 
         return (
-            <Container>
+            <Container fluid>
                 <div className="float-right">
-                    <Button color="success" tag={Link} to="/admin/lecturer/new">Add Client</Button>
+                    <Button color="success" tag={Link} to="/admin/lecturer/new">Add Lecturer</Button>
                 </div>
                 <h3>Lecturers</h3>
                 <Table>

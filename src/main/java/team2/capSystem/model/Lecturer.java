@@ -8,6 +8,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Lecturer extends User{
     private int lecturerId;
 
     //Parent 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "lecture_course",

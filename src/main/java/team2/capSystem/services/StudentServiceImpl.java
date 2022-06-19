@@ -83,6 +83,11 @@ public class StudentServiceImpl implements StudentService {
 		studentRepository.save(s);
 	}
 
+	public List<StudentCourse> findCoursesByStudentId(int id){
+		return scRepository.findSCByStudentId(id);
+	};
+
+
 	//Student controller methods
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){

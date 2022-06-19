@@ -2,6 +2,8 @@ package team2.capSystem.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +78,25 @@ public class AdminController {
     @GetMapping(value = "/lecturer/{id}")
     public Lecturer getLecturer(@PathVariable int id){
         return lecturerService.findLecturerById(id);
+    }
+
+    @GetMapping(value = "/student/course/{id}")
+    public List<StudentCourseJson> getGPAForStudent(@PathVariable int id){
+        List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
+        List<StudentCourseJson> scJsonList = new ArrayList<StudentCourseJson>();
+
+        for (StudentCourse sc : scList){
+            int studentId = sc.getStudent().getStudentId();
+            int courseDetailId = sc.getCourse().getId();
+            String courseName = sc.getCourse().getCourse().getName();
+            LocalDate startDate = sc.getCourse().getStartDate();
+            LocalDate endDate = sc.getCourse().getEndDate();
+            double gpa = sc.getGpa();
+            StudentCourseJson scJson = new StudentCourseJson(studentId, courseDetailId, courseName, startDate, endDate, gpa);
+            scJsonList.add(scJson);
+        }
+
+        return scJsonList;
     }
     
     @GetMapping("/course")

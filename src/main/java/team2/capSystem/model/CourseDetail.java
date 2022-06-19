@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,10 +25,12 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
+    @JsonBackReference
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonManagedReference
     private List<StudentCourse> student_course = new ArrayList<>();
 
     //Child
