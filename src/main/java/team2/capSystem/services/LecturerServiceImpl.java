@@ -72,9 +72,7 @@ public class LecturerServiceImpl implements LecturerService {
 	public void deleteLecturerById(int id){
 		Lecturer lecturer = lecturerRepository.findById(id).get();
 		if(lecturer != null){
-			lecturer.setActive(false);
-			lecturer.getCourses().clear();
-			lecturerRepository.save(lecturer);
+			lecturerRepository.delete(lecturer);
 		}
 		else{
 			throw new NullPointerException();

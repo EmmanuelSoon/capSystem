@@ -72,6 +72,11 @@ public class AdminController {
     public List<Lecturer> getLecturers(){
         return lecturerService.getAllLecturers();
     }
+
+    @GetMapping(value = "/lecturer/{id}")
+    public Lecturer getLecturer(@PathVariable int id){
+        return lecturerService.findLecturerById(id);
+    }
     
     @GetMapping("/course")
     public List<Course> getCourses(){
@@ -155,6 +160,7 @@ public class AdminController {
             currLecturer.setEmail(lecturer.getEmail());
             currLecturer.setName(lecturer.getName());
             currLecturer.setUsername(lecturer.getUsername());
+            currLecturer.setActive(lecturer.getActive());
             lecturerService.saveLecturer(lecturer);
             
             return ResponseEntity.ok(currLecturer);
@@ -203,7 +209,7 @@ public class AdminController {
     public ResponseEntity deleteLecturer(@PathVariable int id){
         try{
             lecturerService.deleteLecturerById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(lecturerService.getAllLecturers());
         } 
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
