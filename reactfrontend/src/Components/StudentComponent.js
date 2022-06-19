@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Table , Container} from 'reactstrap';
+import { Button, ButtonGroup, Table , Container, Row} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
@@ -70,38 +70,40 @@ class Student extends Component {
         });
 
         return (
-            <Container fluid>
-                <div className="float-right">
+            <Container className='mt-5'>
+                <div className="float-end">
                     <Button color="success" tag={Link} to="/admin/student/new">Add Student</Button>
                 </div>
-                <h3>Students</h3>
-                <Table className='text-center'>
-                    <thead>
-                        <tr>
-                            <th>
-                                student ID
-                            </th>
-                            <th>
-                                student Name
-                            </th>
-                            <th>
-                                student Username
-                            </th>
-                            <th>
-                                student Password
-                            </th>
-                            <th>
-                                student Email 
-                            </th>
-                            <th>
-                                Currently Active
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {studentList}
-                    </tbody>
-                </Table>
+                
+                    <h3>Students</h3>
+                    <Table className='text-center'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    student ID
+                                </th>
+                                <th>
+                                    student Name
+                                </th>
+                                <th>
+                                    student Username
+                                </th>
+                                <th>
+                                    student Password
+                                </th>
+                                <th>
+                                    student Email 
+                                </th>
+                                <th>
+                                    Currently Active
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {studentList}
+                        </tbody>
+                    </Table>
+               
             </Container>
         );
 
