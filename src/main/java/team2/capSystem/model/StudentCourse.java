@@ -43,4 +43,11 @@ public class StudentCourse{
     public String toString(){
         return student.name + ": " + course.getCourse().getName() + ", " + gpa;
     }
+
+    public int getId() {
+        return student.getStudentId();
+    }
+    public String getName() {
+        return student.getName();
+    }
 }

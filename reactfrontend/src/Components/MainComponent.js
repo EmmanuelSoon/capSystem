@@ -12,6 +12,7 @@ import Header from './HeaderComponent';
 import Course from "./CourseComponent";
 import LecturerCourse from './LecturerCourseComponent';
 import CourseDetail from "./CourseDetailComponent";
+import BatchDetail from "./BatchDetailComponent";
 
 class Main extends Component {
 
@@ -41,12 +42,12 @@ class Main extends Component {
             <Route path="/admin/lecturer" exact={true} component={Lecturer} />
             <Route path="/admin/lecturer/:id" exact={true} component={EditLecturer}/>
             <Route path="/admin/lecturer/new" exact={true} component={EditLecturer}/>
-            <Route path="/admin/lecturer/course/:id" component={LecturerCourse} />
+            <Route path="/admin/lecturer/course/:id"  component={LecturerCourse} />
 
 
-            <Route path="/admin/courselist" component={Course}/>
-            <Route path="/admin/coursedetails/:id" component={CourseDetail} />
-
+            <Route path="/admin/courselist" exact={true} component={Course}/>
+            <Route path="/admin/coursedetails/:id" exact={true} component={CourseDetail} />
+            <Route path="/admin/coursedetails/batch/:id" component={BatchDetail} />
             <Redirect to="/admin" />
         </Switch>
       </div>
