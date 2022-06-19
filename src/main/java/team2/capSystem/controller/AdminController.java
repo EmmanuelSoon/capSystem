@@ -101,6 +101,15 @@ public class AdminController {
         return courseService.getAllCourses();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
+    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
+        Course c = courseService.findCourseById(courseId);
+        if (c != null)
+            return  c.getCourseDetails();
+        else
+            return null;
+    }
+
     /*-----------------------------------CREATE FUNCTIONS--------------------------------------*/
 
     @PostMapping(value = "/student")
@@ -272,13 +281,6 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
-    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
-        Course c = courseService.findCourseById(courseId);
-        if (c != null)
-            return  c.getCourseDetails();
-        else
-            return null;
-    }
+
 
 }
