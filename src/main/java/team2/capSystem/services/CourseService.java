@@ -39,6 +39,6 @@ public interface CourseService {
 
    
 	
-	List<StudentCourse> getClassList();
+	//List<StudentCourse> getClassList();
 
 }

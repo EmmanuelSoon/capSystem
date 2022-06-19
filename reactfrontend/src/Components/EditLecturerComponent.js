@@ -35,7 +35,7 @@ class EditLecturer extends Component {
         if (this.props.match.params.id !== 'new') {
             const lecturer = await (await fetch(`/admin/lecturer/${this.props.match.params.id}`)).json();
             lecturer.active = true;
-            this.setState({item: lecturer});
+            this.setState({item: lecturer, formValid: true});
         }
     }
 

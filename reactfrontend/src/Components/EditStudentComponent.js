@@ -36,7 +36,7 @@ class EditStudent extends Component {
         if (this.props.match.params.id !== 'new') {
             const student = await (await fetch(`/admin/student/${this.props.match.params.id}`)).json();
             student.active = true;
-            this.setState({item: student});
+            this.setState({item: student, formValid: true});
         }
     }
 

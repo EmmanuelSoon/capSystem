@@ -36,7 +36,7 @@ class CourseDetail extends Component {
             else {
                 return (
                     <div>
-                        <Button color="success" tag={Link} to={"/admin"}>Register Stduent</Button></div>
+                        <Button color="success" tag={Link} to={"/admin"}>Register Student</Button></div>
                 );
             }
         };
