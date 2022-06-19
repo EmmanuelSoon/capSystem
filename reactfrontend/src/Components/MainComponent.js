@@ -8,7 +8,9 @@ import EditStudent from './EditStudentComponent';
 import Lecturer from './LecturerComponent';
 import EditLecturer from './EditLecturerComponent';
 import StudentCourse from './StudentCourseComponent';
+import Header from './HeaderComponent';
 import Course from "./CourseComponent";
+import LecturerCourse from './LecturerCourseComponent';
 import CourseDetail from "./CourseDetailComponent";
 
 class Main extends Component {
@@ -17,12 +19,13 @@ class Main extends Component {
     super(props);
 
     this.state = {}
-
+    
   }
 
 
 
-  render() { //render() is used to define the view
+
+  render() { //render() is used to define the view 
     
     return ( //any function that does not match home or menu will be redirected to dashboard
       <div>
@@ -35,13 +38,15 @@ class Main extends Component {
 
 
             <Route path="/admin/lecturer" exact={true} component={Lecturer} />
-            <Route path="/admin/lecturer/:id" component={EditLecturer}/>
-            <Route path="/admin/lecturer/new" component={EditLecturer}/>
+            <Route path="/admin/lecturer/:id" exact={true} component={EditLecturer}/>
+            <Route path="/admin/lecturer/new" exact={true} component={EditLecturer}/>
+            <Route path="/admin/lecturer/course/:id" component={LecturerCourse} />
+
 
             <Route path="/admin/courselist" component={Course}/>
             <Route path="/admin/coursedetails/:id" component={CourseDetail} />
 
-            <Redirect to="/admin" /> 
+            <Redirect to="/admin" />
         </Switch>
       </div>
 

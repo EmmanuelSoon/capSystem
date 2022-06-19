@@ -119,5 +119,21 @@ public class CourseServiceImpl implements CourseService {
 		}
 	};
 
+    public List<CourseDetailJson> convertCoursesToJson(List<CourseDetail> cdList){
+		List<CourseDetailJson> cdJsonList = new ArrayList<CourseDetailJson>();
+
+        for (CourseDetail cd : cdList){
+            int courseDetailId = cd.getCourse().getCourseId();
+            String courseName = cd.getCourse().getName();
+            LocalDate startDate = cd.getStartDate();
+            LocalDate endDate = cd.getEndDate();
+            CourseDetailJson cdJson = new CourseDetailJson(courseDetailId, courseName, startDate, endDate);
+
+            cdJsonList.add(cdJson);
+        }
+
+        return cdJsonList;
+	};
+
 
 }

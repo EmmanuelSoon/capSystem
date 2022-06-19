@@ -1,6 +1,8 @@
 package team2.capSystem.services;
 
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -79,12 +81,18 @@ public class LecturerServiceImpl implements LecturerService {
 		}
 	};
 
-
 	public void delete(Lecturer l) {
 		l.getCourses().clear();
 		l.setActive(false);
 		lecturerRepository.save(l);
 	}
+
+	public List<CourseDetail> findCoursesByLecturerId(int id){
+		Lecturer lecturer = lecturerRepository.getReferenceById(id);
+		return lecturer.getCourses();
+	};
+
+
 
 
 }
