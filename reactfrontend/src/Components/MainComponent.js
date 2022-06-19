@@ -8,6 +8,7 @@ import EditStudent from './EditStudentComponent';
 import Lecturer from './LecturerComponent';
 import EditLecturer from './EditLecturerComponent';
 import StudentCourse from './StudentCourseComponent';
+import Course from "./CourseComponent";
 
 class Main extends Component {
 
@@ -36,6 +37,7 @@ class Main extends Component {
             <Route path="/admin/lecturer" exact={true} component={Lecturer} />
             <Route path="/admin/lecturer/:id" component={EditLecturer}/>
             <Route path="/admin/lecturer/new" component={EditLecturer}/>
+            <Route path="/admin/courselist" component={Course}/>
             <Redirect to="/admin" /> 
         </Switch>
       </div>
