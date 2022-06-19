@@ -28,4 +28,5 @@ public interface LecturerService {
 
 	List<CourseDetail> findCoursesByLecturerId(int id);
 
+	void removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer);
 }

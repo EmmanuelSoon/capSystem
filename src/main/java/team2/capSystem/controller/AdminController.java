@@ -89,9 +89,10 @@ public class AdminController {
     }
 
     @GetMapping(value = "/lecturer/course/{id}")
-    public List<CourseDetailJson> getCoursesForLecturer(@PathVariable int id){
+    public List<CourseDetail> getCoursesForLecturer(@PathVariable int id){
         List<CourseDetail> cdList = lecturerService.findCoursesByLecturerId(id);
-        return courseService.convertCoursesToJson(cdList);
+        // return courseService.convertCoursesToJson(cdList);
+        return cdList;
     }
 
 
@@ -244,7 +245,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping(value = "student/course/{username}/{id}")
+    @DeleteMapping(value = "/student/course/{username}/{id}")
     public ResponseEntity deleteEnrolment(@PathVariable int id, @PathVariable String username){
         try{
             Student currStudent = studentService.findStudentByUsername(username);
@@ -258,13 +259,13 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping (value = "lecturer/course/{username}/{id}")
+    @DeleteMapping (value = "/lecturer/course/{username}/{id}")
     public ResponseEntity deleteCourseForLecturer(@PathVariable int id, @PathVariable String username){
         try{
             Lecturer currLecturer = lecturerService.findByUsername(username);
-            
-
-            return ResponseEntity.ok().build();
+            CourseDetail cd = courseService.findCourseDetailById(id);
+            lecturerService.removeLecturerFromCourseDetail(cd, currLecturer);
+            return ResponseEntity.ok(lecturerService.findCoursesByLecturerId(currLecturer.getLecturerId()));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
