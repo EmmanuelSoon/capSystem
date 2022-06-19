@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class AdminController {
         List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
         return studentService.convertSCToJson(scList);
     }
-    
+
     @GetMapping("/course")
     public List<Course> getCourses(){
         return courseService.getAllCourses();
@@ -217,7 +218,7 @@ public class AdminController {
     public ResponseEntity deleteLecturer(@PathVariable int id){
         try{
             lecturerService.deleteLecturerById(id);
-            return ResponseEntity.ok(lecturerService.getAllLecturers());
+            return ResponseEntity.ok().build();
         } 
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
@@ -243,9 +244,20 @@ public class AdminController {
             studentService.removeStudentCourse(sc);
             List<StudentCourse> scList = studentService.findCoursesByStudentId(currStudent.getStudentId());
             return ResponseEntity.ok(studentService.convertSCToJson(scList));
-        } 
+        }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");
         }
-    } 
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/coursedetails/{courseId}")
+    public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
+        Course c = courseService.findCourseById(courseId);
+        if (c != null)
+            return  c.getCourseDetails();
+        else
+            return null;
+    }
+
 }

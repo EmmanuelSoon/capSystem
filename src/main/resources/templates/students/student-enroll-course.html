@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:replace="fragments/header :: html_head"></header>
+
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
 		<h3>Enroll in a Course</h3>
+		<form action="#" th:action="@{/enroll/}" method="post">
+			<div class="row my-3">
+				<div class="col-3 mr-1">
+					<label for="startDate">Name and Description</label>
+					<input type="text" class="form-control py-2" placeholder="First name">
+				</div>
+				<div class="col-3 mr-1">
+					<label for="startDate">Start Date</label>
+					<input type="date" class="form-control" placeholder="Last name">
+				</div>
+				<div class="col-3 mr-1">
+					<label for="startDate">Start Date</label>
+					<input type="date" class="form-control" placeholder="Last name">
+				</div>
+				<div class="col-3 mt-4">
+					<button type="submit" class="btn btn-success btn-outline ">
+						<i class="fa fa-search ml mr-2"></i>
+						Search
+					</button>
+				</div>
+			</div>
+		</form>
 		<div>
-			<table class="table table-striped" th:object="${enrollCourses}" >
+			<table class="table table-striped" th:object="${enrollCourses}">
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
@@ -37,29 +60,30 @@
 				</tr>
 			</table>
 		</div>
-			
+
 		<!-- Modal -->
 		<form action="#" th:action="@{/enrollCourse/}" th:object="${CourseDetail}" method="post">
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				  </div>
-				  <div class="modal-body">
-					...
-				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				  </div>
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							...
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
 				</div>
-			  </div>
 			</div>
 		</form>
-			
+
 	</div>
-	
+
 	<div th:replace="fragments/header :: jsLink"></div>
 </body>
