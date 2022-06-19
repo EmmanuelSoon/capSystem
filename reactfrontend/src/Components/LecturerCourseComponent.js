@@ -54,9 +54,9 @@ class LecturerCourse extends Component {
 
         const lecturerCourseList = lecturerCourses.map(lecturerCourseDetail => {
             return (
-                <tr key= {lecturerCourseDetail.courseDetailId}>
+                <tr key= {lecturerCourseDetail.id}>
                     <td>
-                        {lecturerCourseDetail.courseName}
+                        {lecturerCourseDetail.course.name}
                     </td>
                     <td>
                         {lecturerCourseDetail.startDate}
@@ -64,12 +64,14 @@ class LecturerCourse extends Component {
                     <td>
                         {lecturerCourseDetail.endDate}
                     </td>
-
+                    <td>
+                        {lecturerCourseDetail.size}/{lecturerCourseDetail.maxSize}
+                    </td>
 
                     <td>
                         <ButtonGroup>
                             {/* <Button size="sm" color="primary" tag={Link} to={"/admin/student/course" + studentCourseDetail.studentId}>Edit</Button> */}
-                            <Button size="sm" color="danger" onClick={() => this.remove(lecturerCourseDetail.courseDetailId)}>Delete</Button>
+                            <Button size="sm" color="danger" onClick={() => this.remove(lecturerCourseDetail.id)}>Drop Lecturer</Button>
                         </ButtonGroup>
                     </td>
                 </tr>

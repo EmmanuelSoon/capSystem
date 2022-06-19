@@ -1,11 +1,11 @@
 package team2.capSystem.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -26,7 +26,7 @@ public class CourseDetail {
     
     //Child
     @ManyToMany(mappedBy = "courses")
-    @JsonIgnore
+    @Getter(onMethod_=@JsonIgnore) 
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
 
     //Parent

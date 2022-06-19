@@ -22,7 +22,7 @@ class Home extends Component {
                     </Card>
                 </div>
 
-                <div className='mb-3 d-flex justify-content-center'>
+                <div className='mb-3 d-flex justify-content-center '>
                     <Card>
                         <CardBody>
                             <CardTitle tag="h5">
@@ -32,6 +32,20 @@ class Home extends Component {
                                 For information about Lecturers currently teaching in the system click here!
                             </CardText>
                             <Button size="sm" color="secondary" tag={Link} to={"/admin/lecturer"}>Go to Lecturer Page</Button>
+                        </CardBody>
+                    </Card>
+                </div>
+
+                <div className='mb-3 d-flex justify-content-center '>
+                    <Card>
+                        <CardBody>
+                            <CardTitle tag="h5">
+                                Courses
+                            </CardTitle>
+                            <CardText>
+                                For information about Courses availalbe in the system click here!
+                            </CardText>
+                            <Button size="sm" color="secondary" tag={Link} to={"/admin/courselist"}>Go to Lecturer Page</Button>
                         </CardBody>
                     </Card>
                 </div>
