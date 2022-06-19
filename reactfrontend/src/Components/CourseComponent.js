@@ -8,6 +8,7 @@ class Course extends Component {
         this.state = {
             courses : []
         }
+
     }
 
     async componentDidMount() {
@@ -24,13 +25,13 @@ class Course extends Component {
         }
         const CourseList = courses.map(course => {
             return (
-                <tr key= {course.courseId}>
+                <tr>
                     <td>{course.courseId}</td>
                     <td>{course.name}</td>
                     <td>{course.description}</td>
                     <td>
                     <ButtonGroup>
-                        <Button color="primary" tag={Link} to={"/admin/coursedetails/" + course.courseId}>View Batch Details</Button>
+                        <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batch Details</Button>
                         <Button color="danger">Delete Course</Button>
                     </ButtonGroup></td>
                 </tr>

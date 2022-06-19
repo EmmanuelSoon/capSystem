@@ -63,4 +63,11 @@ public class CourseDetail {
         this.lecturers.remove(lecturer);
         //lecturer.getCourses().remove(this);
     }
+
+    public int getSize() {
+        return student_course.size();
+    }
+    public boolean isFull() {
+        return student_course.size() >= maxSize;
+    }
 }
