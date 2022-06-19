@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import team2.capSystem.helper.lecturerCoursesTaught;
 import team2.capSystem.helper.nominalRoll;
@@ -19,6 +21,7 @@ import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.LecturerRepository;
+import team2.capSystem.services.CourseService;
 import team2.capSystem.services.LecturerService;
 
 @Controller
@@ -30,9 +33,7 @@ public class LecturerController {
 
 	@Autowired
 	private LecturerService lecturerService;
-
-	// @Autowired
-	// private CourseService courseService;
+	
 
 	@RequestMapping(value = "/dashboard")
 	public String displayDashboard(Model model) {
@@ -70,14 +71,17 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/course-enrolment/{courseId}/{course_batch_id}")
-	public String viewCourseEnrol(HttpSession session, Model model) {
+	public String viewCourseEnrol(HttpSession session, Model model, @PathVariable int course_batch_id) {
 	
 		ArrayList<nominalRoll> nomRoll =new ArrayList<nominalRoll>();
 		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 		Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-		//to replace with proper filter
-		CourseDetail cd = lecturer.getCourses().get(0);
-				
+		CourseDetail cd = lecturer.getCourses()
+				.stream()
+				.filter(x -> x.getId() ==course_batch_id)
+				.findFirst()
+				.get();
+		
 		
 		List<StudentCourse> scList = lecturerService.getSCList(cd);
 		if (scList.isEmpty()) {
