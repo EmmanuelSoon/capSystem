@@ -4,6 +4,20 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
+		<form>
+			<div class="row my-3">
+				<div class="col-3 mr-1">
+					<label for="startDate">Course Name/Description</label>
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+				<div class="col-3 mt-4">
+					<button type="submit" class="btn btn-success btn-outline ">
+						<i class="fa fa-search ml mr-2"></i>
+						Search
+					</button>
+				</div>
+			</div>
+		</form>
 		<h3>Student Course</h3>
 		<h4>Current Grade=5.0</h4>
 		<div>
