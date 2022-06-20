@@ -9,13 +9,14 @@ class CourseDetail extends Component {
         super(props);
         this.state = {
             batches : [],
-            id : this.props.match.params.id
+            id : this.props.match.params.id,
+            isLoaded: false
         }
     }
     async componentDidMount() {
         fetch('/admin/coursedetails/' + this.state.id)
             .then(response => response.json())
-            .then(data => this.setState({batches: data}));
+            .then(data => this.setState({batches: data, isLoaded: true}));
     }
 
     render() {
@@ -24,6 +25,10 @@ class CourseDetail extends Component {
                 <div>Invalid Access!</div>
             );
         }
+        if (!this.state.isLoaded) {
+            return <p>Loading...</p>;
+        }
+
         const batches = this.state.batches;
 
         const action = (batch) =>{
