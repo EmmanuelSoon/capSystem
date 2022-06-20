@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Navbar, NavbarBrand, Nav,NavbarToggler, Collapse, NavItem} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import {Navbar, NavbarBrand, Nav,NavbarToggler, Collapse, NavItem, Button} from 'reactstrap';
+import { NavLink, withRouter, Link } from 'react-router-dom';
 
 import logo from '../assets/images/logo.jpg'
 
@@ -9,15 +9,23 @@ class Header extends Component {
     constructor(props){
         super(props);
         this.state = { 
-            isNavOpen: false
+            isNavOpen: false,
+
         };
         this.toggleNav = this.toggleNav.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     toggleNav(){
         this.setState({ //swapping the value, if it is false, change to true
             isNavOpen: !this.state.isNavOpen
         });
+    }
+
+    handleLogOut(){
+        sessionStorage.clear();
+        window.location.reload(false);
+        //this.props.location.push("http://localhost:8080")
     }
 
     render(){
@@ -53,7 +61,11 @@ class Header extends Component {
                                         View Lecturers
                                     </NavLink>
                                 </NavItem>
-
+                            </Nav>
+                            <Nav className='ml-auto' navbar>
+                                <NavItem>
+                                    <Button outline onClick={this.handleLogOut}><span className="fa fa-sign-in fa-lg"></span> Log Out</Button>
+                                </NavItem>
                             </Nav>
                         </Collapse>    
                     </div>
@@ -64,4 +76,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);
