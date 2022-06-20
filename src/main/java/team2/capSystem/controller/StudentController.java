@@ -95,6 +95,14 @@ public class StudentController {
         return "students/student-profile";
     }
 
+    @RequestMapping("/editProfile")
+    public String editStudentProfile(Model model, HttpSession session){
+        // userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        // Student student = studService.getStudentProfile(usd);
+        // model.addAttribute("student", student);
+        return "students/student-updateProfile";
+    }
+
     @RequestMapping("")
     public String editStudentProfile(){
         return "";
