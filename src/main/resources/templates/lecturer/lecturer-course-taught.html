@@ -9,57 +9,55 @@
 <body>
 	<header th:replace="fragments/header :: menu"></header>
 	<div class="container">
-		<form th:action="@{/lecturer/course-taught}" method="get">
-			<div class="row my-3">
-				<div class="col-3 mr-1">
-					<label for="Search">Search</label>
-					<input type="text" name="keyword" class="form-control py-2" placeholder="Search by Course Name"
-						th:value="${keyword}">
+		<form action="#" th:action="@{/lecturer/course-taught}" method="get" th:object="${lecturerCourseStudentSearch}">
+			<form th:action="@{/lecturer/course-taught}" method="get">
+				<div class="row my-3">
+					<div class="col-3 mr-1">
+						<label for="Search">Search</label>
+						<input type="text" class="form-control py-2" placeholder="Search by Course Name"
+							th:field="*{keyword}">
+					</div>
+					<div class="col-3 mt-4">
+						<button type="submit" class="btn btn-success btn-outline ">
+							<i class="fa fa-search ml mr-2"></i>
+							Search
+						</button>
+					</div>
 				</div>
-				<div class="col-3 mt-4">
-					<button type="submit" class="btn btn-success btn-outline ">
-						<i class="fa fa-search ml mr-2"></i>
-						Search
-					</button>
+				<div>
+					<label for="SearchToolTip" style="color: green; font-size: 11px;">*Reset Search to view the list of
+						all
+						the courses.</label>
 				</div>
-				<div class="col-3 mt-4">
-					<a th:href="@{/lecturer/course-taught}" type="submit" class="btn btn-success btn-outline ">
-						<i class="fa fa-search ml mr-2"></i>
-						Reset Search</a>
-				</div>
-			</div>
-			<div>
-			<label for="SearchToolTip" style="color: green; font-size: 11px;">*Reset Search to view the list of all the courses.</label>
-			</div>
-		</form>
-		<br>
-		<table class="table table-striped" th:object="${lecturerCourseTaught}">
-			<tr>
-				<th> Batch Number</th>
-				<th> Course Name </th>
-				<th> Course Description </th>
-				<th> Course Start Date </th>
-				<th> Course End Date </th>
-				<th> View Course Enrollment </th>
-			</tr>
-			<tr th:if="${lecturerCourseTaught.empty}">
-				<td colspan="4" class="p-4 border">No Course(s) Assigned!</td>
-			</tr>
-			<tr th:each="lectCrsTght : ${lecturerCourseTaught}">
-				<td align="left" th:text="${lectCrsTght.courseBatchId}">Course Batch Id</td>
-				<td align="left" th:text="${lectCrsTght.courseName}">Course Name</td>
-				<td align="left" th:text="${lectCrsTght.courseDescription}">Course Description</td>
-				<td align="left" th:text="${lectCrsTght.startDate}">Course Start Date</td>
-				<td align="left" th:text="${lectCrsTght.endDate}">Course End Date</td>
+			</form>
+			<br>
+			<table class="table table-striped" th:object="${lecturerCourseTaught}">
+				<tr>
+					<th> Batch Number</th>
+					<th> Course Name </th>
+					<th> Course Description </th>
+					<th> Course Start Date </th>
+					<th> Course End Date </th>
+					<th> View Course Enrollment </th>
+				</tr>
+				<tr th:if="${lecturerCourseTaught.empty}">
+					<td colspan="4" class="p-4 border">No Course(s) Assigned!</td>
+				</tr>
+				<tr th:each="lectCrsTght : ${lecturerCourseTaught}">
+					<td align="left" th:text="${lectCrsTght.courseBatchId}">Course Batch Id</td>
+					<td align="left" th:text="${lectCrsTght.courseName}">Course Name</td>
+					<td align="left" th:text="${lectCrsTght.courseDescription}">Course Description</td>
+					<td align="left" th:text="${lectCrsTght.startDate}">Course Start Date</td>
+					<td align="left" th:text="${lectCrsTght.endDate}">Course End Date</td>
 
-				<td>
-					<a th:href="@{/lecturer/course-enrolment/}+${lectCrsTght.courseId}+'/'+${lectCrsTght.courseBatchId}"
-						class="btn btn-success btn-outline">
-						<span> View Details </span></a>
-				</td>
-			</tr>
+					<td>
+						<a th:href="@{/lecturer/course-enrolment/}+${lectCrsTght.courseId}+'/'+${lectCrsTght.courseBatchId}"
+							class="btn btn-success btn-outline">
+							<span> View Details </span></a>
+					</td>
+				</tr>
 
-		</table>
+			</table>
 	</div>
 	<div th:replace="fragments/header :: jsLink"></div>
 </body>

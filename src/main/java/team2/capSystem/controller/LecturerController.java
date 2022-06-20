@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import team2.capSystem.helper.courseDetailSearchQuery;
+import team2.capSystem.helper.lecturerCourseStudentSearch;
 import team2.capSystem.helper.lecturerCoursesTaught;
 import team2.capSystem.helper.nominalRoll;
 import team2.capSystem.helper.studentTranscript;
@@ -44,32 +45,26 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/course-taught")
-	public String viewCoursetaught(HttpSession session, Model model, String keyword) {
+	public String viewCoursetaught(HttpSession session, Model model,
+			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 
 		try {
 			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-			List<CourseDetail> courseDetail = lecturer.getCourses()
-					.stream()
-					.distinct()
-					.collect(Collectors.toList());
+			List<CourseDetail> courseDetail = lecturer.getCourses().stream().distinct().collect(Collectors.toList());
 
 			for (CourseDetail crsdtl : courseDetail) {
 				Course course = crsdtl.getCourse();
-				lecturerCoursesTaught lectght = lecturerCoursesTaught.builder()
-						.courseBatchId(crsdtl.getId())
-						.courseId(course.getCourseId())
-						.courseName(course.getName())
-						.courseDescription(course.getDescription())
-						.startDate(crsdtl.getStartDate())
-						.endDate(crsdtl.getEndDate())
-						.build();
+				lecturerCoursesTaught lectght = lecturerCoursesTaught.builder().courseBatchId(crsdtl.getId())
+						.courseId(course.getCourseId()).courseName(course.getName())
+						.courseDescription(course.getDescription()).startDate(crsdtl.getStartDate())
+						.endDate(crsdtl.getEndDate()).build();
 				{
-					if (keyword == null || keyword == "") {
+					if (keyword.keywordNullOrEmpty()) {
 						lectCrsTght.add(lectght);
-					} else if (keyword != null && keyword != ""
-							&& lectght.getCourseName().toLowerCase().contains(keyword.toLowerCase())) {
+					} else if (!keyword.keywordNullOrEmpty()
+							&& lectght.getCourseName().toLowerCase().contains(keyword.getKeyword().toLowerCase())) {
 						lectCrsTght.add(lectght);
 					}
 				}
@@ -83,16 +78,14 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/course-enrolment/{courseId}/{course_batch_id}")
-	public String viewCourseEnrol(HttpSession session, Model model, @PathVariable int course_batch_id) {
+	public String viewCourseEnrol(HttpSession session, Model model, @PathVariable int course_batch_id,
+			@PathVariable int courseId,
+			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 
 		ArrayList<nominalRoll> nomRoll = new ArrayList<nominalRoll>();
 		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 		Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-		CourseDetail cd = lecturer.getCourses()
-				.stream()
-				.filter(x -> x.getId() == course_batch_id)
-				.findFirst()
-				.get();
+		CourseDetail cd = lecturer.getCourses().stream().filter(x -> x.getId() == course_batch_id).findFirst().get();
 
 		List<StudentCourse> scList = lecturerService.getSCList(cd);
 		if (scList.isEmpty()) {
@@ -100,15 +93,21 @@ public class LecturerController {
 		} else {
 			for (StudentCourse sc : scList) {
 				Student student = sc.getStudent();
-				nominalRoll singleRecNominalRoll = nominalRoll.builder()
-						.studentId(student.getStudentId())
-						.studentName(student.getName())
-						.studentEmail(student.getEmail())
-						.build();
-				
-				nomRoll.add(singleRecNominalRoll);
+				nominalRoll singleRecNominalRoll = nominalRoll.builder().studentId(student.getStudentId())
+						.studentName(student.getName()).studentEmail(student.getEmail()).build();
+				{
+					if (keyword.keywordNullOrEmpty()) {
+						nomRoll.add(singleRecNominalRoll);
+					} else if (!keyword.keywordNullOrEmpty() && (singleRecNominalRoll.getStudentName().toLowerCase()
+							.contains(keyword.getKeyword().toLowerCase()))) {
+						nomRoll.add(singleRecNominalRoll);
+					}
+				}
 			}
 			model.addAttribute("nominalRoll", nomRoll);
+			model.addAttribute("courseId", courseId);
+			model.addAttribute("course_batch_id", course_batch_id);
+
 		}
 		return "/lecturer/lecturer-view-enrolment";
 	}
@@ -128,12 +127,9 @@ public class LecturerController {
 			model.addAttribute("studentTranscript", "NoData");
 		} else {
 			for (StudentCourse sc : scList) {
-				studentTranscript singleModRec = studentTranscript.builder()
-						.courseBatchId(sc.getId())
-						.courseName(sc.getCourse().getCourse().getName())
-						.dateOfCompletion(sc.getCourse().getEndDate())
-						.gpa(sc.getGpa())
-						.build();
+				studentTranscript singleModRec = studentTranscript.builder().courseBatchId(sc.getId())
+						.courseName(sc.getCourse().getCourse().getName()).dateOfCompletion(sc.getCourse().getEndDate())
+						.gpa(sc.getGpa()).build();
 				studTS.add(singleModRec);
 			}
 			model.addAttribute("studentTranscript", studTS);
