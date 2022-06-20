@@ -4,13 +4,20 @@ import { Link } from 'react-router-dom';
 
 class Home extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            token: JSON.parse(sessionStorage.getItem('token')),
+        };
+
+    }
 
     render(){
         return (
             <div className='container'>
                 <div className='row'>
                     <div className='col-10 mt-5'>
-
+                        <h2>Welcome {this.state.token.token}</h2>
                             <Card className='col-4 mb-3'>
                                 <CardBody>
                                     <CardTitle tag="h5">

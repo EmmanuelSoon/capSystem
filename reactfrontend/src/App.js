@@ -1,25 +1,30 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 
 
 import Main from './Components/MainComponent'
-
-class App extends Component {
-
-
-  render() {
-    return (
-      <BrowserRouter>
-        <div>
-          <Main/>
-        </div>
-      </BrowserRouter>
+import Login from './Components/LoginComponent'
+import useToken from './Components/useToken';
 
 
-    )
+
+function App(){
+  const { token, setToken } = useToken();
+
+  if(!token){
+    return <Login setToken={setToken}/>
   }
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Main />
+      </div>
+    </BrowserRouter>
+  )
 }
+
 
 
 
