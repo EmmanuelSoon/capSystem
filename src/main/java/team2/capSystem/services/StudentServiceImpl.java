@@ -15,6 +15,7 @@ import org.springframework.stereotype.*;
 
 import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.exceptions.TestException;
+import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
@@ -104,36 +105,35 @@ public class StudentServiceImpl implements StudentService {
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
 		List<StudentCourse> studentCourseList= scRepository.findSCByStudentId(usd.getUserId());
-		studentCourseList = studentCourseList.stream()
-				.filter(x->x.getGpa() > 0)
-				.collect(Collectors.toList());
 		return studentCourseList;
 	}
 
-	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, String keyword, String startDate, String endDate){
-		List<StudentCourse> takenCourse = getStudentCourseBySession(usd);
+	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, courseDetailSearchQuery search){
+		List<StudentCourse> takenCourse = findCoursesByStudentId(usd.getUserId());
 		List<CourseDetail> courseList = new ArrayList<CourseDetail>();
 		List<CourseDetail> availCourse = new ArrayList<CourseDetail>();
 
-		if (startDate != null && endDate == null){
-			courseList = cdRepository.findByStartDateAfter(LocalDate.parse(startDate));
+		if (!search.startNullOrEmpty()){
+			if(!search.endNullOrEmpty()){
+				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(search.getStartDate()), LocalDate.parse(search.getEndDate()));
+			}
+			else if(search.endNullOrEmpty()){
+				courseList = cdRepository.findByStartDateAfter(LocalDate.parse(search.getStartDate()));
+			}
 		}
-		else if(startDate == null && endDate !=null){
-			courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(startDate), LocalDate.parse(endDate));
-		}
-		else if (startDate != null && endDate !=null){
-			courseList = cdRepository.findByEndDateBefore(LocalDate.parse(endDate));
-		}
+		else if(!search.endNullOrEmpty()){
+				courseList = cdRepository.findByEndDateBefore(LocalDate.parse(search.getEndDate()));
+			}
 		else{
 			courseList = cdRepository.findByStartDateAfter(LocalDate.now());
-		}
+		}	
 		
 		for (StudentCourse sc : takenCourse){
 			courseList = courseList.stream()
                .filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
                .collect(Collectors.toList());
 		}
-
+		String keyword = search.getKeyword();
 		if (keyword != null && keyword != ""){
 			for (CourseDetail course: courseList){
 				if (course.getCourse().getName().toLowerCase().contains(keyword.toLowerCase()) || course.getCourse().getDescription().toLowerCase().contains(keyword.toLowerCase())){

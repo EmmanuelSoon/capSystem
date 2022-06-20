@@ -2,6 +2,7 @@ package team2.capSystem.services;
 
 import java.util.List;
 
+import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 
@@ -28,7 +29,7 @@ public interface StudentService {
 	
 	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);
 
-	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, String keyword, String startDate, String endDate);
+	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, courseDetailSearchQuery search);
 
 	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
 

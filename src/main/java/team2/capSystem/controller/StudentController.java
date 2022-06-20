@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import team2.capSystem.exceptions.RequestException;
+import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Student;
@@ -60,9 +61,9 @@ public class StudentController {
     }
 
     @RequestMapping(path = "/enroll*")
-    public String showAvailbleCourses(HttpSession session, Model model, String keyword, String startDate, String endDate){
+    public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("CourseDetailSearchQuery") courseDetailSearchQuery search){
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, keyword, startDate, endDate);
+        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, search);
         model.addAttribute("enrollCourses", enrollCourses);
 
         return "students/student-enroll-course";
