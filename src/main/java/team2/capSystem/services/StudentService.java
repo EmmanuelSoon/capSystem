@@ -48,5 +48,7 @@ public interface StudentService {
 	void removeStudentCourse(StudentCourse sc);
 
 	List<CourseDetail> findAvailableCoursesByStudentId(int id);
+
+	Double getAverageGPA(int id);
 }
 

@@ -56,8 +56,11 @@ public class StudentController {
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
         List<StudentCourse> current = studService.findStudentCoursesUngraded(usd.getUserId());
         List<StudentCourse> hist = studService.findStudentCoursesGraded(usd.getUserId());
+        Double getAverageGPA=studService.getAverageGPA(usd.getUserId());
+        System.out.println(getAverageGPA);
         model.addAttribute("studCourse", current);
         model.addAttribute("studHist", hist);
+        model.addAttribute("avgGPA", getAverageGPA);
         return "students/student-course";
 
     }

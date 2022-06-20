@@ -110,6 +110,16 @@ public class StudentServiceImpl implements StudentService {
 		return courseList;
 	}
 
+	public Double getAverageGPA(int id){
+		List<StudentCourse> courseList = findStudentCoursesGraded(id);
+		Double averageGPA=courseList.stream()
+				.mapToDouble(x->x.getGpa())
+				.average()
+				.getAsDouble();
+		return averageGPA;
+	}
+
+
 	public List<StudentCourse> findStudentCoursesUngraded(int id){
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
 		courseList = courseList.stream()
