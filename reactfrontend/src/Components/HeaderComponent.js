@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Navbar, NavbarBrand, Nav,NavbarToggler, Collapse, NavItem, Button} from 'reactstrap';
+import {Navbar, NavbarBrand, Nav,NavbarToggler, Collapse, NavItem, Button, Container} from 'reactstrap';
 import { NavLink, withRouter, Link } from 'react-router-dom';
 
 import logo from '../assets/images/logo.jpg'
@@ -33,7 +33,7 @@ class Header extends Component {
 
             <React.Fragment> 
                 <Navbar dark expand="md"> 
-                    <div className = "container">
+                    <Container>
                         <NavbarToggler onClick={this.toggleNav} />
                         <NavbarBrand className="mr-auto" href = "/">
                             <img src={logo} height="40" width="41"
@@ -62,13 +62,13 @@ class Header extends Component {
                                     </NavLink>
                                 </NavItem>
                             </Nav>
-                            <Nav className='ml-auto' navbar>
-                                <NavItem>
-                                    <Button outline onClick={this.handleLogOut}><span className="fa fa-sign-in fa-lg"></span> Log Out</Button>
+                            <Nav className='ms-auto' navbar>
+                                <NavItem >
+                                    <Button outline onClick={this.handleLogOut}>Log Out<span className="fa fa-sign-in fa-lg"></span></Button>
                                 </NavItem>
                             </Nav>
                         </Collapse>    
-                    </div>
+                    </Container>
                 </Navbar>
 
             </React.Fragment>

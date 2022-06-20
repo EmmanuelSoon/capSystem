@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import {Button, Card, CardBody, CardTitle, CardText, Row} from 'reactstrap';
+import {Button, Card, CardBody, CardTitle, CardText, CardImg, CardHeader} from 'reactstrap';
 import { Link } from 'react-router-dom';
+
+
+import student from '../assets/images/studyingpig.jpg';
+import lecturer from '../assets/images/lecturer.png';
+import courses from '../assets/images/courses.jpg';
+
 
 class Home extends Component {
 
@@ -14,11 +20,12 @@ class Home extends Component {
 
     render(){
         return (
-            <div className='container'>
-                <div className='row'>
-                    <div className='col-10 mt-5'>
-                        <h2>Welcome {this.state.token.token}</h2>
-                            <Card className='col-4 mb-3'>
+            <div className='container' style={{height:"900px"}}>
+                <div className='row align-items-start'>
+                        <h2 className='mt-3 mb-3'>Welcome {this.state.token.token},</h2>
+                        <div className='col-12 col-md m-1'>
+                            <Card body outline color="secondary" className='h-75'>
+                                <CardImg src={student} height='300'></CardImg>
                                 <CardBody>
                                     <CardTitle tag="h5">
                                         Students
@@ -26,11 +33,13 @@ class Home extends Component {
                                     <CardText>
                                         For information about students currently enrolled in the system click here!
                                     </CardText>
-                                    <Button size="sm" color="primary" tag={Link} to={"/admin/student"}>Go to Student Page</Button>
+                                    <Button color="primary" tag={Link} to={"/admin/student"}>Go to Student Page</Button>
                                 </CardBody>
                             </Card>
-
-                        <Card className='col-4 mb-3'>
+                        </div>
+                        <div className='col-12 col-md m-1'>
+                            <Card body outline color="secondary" className='h-75'>
+                                <CardImg src={lecturer} height='300'></CardImg>
                                 <CardBody>
                                     <CardTitle tag="h5">
                                         Lecturers
@@ -38,11 +47,15 @@ class Home extends Component {
                                     <CardText>
                                         For information about Lecturers currently teaching in the system click here!
                                     </CardText>
-                                    <Button size="sm" color="secondary" tag={Link} to={"/admin/lecturer"}>Go to Lecturer Page</Button>
+                                    <Button color="secondary" tag={Link} to={"/admin/lecturer"}>Go to Lecturer Page</Button>
                                 </CardBody>
                             </Card>
+                        </div>
+                        <div className='col-12 col-md m-1'>
 
-                        <Card className='col-4 mb-3 '> 
+                            <Card body outline color="secondary" className='h-75'> 
+                            <CardImg src={courses} height='300'></CardImg>
+
                                 <CardBody>
                                     <CardTitle tag="h5">
                                         Courses
@@ -50,12 +63,10 @@ class Home extends Component {
                                     <CardText>
                                         For information about Courses available in the system click here!
                                     </CardText>
-                                    <Button size="sm" color="info" tag={Link} to={"/admin/courselist"}>Go to Courses Page</Button>
+                                    <Button color="info" tag={Link} to={"/admin/courselist"}>Go to Courses Page</Button>
                                 </CardBody>
                             </Card>
-   
-
-                    </div>
+                        </div>
                 </div>
             </div>
 
