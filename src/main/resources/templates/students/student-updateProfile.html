@@ -11,18 +11,27 @@
 
 		
 		<div>
-			<table class="table table-striped" th:object="${student}">
+		<form th:action="@{/student/updatedProfile}" th:object="${student}" method="post">
+			<table class="table table-striped">
 				<tr>
+				<input type="hidden" th:field="*{studentId}" th:value="${studentId}"/>
+				<input type="hidden" th:field="*{password}" th:value="${password}"/>
 					<th>Student Name</th>
-					<td th:text="${student.name}"></td>
+					<td>
+					<input type="text" th:field="*{name}" th:value="${name}"/>
+					</td>
 				</tr>
 				<tr>
 					<th>Email</th>
-					<td th:text="${student.email}">Email</td>
+					<td>
+					<input type="text" th:field="*{email}" th:value="${email}"/>
+					</td>
 				</tr>
 				<tr>
 					<th>UserName</th>
-					<td th:text="${student.username}">Name</td>
+					<td>
+					<input type="text" th:field="*{username}" th:value="${username}"/>
+					</td>
 				</tr>
                 <tr>
                     <td colspan="2">
@@ -31,6 +40,7 @@
                     </td>
                 </tr>
 			</table>
+		</form>
 		</div>
 
 	</div>

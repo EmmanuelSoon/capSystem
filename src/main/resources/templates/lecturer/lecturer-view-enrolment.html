@@ -5,45 +5,58 @@
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
+	<div class="container">
+		<form action="#" th:action="@{/lecturer/course-enrolment/} + ${courseId} + '/' + ${course_batch_id}"
+			method="get" th:object="${lecturerCourseStudentSearch}">
+			<div class="row my-3">
+				<div class="col-3 mr-1">
+					<label for="Search">Search</label>
+					<input type="text" class="form-control py-2" placeholder="Search by Student Name"
+						th:field="*{keyword}">
+				</div>
+				<div class="col-3 mt-4">
+					<button type="submit" class="btn btn-success btn-outline ">
+						<i class="fa fa-search ml mr-2"></i>
+						Search
+					</button>
+				</div>
+			</div>
+		</form>
+		<div>
+			<h1>Class List</h1>
 
-	<form th:action="@{/Search}" method="get">
-		<input type="text" name="keyword" th:value="${keyword}" placeholder="Find Student" size="50">
-		<button type="submit" class="btn btn-info">Search Students</button>
-		<button type="submit" class="btn btn-info">Reset</button>
-	</form>
-	<div>
-		<h1>Class List</h1>
+		</div>
+		<div>
+			<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
+			<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
+			<th:block th:unless="${nominalRoll=='NoData'}">
 
-	</div>
-	<div>
-		<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
-		<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
-		<th:block th:unless="${nominalRoll=='NoData'}">
+				<table class="table table-stripped" th:object="${nominalRoll}">
 
-			<table class="table table-stripped" th:object="${nominalRoll}">
+					<tr>
+						<th><span>Student Id</span></th>
+						<th><span>Name</span></th>
+						<th><span>Email</span></th>
+						<th><span>View Performance</span></th>
+						<th><span>Grade Student</span></th>
+					</tr>
 
-				<tr>
-					<th><span>Student Id</span></th>
-					<th><span>Name</span></th>
-					<th><span>Email</span></th>
-					<th><span>View Performance</span></th>
-					<th><span>Grade Student</span></th>
-				</tr>
+					<tr th:each="student : ${nominalRoll}">
+						<td align="left" th:text="${student.studentId}"></td>
+						<td align="left" th:text="${student.studentName}">Name</td>
+						<td align="left" th:text="${student.studentEmail}">Email</td>
+						<td align="left"><a th:href="@{/lecturer/student-performance}+'/'+${student.studentId}"
+								class="btn btn-default">View
+								Performance</a>
+						</td>
+						<td align-"left"><a
+								th:href="@{/lecturer/student-performance}+'/'+${student.studentId}+'/grading'">
+								dummy text</a></td>
+					</tr>
+				</table>
 
-				<tr th:each="student : ${nominalRoll}">
-					<td align="left" th:text="${student.studentId}"></td>
-					<td align="left" th:text="${student.studentName}">Name</td>
-					<td align="left" th:text="${student.studentEmail}">Email</td>
-					<td align="left"><a th:href="@{/lecturer/student-performance}+'/'+${student.studentId}"
-							class="btn btn-default">View
-							Performance</a>
-					</td>
-					<td align-"left" ><a th:href="@{/lecturer/student-performance}+'/'+${student.studentId}+'/grading'">
-					dummy text</a></td>
-				</tr>
-			</table>
-
-		</th:block>
+			</th:block>
+		</div>
 	</div>
 
 	<div th:replace="fragments/header.html :: jsLink"></div>
