@@ -112,6 +112,33 @@ public class CourseServiceImpl implements CourseService {
 	public void deleteCourseById(int id){
 		Course course = courseRepository.findById(id).get();
 		if(course != null){
+            List<CourseDetail> cdList = course.getCourseDetails();
+            List<StudentCourse> scList = new ArrayList<StudentCourse>();
+
+            for (CourseDetail cd : cdList){
+                for(StudentCourse sc : cd.getStudent_course()){
+                    scList.add(sc);
+                }
+            }
+
+            for (StudentCourse sc : scList){
+                Student student = studentRepository.getReferenceById(sc.getStudent().getStudentId());
+                CourseDetail cd = cdRepository.getReferenceById(sc.getCourse().getId());
+                student.getCourses().remove(sc);
+                cd.getStudent_course().remove(sc);
+                studentRepository.save(student);
+                cdRepository.save(cd);
+                scRepository.delete(sc);
+            }
+
+            for (CourseDetail cd: cdList){
+                for (Lecturer lecturer : cd.getLecturers()){
+                    lecturer.getCourses().remove(cd);
+                    lecturerRepository.save(lecturer);
+                }
+            }
+            course.getCourseDetails().clear();
+            courseRepository.save(course);
 			courseRepository.delete(course);
 		}
 		else{
