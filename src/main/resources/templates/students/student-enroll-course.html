@@ -6,25 +6,25 @@
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
 		<h3>Enroll in a Course</h3>
-		<form action="#" th:action="@{/enroll/}" method="post">
+		<form action="#" th:action="@{/student/enroll}" method="get">
 			<div class="row my-3">
 				<div class="col-3 mr-1">
-					<label for="startDate">Name and Description</label>
-					<input type="text" class="form-control py-2" placeholder="First name">
+					<label for="Search">Search</label>
+					<input type="text" class="form-control py-2" placeholder="Search" th:value="${keyword}" name="keyword">
 				</div>
 				<div class="col-3 mr-1">
 					<label for="startDate">Start Date</label>
-					<input type="date" class="form-control" placeholder="Last name">
+					<input type="date" class="form-control" th:value="${startDate}" name="startDate">
 				</div>
 				<div class="col-3 mr-1">
-					<label for="startDate">Start Date</label>
-					<input type="date" class="form-control" placeholder="Last name">
+					<label for="startDate">End Date</label>
+					<input type="date" class="form-control" th:value="${endDate}" name="endDate">
 				</div>
 				<div class="col-3 mt-4">
 					<button type="submit" class="btn btn-success btn-outline ">
-						<i class="fa fa-search ml mr-2"></i>
-						Search
-					</button>
+                        <i class="fa fa-search ml mr-2"></i>
+                        Search
+                </button>
 				</div>
 			</div>
 		</form>

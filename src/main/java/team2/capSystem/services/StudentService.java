@@ -28,11 +28,13 @@ public interface StudentService {
 	
 	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);
 
-	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd);
+	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, String keyword, String startDate, String endDate);
 
-	String studentEnrollCourse(userSessionDetails usd, int courseDetailId);
+	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
 
 	List<StudentCourse> findCoursesByStudentId(int id);
+
+	Student getStudentProfile(userSessionDetails usd);
 
 	List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList);
 
@@ -41,5 +43,4 @@ public interface StudentService {
 	void removeStudentCourse(StudentCourse sc);
 
 	List<CourseDetail> findAvailableCoursesByStudentId(int id);
-}
 

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Student;
@@ -59,11 +59,12 @@ public class StudentController {
 
     }
 
-    @RequestMapping(path = "/enroll")
-    public String showAvailbleCourses(HttpSession session, Model model){
+    @RequestMapping(path = "/enroll*")
+    public String showAvailbleCourses(HttpSession session, Model model, String keyword, String startDate, String endDate){
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd);
+        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, keyword, startDate, endDate);
         model.addAttribute("enrollCourses", enrollCourses);
+
         return "students/student-enroll-course";
 
     }
@@ -71,14 +72,26 @@ public class StudentController {
     @RequestMapping("/enrollCourse/" )
     public String enrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        String returnString = studService.studentEnrollCourse(usd,id);
-        System.out.println(returnString);
+        try {
+            studService.studentEnrollCourse(usd,id);
+        } catch (RequestException e) {
+            //TODO: handle exception
+        }
+        
     	return "redirect:/student/course-history";
     }
 
     @RequestMapping("/profile")
-    public String showProfile(HttpSession session,Model model){
+    public String displayStudentProfile(Model model, HttpSession session){
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        Student student = studService.getStudentProfile(usd);
+        model.addAttribute("student", student);
         return "students/student-profile";
+    }
+
+    @RequestMapping("")
+    public String editStudentProfile(){
+        return "";
     }
 
 

@@ -13,6 +13,8 @@ import javax.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
+import team2.capSystem.exceptions.RequestException;
+import team2.capSystem.exceptions.TestException;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
@@ -100,30 +102,59 @@ public class StudentServiceImpl implements StudentService {
 		return studentCourseList;
 	}
 
-	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd){
+	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, String keyword, String startDate, String endDate){
 		List<StudentCourse> takenCourse = getStudentCourseBySession(usd);
-		List<CourseDetail> availCourse = cdRepository.findByStartDateAfter(LocalDate.now());
+		List<CourseDetail> courseList = new ArrayList<CourseDetail>();
+		List<CourseDetail> availCourse = new ArrayList<CourseDetail>();
+
+		if (startDate != null && endDate == null){
+			courseList = cdRepository.findByStartDateAfter(LocalDate.parse(startDate));
+		}
+		else if(startDate == null && endDate !=null){
+			courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(startDate), LocalDate.parse(endDate));
+		}
+		else if (startDate != null && endDate !=null){
+			courseList = cdRepository.findByEndDateBefore(LocalDate.parse(endDate));
+		}
+		else{
+			courseList = cdRepository.findByStartDateAfter(LocalDate.now());
+		}
 		
 		for (StudentCourse sc : takenCourse){
-			availCourse = availCourse.stream()
+			courseList = courseList.stream()
                .filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
                .collect(Collectors.toList());
+		}
+
+		if (keyword != null && keyword != ""){
+			for (CourseDetail course: courseList){
+				if (course.getCourse().getName().toLowerCase().contains(keyword.toLowerCase()) || course.getCourse().getDescription().toLowerCase().contains(keyword.toLowerCase())){
+					availCourse.add(course);
+				}
+			}
+		}
+		else{
+			availCourse = courseList;
 		}
 
 		return availCourse;
 	}
 
-	public String studentEnrollCourse(userSessionDetails usd, int courseDetailId){
-		//add check for class size limit
+	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId){
+		//double check the edge cases here
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
 		if (cd.getMaxSize() > enrolled.size()){
-			addCourseDetailToStudent(student, cd);
-			return "Enrollment succesful";
+		 	addCourseDetailToStudent(student, cd);
 		}
-		return "Enrollment not succesful";
+		else{
+			throw new RequestException("Unable to enroll, class is full");
+		}
+	}
 
+	public Student getStudentProfile(userSessionDetails usd){
+		return getStudent(usd.getUser());
 	}
 
 	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList){

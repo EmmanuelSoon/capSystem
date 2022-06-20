@@ -15,41 +15,24 @@
         </div>
 		
 		<div>
-			<table class="table table-striped" th:object="${}">
+			<table class="table table-striped" th:object="${student}">
 				<tr>
 					<th>Student Name</th>
-					<th>Email</th>
+					
 					<th>username</th>
                     <th>password</th>
 				</tr>
-				<tr th:if="${}">
-					<td colspan="4" class="p-4 border">No Course Available!!!</td>
+				<tr>
+					<th>Email</th>
+					<td th:text="${student.email}">Email</td>
 				</tr>
-				<!--<tr th:each="ac: ${enrollCourses}">
-					<td th:text="${ac.course.name}">Course Name</td>
-					<td th:text="${ac.course.description}">Course Description</td>
-					<td th:text="${ac.startDate}">Course Start Date</td>
-					<td th:text="${ac.endDate}">Course End Date</td>
-					<!-- <td>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-							Enroll
-						</button>
-					</td> 
+				<tr>
+					<td th:text="${student.name}">Name</td>
+					
+					<td th:text="${student.username}">Username</td>
+					<td th:text="${student.password}">Password</td>
 					<td>
-						<form action="#" th:action="@{/student/enrollCourse/}" method="post">
-							<input type="hidden" th:value="${ac.id}" name="cdId">
-							<button type="submit" class="btn btn-primary">
-								Enroll
-							</button>
-						</form>
-					</td>
-				</tr>-->
-                <tr>
-                    <td>Student Name</td>
-					<td>Email</td>
-					<td>username</td>
-                    <td>password</td>
-                </tr>
+				</tr>
 			</table>
 		</div>
 

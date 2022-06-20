@@ -3,6 +3,7 @@ package team2.capSystem.exceptions;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,13 +18,14 @@ public class MyExceptionHandler {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         TestException testException = new TestException(
             e.getMessage(),
-            e, 
             badRequest,
             ZonedDateTime.now(ZoneId.of("Z")));
         //return response entity
-        return new ResponseEntity<>(testException, badRequest);
+        return new ResponseEntity<Object>(testException, badRequest);
 
 
     }
+
+
 }
  

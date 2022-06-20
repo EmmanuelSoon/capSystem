@@ -1,9 +1,12 @@
 package team2.capSystem.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import team2.capSystem.helper.userSessionDetails;
@@ -33,42 +36,48 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login/authenticate")
-	public String login(@ModelAttribute("user") User user, HttpSession session, @RequestParam("LoginAs") String role) {
-		
-		switch(role) {
+	public String login(@ModelAttribute("user") @Valid User user, BindingResult bindingresult, HttpSession session,
+			@RequestParam("LoginAs") String role) {
+
+		if(bindingresult.hasErrors())
+		{
+			return "login";
+		}
+		switch (role) {
 		case "admin":
 			Admin adm = adminService.getAdmin(user);
-			if(adm != null) {
+			if (adm != null) {
 				userSessionDetails p = new userSessionDetails(adm, adm.getStaffId(), role);
 				session.setAttribute("userSessionDetails", p);
 				return "forward:/admin/dashboard";
 			}
 			break;
-			
+
 		case "lecturer":
 			Lecturer lec = lecturerService.getLecturer(user);
-			if(lec != null) {
+			if (lec != null) {
 				userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
 				session.setAttribute("userSessionDetails", p);
 				return "forward:/lecturer/dashboard";
 			}
 			break;
-			
+
 		case "student":
 			Student stu = studentService.getStudent(user);
-			if(stu != null) {
+			if (stu != null) {
 				userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
 				session.setAttribute("userSessionDetails", p);
 				return "forward:/student/student-dashboard";
 			}
 			break;
-			
-		default: return "Login";
+
+		default:
+			return "Login";
 		}
-		
+
 		return "Login";
 	}
-	
+
 	@RequestMapping("/logout")
 	public String logout(Model model, HttpSession session) {
 		session.invalidate();

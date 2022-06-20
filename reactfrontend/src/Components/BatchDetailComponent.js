@@ -28,7 +28,6 @@ class BatchDetail extends Component {
         }
 
         const students = batch.student_course;
-
         const getGPA = ({gpa}) => {
             if (gpa < 0) {
                 return (
@@ -62,13 +61,13 @@ class BatchDetail extends Component {
             return (
               <div className="row">
                   <div className="col-12 col-md-4" >
-                      Name :{this.state.batch.course.name}
+                      <strong>Course Name :{ batch.course.name}</strong>
                   </div>
                   <div className="col-12 col-md-4">
-                      Duration: {this.state.batch.startDate} to {this.state.batch.endDate}
+                      <strong>Batch Schedule: { batch.startDate} to { batch.endDate}</strong>
                   </div>
-                  <div>
-                      Batch Size: {this.state.batch.size}/{this.state.batch.maxSize}
+                  <div className="col-12 col-md-4">
+                      <strong>Stduent Registered: { batch.size}/{ batch.maxSize}</strong>
                   </div>
               </div>
             );
@@ -79,12 +78,12 @@ class BatchDetail extends Component {
                     <h2>Stduent Registration Summary</h2>
                 </div>
                 <div>
-                    {batchSummary}
+                    {batchSummary()}
                 </div>
                 <Table className="text-center">
                     <thead>
                     <tr>
-                        <th>index</th>
+                        <th>S/N</th>
                         <th>Stduent ID</th>
                         <th>Stduent Name</th>
                         <th>GPA</th>

@@ -17,4 +17,11 @@ public interface CourseDetailRepository extends JpaRepository<CourseDetail, Inte
 
     @Query("SELECT cd FROM CourseDetail cd WHERE cd.course = :course AND cd.startDate= :start AND cd.endDate = :end")
     CourseDetail findByCourseNameAndTime(Course course, LocalDate start, LocalDate end);
+
+    List<CourseDetail> findByCourseNameLike(String searchString);
+
+    List<CourseDetail> findByStartDateAfterAndEndDateBefore(LocalDate start, LocalDate end);
+
+    List<CourseDetail> findByEndDateBefore(LocalDate date);
+
 }

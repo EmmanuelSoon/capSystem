@@ -6,21 +6,34 @@ class Course extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            courses : []
+            courses : [],
+            isLoaded: false
         }
-
+        this.deleteCourse = this.deleteCourse.bind(this);
     }
 
     async componentDidMount() {
         fetch('/admin/course')
             .then(response => response.json())
-            .then(data => this.setState({courses: data}));
+            .then(data => this.setState({courses: data, isLoaded: true}));
     }
 
-    render() {
-        const {courses, isLoading} = this.state;
+    async deleteCourse(id) {
+        await fetch(`/admin/course/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            this.setState({courses: this.state.courses.filter(course => course.courseId !== id)})
+        );
+    };
 
-        if (isLoading) {
+    render() {
+        const {courses, isLoaded} = this.state;
+
+        if (!isLoaded) {
             return <p>Loading...</p>;
         }
         const CourseList = courses.map(course => {
@@ -32,7 +45,7 @@ class Course extends Component {
                     <td>
                     <ButtonGroup>
                         <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
-                        <Button color="danger">Delete Course</Button>
+                        <Button color="danger" onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
                     </ButtonGroup></td>
                 </tr>
             );
