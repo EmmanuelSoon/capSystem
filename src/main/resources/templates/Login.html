@@ -1,61 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<!--<head th:replace="fragments/layout.html :: html_head"/>-->
+<header th:replace="fragments/header :: html_head"></header>
+<link rel="stylesheet" th:href="@{/css/login.css}">
 
 <body>
-	<!--<div th:replace="fragments/layout.html :: menu"/>
-	<div th:replace="fragments/layout.html :: header"/> -->
-	<form action="#" th:object="${user}" th:action="@{'/login/authenticate'}" method="post">
-		<table class="framed">
-			<tr>
-				<select id="type" name="LoginAs">
-					<!--<option value="admin">Administrator</option> -->
-					<option value="lecturer">Lecturer</option>
-					<option value="student">Student</option>
-				</select>
-			</tr>
-			<tr>
-				<td><span th:text="username">Username</span></td>
-				<td colspan="3">
-					<fieldset>
-						<input type="text" th:field="*{username}">
-						<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
-					</fieldset>
-				</td>
-			</tr>
-			<tr>
-				<td><span th:text="password">Password</span></td>
-				<td colspan="3">
-					<fieldset> <input type="password" th:field="*{password}">
-						<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-					</fieldset>
-				</td>
+  <div class="container justify-content-center col-5 mt-3">
+    <div class="text-center">
+      <img th:src="@{/images/logo.jpg}" alt="Logo" width="250" height="250" class="rounded-circle" />
+    </div>
+    <form action="#" th:object="${user}" th:action="@{'/login/authenticate'}" method="post">
+      <div class="container border p-5 mt-3 bg-light rounded">
+        <div class="row">
+          <div class="col">
+            <label for="userRole" class="font-weight-bold">Choose Role</label>
+          </div>
+          <div class="col">
+            <select class="form-control" id="type" name="LoginAs" th:value="${LoginAs}">
+              <!-- <option value="admin">Administrator</option> -->
+              <option value="lecturer">Lecturer</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <label for="username" class="font-weight-bold">UserName</label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Enter Username" th:field="*{username}">
+            <p class="text-danger" th:value="${username}" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col">
+                        <label for="password" class="font-weight-bold">Password</label>
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="password" th:field="*{password}" placeholder="Enter Username">
+                        <p class="text-danger" th:value="${password}" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    </div>
+                </div>
+				<a th:href="@{/redirect/admin}">
+					<span> CLICK HERE TO LOGIN AS ADMIN </span>
+				</a>
+                <div class="d-flex justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary mr-5" >LOGIN</button>
+                    <button type="reset" class="btn btn-danger ml-5" >Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-			</tr>
-			<tr>
-				<td colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>
-					<input type="submit" />
-				</td>
-				<td>
-					<input type="reset" />
-				</td>
-			</tr>
-		</table>
-
-		<table>
-			<tr>
-				<td>
-					<a th:href="@{/redirect/admin}" class="btn btn-default">
-						<span> CLICK HERE TO LOGIN AS ADMIN </span></a>
-				</td>
-			</tr>
-		</table>
-	</form>
-	</div>
+<div th:replace="fragments/header :: jsLink"></div>
 </body>
 
 </html>
