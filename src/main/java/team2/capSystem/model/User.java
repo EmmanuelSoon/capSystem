@@ -2,6 +2,8 @@ package team2.capSystem.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.*;
 
@@ -10,7 +12,11 @@ import lombok.*;
 @Data
 public class User {
 	@Column(unique = true)
+	@NotEmpty
+	@NotBlank
     protected String username;
+	@NotEmpty
+	@NotBlank
     protected String password;
     protected String name;
     protected String email;
