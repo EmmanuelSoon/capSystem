@@ -69,8 +69,8 @@ public class LoginController {
 	
 	@RequestMapping(value = "/redirect/admin")
 	public ModelAndView RedirectToAdminController() {
-		String projectUrl = "http://localhost:3000/admin/";
-	    return new ModelAndView("redirect:" + projectUrl);
+		String ReactAppUrl = "http://localhost:3000/admin/";
+	    return new ModelAndView("redirect:" + ReactAppUrl);
 	}
 
 	@RequestMapping("/logout")
