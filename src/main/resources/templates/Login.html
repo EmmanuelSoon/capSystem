@@ -9,13 +9,9 @@
 		<table class="framed">
 			<tr>
 				<select id="type" name="LoginAs">
-					<option value="admin">Administrator</option>
+					<!--<option value="admin">Administrator</option> -->
 					<option value="lecturer">Lecturer</option>
 					<option value="student">Student</option>
-					<!--<option th:each="task : ${tasks}"-->
-					<!--  th:value="${task}"
-                    th:text="${task}">-->
-					<!-- </option>-->
 				</select>
 			</tr>
 			<tr>
@@ -46,6 +42,15 @@
 				</td>
 				<td>
 					<input type="reset" />
+				</td>
+			</tr>
+		</table>
+
+		<table>
+			<tr>
+				<td>
+					<a th:href="@{/redirect/admin}" class="btn btn-default">
+						<span> CLICK HERE TO LOGIN AS ADMIN </span></a>
 				</td>
 			</tr>
 		</table>

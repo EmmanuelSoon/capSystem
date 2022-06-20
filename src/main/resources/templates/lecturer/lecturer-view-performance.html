@@ -12,23 +12,23 @@
 	</div>
 	<div>
 		<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
-		<th:block th:if="${scList=='NoData'}"> Student has not taken any course.</th:block>
-		<th:block th:unless="${scList=='NoData'}">
+		<th:block th:if="${studentTranscript=='NoData'}"> Student has not taken any course.</th:block>
+		<th:block th:unless="${studentTranscript=='NoData'}">
 
-			<table class="table table-stripped" th:object="${scList}">
+			<table class="table table-stripped" th:object="${studentTranscript}">
 
 				<tr>
-					<th><span>Course Id</span></th>
+					<th><span>Course Batch Id</span></th>
 					<th><span>Course Name</span></th>
-					<!--<th><span>Date of Completion</span></th>-->
+					<th><span>Date of Completion</span></th>
 					<th><span>Grade</span></th>
 				</tr>
 
-				<tr th:each="sc: ${scList}">
-					<td align="left" th:text="${sc.course.courseId}">Course Id</td>
-					<td align="left" th:text="${sc.course.name}">Course Name</td>
-					<!--<td align="left" th:text="${student.studentEmail}">Email</td>-->
-					<td align="left" th:text="S{sc.gpa}">Grade</td>
+				<tr th:each="st: ${studentTranscript}">
+					<td align="left" th:text="${st.courseBatchId}">Course Batch Id</td>
+					<td align="left" th:text="${st.courseName}">Course Name</td>
+					<td align="left" th:text="${st.dateOfCompletion}">Date of Completion</td>
+					<td align="left" th:text="${st.gpa}">Grade</td>
 				</tr>
 			</table>
 

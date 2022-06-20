@@ -96,12 +96,27 @@ public class StudentServiceImpl implements StudentService {
 		return sc;
 	}
 
+	//Student controller methods
+
 	public List<StudentCourse> findCoursesByStudentId(int id){
 		return scRepository.findSCByStudentId(id);
-	};
+	}
 
+	public List<StudentCourse> findStudentCoursesGraded(int id){
+		List<StudentCourse> courseList = findCoursesByStudentId(id);
+		courseList = courseList.stream()
+		.filter(x -> x.getGpa() != -1)
+		.collect(Collectors.toList());
+		return courseList;
+	}
 
-	//Student controller methods
+	public List<StudentCourse> findStudentCoursesUngraded(int id){
+		List<StudentCourse> courseList = findCoursesByStudentId(id);
+		courseList = courseList.stream()
+		.filter(x -> x.getGpa() == -1)
+		.collect(Collectors.toList());
+		return courseList;
+	}
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
 		List<StudentCourse> studentCourseList= scRepository.findSCByStudentId(usd.getUserId());
