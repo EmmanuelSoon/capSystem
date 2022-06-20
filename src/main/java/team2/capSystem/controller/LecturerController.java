@@ -37,7 +37,6 @@ public class LecturerController {
 
 	@Autowired
 	private LecturerService lecturerService;
-	
 
 	@RequestMapping(value = "/dashboard")
 	public String displayDashboard(Model model) {
@@ -51,17 +50,26 @@ public class LecturerController {
 			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-			List<CourseDetail> courseDetail = lecturer.getCourses().stream().distinct().collect(Collectors.toList());
+			List<CourseDetail> courseDetail = lecturer.getCourses()
+					.stream()
+					.distinct()
+					.collect(Collectors.toList());
 
 			for (CourseDetail crsdtl : courseDetail) {
 				Course course = crsdtl.getCourse();
-				lecturerCoursesTaught lectght = new lecturerCoursesTaught(crsdtl.getId(), course.getCourseId(),
-						course.getName(), course.getDescription(), crsdtl.getStartDate(), crsdtl.getEndDate());
-
+				lecturerCoursesTaught lectght = lecturerCoursesTaught.builder()
+						.courseBatchId(crsdtl.getId())
+						.courseId(course.getCourseId())
+						.courseName(course.getName())
+						.courseDescription(course.getDescription())
+						.startDate(crsdtl.getStartDate())
+						.endDate(crsdtl.getEndDate())
+						.build();
 				{
 					if (keyword == null || keyword == "") {
 						lectCrsTght.add(lectght);
-					} else if (keyword != null && keyword != "" && lectght.getCourseName().toLowerCase().contains(keyword.toLowerCase())) {
+					} else if (keyword != null && keyword != ""
+							&& lectght.getCourseName().toLowerCase().contains(keyword.toLowerCase())) {
 						lectCrsTght.add(lectght);
 					}
 				}
@@ -76,22 +84,20 @@ public class LecturerController {
 
 	@RequestMapping(value = "/course-enrolment/{courseId}/{course_batch_id}")
 	public String viewCourseEnrol(HttpSession session, Model model, @PathVariable int course_batch_id) {
-	
-		ArrayList<nominalRoll> nomRoll =new ArrayList<nominalRoll>();
+
+		ArrayList<nominalRoll> nomRoll = new ArrayList<nominalRoll>();
 		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 		Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
 		CourseDetail cd = lecturer.getCourses()
 				.stream()
-				.filter(x -> x.getId() ==course_batch_id)
+				.filter(x -> x.getId() == course_batch_id)
 				.findFirst()
 				.get();
-		
-		
+
 		List<StudentCourse> scList = lecturerService.getSCList(cd);
 		if (scList.isEmpty()) {
 			model.addAttribute("nominalRoll", "NoData");
-		}
-		else {
+		} else {
 			for (StudentCourse sc : scList) {
 				Student student = sc.getStudent();
 				nominalRoll singleRecNominalRoll = nominalRoll.builder()
@@ -99,41 +105,39 @@ public class LecturerController {
 						.studentName(student.getName())
 						.studentEmail(student.getEmail())
 						.build();
+				
 				nomRoll.add(singleRecNominalRoll);
 			}
-			model.addAttribute("nominalRoll",nomRoll);
+			model.addAttribute("nominalRoll", nomRoll);
 		}
-		
 		return "/lecturer/lecturer-view-enrolment";
-
 	}
 
 	@RequestMapping(value = "/student-performance/{student_id}/grading")
 	public String gradecourse() {
-		
+
 		return "/lecturer/lecturer-grade-course";
 	}
 
 	@RequestMapping(value = "/student-performance/{student_id}")
 	public String viewStudentPerformance(Model model, @PathVariable int student_id) {
-		ArrayList<studentTranscript> studTS =new ArrayList<studentTranscript>();
+		ArrayList<studentTranscript> studTS = new ArrayList<studentTranscript>();
 		List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
-		
-		if(scList.isEmpty()) {
+
+		if (scList.isEmpty()) {
 			model.addAttribute("studentTranscript", "NoData");
-		}
-		else {
-			for (StudentCourse sc:scList) {
+		} else {
+			for (StudentCourse sc : scList) {
 				studentTranscript singleModRec = studentTranscript.builder()
 						.courseBatchId(sc.getId())
 						.courseName(sc.getCourse().getCourse().getName())
 						.dateOfCompletion(sc.getCourse().getEndDate())
 						.gpa(sc.getGpa())
-						.build();	
+						.build();
 				studTS.add(singleModRec);
 			}
 			model.addAttribute("studentTranscript", studTS);
-			
+
 		}
 		return "/lecturer/lecturer-view-performance";
 	}
