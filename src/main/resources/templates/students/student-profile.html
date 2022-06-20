@@ -5,18 +5,16 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container mt-3">
-		<div class="row mb-5">
+		<div class="row mb-5 d-flex justify-content-between">
             <h3>My Profile</h3>
 			<form th:action="@{/student/editProfile}" method="get">
-				<div class="d-flex justify-content-end">
-					<button type="btn btn-primary">Edit Profile</button>
-				</div>
+				<button type="submit" class="btn btn-primary">Edit Profile</button>
 			</form>
         </div>
 
 		
 		<div>
-			<table class="table table-striped" th:object="${student}">
+			<table class="table table-hover" th:object="${student}">
 				<tr>
 					<th>Student Name</th>
 					<td th:text="${student.name}"></td>

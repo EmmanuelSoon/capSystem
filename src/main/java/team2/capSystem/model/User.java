@@ -2,6 +2,7 @@ package team2.capSystem.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -19,6 +20,7 @@ public class User {
 	@NotBlank
     protected String password;
     protected String name;
+    @Email
     protected String email;
     protected Boolean active = true;
 
