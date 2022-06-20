@@ -41,22 +41,25 @@
   background-color: lightskyblue;
 }
 
-.login{
-  border: 2px solid #d3d3d3;
-  border-radius: .5em;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
-  padding: 1em;
-  text-align: left;
-  width: 600px;
+
+.btn-color{
+  background-color: #0e1c36;
+  color: #fff;
+  
 }
 
-.loginform {
-  padding: 1em;
+.profile-image-pic{
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
 }
 
-label {
-  font-weight: 600;
+
+
+.cardbody-color{
+  background-color: #ebf2fa;
+}
+
+a{
+  text-decoration: none;
 }

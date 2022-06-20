@@ -3,6 +3,7 @@ import {Button, Form, FormGroup, Label, Input, Row} from 'reactstrap'
 import PropTypes from 'prop-types';
 
 import { FormErrors } from './FormErrors';
+import logo from '../assets/images/logo.jpg'
 
 
 
@@ -43,30 +44,38 @@ export default function Login({setToken}) {
 
     return (
         <div>
-            <div className="login">
-                <Row>
-                    <h2><strong>Admin Log In</strong></h2>
-                </Row>
-                <Row>
-                    <Form className="loginform" onSubmit={handleSubmit}>
-                        <FormGroup className="mb-3" size="lg" controlId="text">
-                            <Label>Username</Label>
-                            <Input type="text" name="username" id="username" onChange={e => setUserName(e.target.value)}/>            
-                        </FormGroup>
-                        
-                        <FormGroup className="mb-3" size="lg" controlId="password">
-                            <Label>Password</Label>
-                            <Input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} />            
-                        </FormGroup>
-                        <Button color="primary" outline type="submit">Login</Button>
-                        <div className="panel panel-default">
-                            <FormErrors formErrors={error} />
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3">
+                        <h2 className="text-center text-dark mt-5"><strong>Admin Login Form</strong></h2>
+                        <div className="card my-5">
+                        <form className="card-body cardbody-color p-lg-5" onSubmit={handleSubmit}>
+
+                            <div className="text-center">
+                            <img src={logo} class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                                width="200px" alt="profile"/>
+                            </div>
+
+                            <div className="mb-3">
+                                <Input type="text" name="username" id="username" onChange={e => setUserName(e.target.value)} placeholder="User Name"/>            
+                            </div>
+                            <div className="mb-3">
+                                <Input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} placeholder="Password" />            
+                            </div>
+                            <div className="text-center"><button type="submit" className="btn btn-color px-5 mb-5 w-100">Login</button></div>
+                            <div className="panel panel-default">
+                                            <FormErrors formErrors={error} />
+                            </div>
+                            <div id="emailHelp" class="form-text text-center mb-5 text-dark">
+                                Not an Admin? <a href="http://localhost:8080" class="text-dark fw-bold"> Student/Lecturer Login</a>
+                            </div>
+                        </form>
                         </div>
-                    </Form>
-                </Row>
-                <Button href="http://localhost:8080">Student/Lecturer Login</Button>
+
+                    </div>
+                </div>
             </div>
-        </div>
+    </div>
 
 
     );
