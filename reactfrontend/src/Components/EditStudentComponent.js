@@ -25,7 +25,6 @@ class EditStudent extends Component {
             nameValid: false,
             formValid: false,
             formErrors: {email:'', password:'', username: '', name:''},
-
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
