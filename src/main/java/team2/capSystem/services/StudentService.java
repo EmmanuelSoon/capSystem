@@ -25,6 +25,10 @@ public interface StudentService {
 
 	Student findStudentById(int id);
 
+	List<StudentCourse> findStudentCoursesGraded(int id);
+
+	List<StudentCourse> findStudentCoursesUngraded(int id);
+
 	void deleteStudentById(int id);
 	
 	List<StudentCourse> getStudentCourseBySession(userSessionDetails usd);

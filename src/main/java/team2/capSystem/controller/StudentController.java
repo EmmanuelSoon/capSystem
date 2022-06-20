@@ -54,8 +54,10 @@ public class StudentController {
     @RequestMapping(path = "/course-history")
     public String showCourseHistory(HttpSession session, Model model){
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        List<StudentCourse> reslt =  studService.getStudentCourseBySession(usd);
-        model.addAttribute("studCourse", reslt);
+        List<StudentCourse> current = studService.findStudentCoursesUngraded(usd.getUserId());
+        List<StudentCourse> hist = studService.findStudentCoursesGraded(usd.getUserId());
+        model.addAttribute("studCourse", current);
+        model.addAttribute("studHist", hist);
         return "students/student-course";
 
     }

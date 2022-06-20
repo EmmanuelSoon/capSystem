@@ -24,21 +24,41 @@
 		<h3>Student Course</h3>
 		<h4>Current Grade=5.0</h4>
 		<div>
+			<h5>Currently enrolled</h5>
 			<table class="table table-striped" th:object="${studCourse}" >
 				<tr>
-					<td>Course Name</td>
-					<td>Course Description</td>
-					<td>Grade</td>
+					<th>Course Name</th>
+					<th>Course Description</th>
+					<th>Grade</th>
 				</tr>
 				<tr th:if="${studCourse.empty}">
 					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
 				</tr>
 
 				<tr th:each="sc: ${studCourse}">
-					<td th:text="${sc.course.course.courseId}">Course Id</td>
 					<td th:text="${sc.course.course.name}">Course Name</td>
 					<td th:text="${sc.course.course.description}">Course Description</td>
-					<td th:text="${sc.gpa}">Grade</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+
+		<div>
+			<h5>Past courses</h5>
+			<table class="table table-striped" th:object="${studHist}" >
+				<tr>
+					<th>Course Name</th>
+					<th>Course Description</th>
+					<th>Grade</th>
+				</tr>
+				<tr th:if="${studHist.empty}">
+					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
+				</tr>
+
+				<tr th:each="sh: ${studHist}">
+					<td th:text="${sh.course.course.name}">Course Name</td>
+					<td th:text="${sh.course.course.description}">Course Description</td>
+					<td th:text="${sh.gpa}">Grade</td>
 				</tr>
 			</table>
 		</div>
