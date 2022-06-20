@@ -28,9 +28,6 @@ public class LoginController {
 
 	@RequestMapping(value = "/")
 	public String standard(Model model, HttpSession session) {
-		if (session.getAttribute("validated") != null || session.getAttribute("admvalidated") != null) {
-			return "logout";
-		}
 		model.addAttribute("user", new User());
 		return "login";
 	}
