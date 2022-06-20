@@ -72,6 +72,14 @@ public class StudentServiceImpl implements StudentService {
 	public void deleteStudentById(int id){
 		Student student = studentRepository.findById(id).get();
 		if(student != null){
+			List<StudentCourse> scList = student.getCourses();
+			for (StudentCourse sc : scList){
+				CourseDetail cd = cdRepository.getReferenceById(sc.getCourse().getId());
+				cd.getStudent_course().remove(sc);
+				cdRepository.save(cd);
+			}
+			student.getCourses().clear();
+			studentRepository.save(student);
 			studentRepository.delete(student);
 		}
 		else{
