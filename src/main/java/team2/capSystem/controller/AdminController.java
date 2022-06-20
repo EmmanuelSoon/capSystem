@@ -3,6 +3,8 @@ package team2.capSystem.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import net.minidev.json.JSONObject;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class AdminController {
 
     /*-----------------------------------READ FUNCTIONS--------------------------------------*/
      
+
 
     @GetMapping("/student")
     public List<Student> getStudents(){
@@ -112,6 +115,19 @@ public class AdminController {
     }
 
     /*-----------------------------------CREATE FUNCTIONS--------------------------------------*/
+
+    @PostMapping(value = "/login")
+    public ResponseEntity loginSetToken(@RequestBody Admin admin){
+        Admin user = adminService.findAdminByUsername(admin.getUsername());
+        if (user.getPassword().equalsIgnoreCase(admin.getPassword())){
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("token", user.getName());
+            return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
     @PostMapping(value = "/student")
     public ResponseEntity createStudent(@RequestBody Student student){
