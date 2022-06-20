@@ -1,1 +1,41 @@
-<h1>Performance view</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: html_head"></head>
+
+<body>
+	<div th:replace="fragments/header :: menu"></div>
+
+	<div>
+		<h1>Class List</h1>
+
+	</div>
+	<div>
+		<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
+		<th:block th:if="${scList=='NoData'}"> Student has not taken any course.</th:block>
+		<th:block th:unless="${scList=='NoData'}">
+
+			<table class="table table-stripped" th:object="${scList}">
+
+				<tr>
+					<th><span>Course Id</span></th>
+					<th><span>Course Name</span></th>
+					<!--<th><span>Date of Completion</span></th>-->
+					<th><span>Grade</span></th>
+				</tr>
+
+				<tr th:each="sc: ${scList}">
+					<td align="left" th:text="${sc.course.courseId}">Course Id</td>
+					<td align="left" th:text="${sc.course.name}">Course Name</td>
+					<!--<td align="left" th:text="${student.studentEmail}">Email</td>-->
+					<td align="left" th:text="S{sc.gpa}">Grade</td>
+				</tr>
+			</table>
+
+		</th:block>
+	</div>
+
+	<div th:replace="fragments/header.html :: jsLink"></div>
+</body>
+
+</html>
