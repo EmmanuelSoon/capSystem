@@ -53,11 +53,7 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findStudentByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
 
-	public StudentCourse AddCourseDetailToStudent(Student student, CourseDetail courseDetail, double gpa){
-		StudentCourse sc = new StudentCourse( student, courseDetail, gpa);
-        scRepository.save(sc);
-        return sc;
-	};
+	
 
 	public List<Student> getAllStudents(){
 		return studentRepository.findAll();
@@ -82,9 +78,11 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 
-	public void addCourseDetailToStudent(Student s, CourseDetail c) {
-		s.getCourses().add(new StudentCourse(s, c));
+	public StudentCourse addCourseDetailToStudent(Student s, CourseDetail c) {
+		StudentCourse sc = new StudentCourse(s, c);
+		s.getCourses().add(sc);
 		studentRepository.save(s);
+		return sc;
 	}
 
 	public List<StudentCourse> findCoursesByStudentId(int id){
@@ -161,6 +159,22 @@ public class StudentServiceImpl implements StudentService {
 
 
 
+	public List<CourseDetail> findAvailableCoursesByStudentId(int id){
+		List<CourseDetail> cdList = cdRepository.findByStartDateAfter(LocalDate.now());
+		List<CourseDetail> results = new ArrayList<CourseDetail>();
+		Student currStudent = studentRepository.getReferenceById(id);
+		List<Course> CoursesDoneBefore = new ArrayList<Course>();
+		for (StudentCourse sc : currStudent.getCourses()){
+			CoursesDoneBefore.add(sc.getCourse().getCourse());
+		}
+		
+		for (CourseDetail cd : cdList){
+			if(!CoursesDoneBefore.contains(cd.getCourse())){
+				results.add(cd);
+			}
+		}
+		return results;
+	};
 
 
 

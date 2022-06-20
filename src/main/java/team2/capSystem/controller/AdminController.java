@@ -85,6 +85,11 @@ public class AdminController {
         return cdList;
     }
 
+    @GetMapping(value = "/student/course/{id}/new")
+    public List<CourseDetail> getAvailableCoursesForStudent(@PathVariable int id){
+        return studentService.findAvailableCoursesByStudentId(id);
+    }
+
 
     @GetMapping("/course")
     public List<Course> getCourses(){
@@ -141,6 +146,18 @@ public class AdminController {
         }
     }
 
+    @PostMapping(value="/student/course/{username}/{id}")
+    public ResponseEntity AddStudentToCourse(@PathVariable int id,@PathVariable String username){
+        try {
+            Student currStudent = studentService.findStudentByUsername(username);
+            CourseDetail cd = courseService.findCourseDetailById(id);
+            studentService.addCourseDetailToStudent(currStudent, cd);
+            return new ResponseEntity<>(studentService.findAvailableCoursesByStudentId(currStudent.getStudentId()), HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
 
     /*-----------------------------------UPDATE FUNCTIONS--------------------------------------*/
@@ -232,7 +249,7 @@ public class AdminController {
     public ResponseEntity deleteLecturer(@PathVariable int id){
         try{
             lecturerService.deleteLecturerById(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(lecturerService.getAllLecturers());
         } 
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");

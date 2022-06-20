@@ -16,7 +16,7 @@ public interface StudentService {
 	
 	Student getStudent(User u);
 
-	StudentCourse AddCourseDetailToStudent(Student student, CourseDetail courseDetail, double gpa);
+	StudentCourse addCourseDetailToStudent(Student student, CourseDetail courseDetail);
 
 	List<Student> getAllStudents();
 
@@ -39,4 +39,7 @@ public interface StudentService {
 	StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId);
 
 	void removeStudentCourse(StudentCourse sc);
+
+	List<CourseDetail> findAvailableCoursesByStudentId(int id);
 }
+
