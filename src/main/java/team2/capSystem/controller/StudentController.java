@@ -56,8 +56,11 @@ public class StudentController {
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
         List<StudentCourse> current = studService.findStudentCoursesUngraded(usd.getUserId());
         List<StudentCourse> hist = studService.findStudentCoursesGraded(usd.getUserId());
+        Double getAverageGPA=studService.getAverageGPA(usd.getUserId());
+        System.out.println(getAverageGPA);
         model.addAttribute("studCourse", current);
         model.addAttribute("studHist", hist);
+        model.addAttribute("avgGPA", getAverageGPA);
         return "students/student-course";
 
     }
@@ -90,6 +93,14 @@ public class StudentController {
         Student student = studService.getStudentProfile(usd);
         model.addAttribute("student", student);
         return "students/student-profile";
+    }
+
+    @RequestMapping("/editProfile")
+    public String editStudentProfile(Model model, HttpSession session){
+        // userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        // Student student = studService.getStudentProfile(usd);
+        // model.addAttribute("student", student);
+        return "students/student-updateProfile";
     }
 
     @RequestMapping("")

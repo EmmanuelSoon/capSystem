@@ -52,7 +52,7 @@ public class AdminController {
     // }
 
     /*-----------------------------------READ FUNCTIONS--------------------------------------*/
-     
+
 
 
     @GetMapping("/student")
@@ -79,6 +79,10 @@ public class AdminController {
     public List<StudentCourseJson> getCoursesForStudent(@PathVariable int id){
         List<StudentCourse> scList = studentService.findCoursesByStudentId(id);
         return studentService.convertSCToJson(scList);
+    }
+    @GetMapping(value = "/course/{id}")
+    public Course getCourse(@PathVariable int id){
+        return courseService.findCourseById(id);
     }
 
     @GetMapping(value = "/lecturer/course/{id}")
@@ -275,7 +279,7 @@ public class AdminController {
     @DeleteMapping(value="/course/{id}")
     public ResponseEntity deleteCourse(@PathVariable int id){
         try{
-            courseService.deleteCourseById(id);
+            courseService.deleteCourse(id);
             return ResponseEntity.ok().build();
         } 
         catch (Exception e){

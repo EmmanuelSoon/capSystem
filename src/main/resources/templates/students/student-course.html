@@ -22,7 +22,7 @@
 
 
 		<h3>Student Course</h3>
-		<h4>Current Grade=5.0</h4>
+		<h4>Current Grade= <span th:text="${avgGPA}"></span></h4>
 		<div>
 			<h5>Currently enrolled</h5>
 			<table class="table table-striped" th:object="${studCourse}" >
@@ -52,7 +52,7 @@
 					<th>Grade</th>
 				</tr>
 				<tr th:if="${studHist.empty}">
-					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
+					<td colspan="4" class="p-4 border">No Student History listed!!!</td>
 				</tr>
 
 				<tr th:each="sh: ${studHist}">

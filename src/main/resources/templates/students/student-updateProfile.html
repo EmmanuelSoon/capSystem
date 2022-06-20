@@ -6,12 +6,7 @@
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container mt-3">
 		<div class="row mb-5">
-            <h3>My Profile</h3>
-			<form th:action="@{/student/editProfile}" method="post">
-				<div class="d-flex justify-content-end">
-					<button type="btn btn-primary">Edit Profile</button>
-				</div>
-			</form>
+            <h3>Update Profile</h3>
         </div>
 
 		
@@ -29,6 +24,12 @@
 					<th>UserName</th>
 					<td th:text="${student.username}">Name</td>
 				</tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" class="btn btn-outline-primary">Update</button>
+                        <button type="reset" class="btn btn-outline-danger">Reset</button>
+                    </td>
+                </tr>
 			</table>
 		</div>
 

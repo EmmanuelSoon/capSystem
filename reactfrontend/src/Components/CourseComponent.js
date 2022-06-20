@@ -30,6 +30,7 @@ class Course extends Component {
         );
     };
 
+
     render() {
         const {courses, isLoaded} = this.state;
 
@@ -46,13 +47,17 @@ class Course extends Component {
                     <ButtonGroup>
                         <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
                         <Button color="danger" onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
+                        <Button color="success" tag={Link} to={"/admin/course/" +course.courseId}>Edit Course Info</Button>
                     </ButtonGroup></td>
                 </tr>
             );
         });
 
         return(
-            <Container>
+            <Container className='mt-5'>
+                <div className="float-end">
+                    <Button color="success" tag={Link} to="/admin/course/new">Add Course</Button>
+                </div>
                 <div>
                     <h2>Course List</h2>
                 </div>
