@@ -2,6 +2,7 @@ package team2.capSystem.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -48,7 +49,7 @@ public class LecturerController {
 			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-			List<CourseDetail> courseDetail = lecturer.getCourses();
+			List<CourseDetail> courseDetail = lecturer.getCourses().stream().distinct().collect(Collectors.toList());
 
 			for (CourseDetail crsdtl : courseDetail) {
 				Course course = crsdtl.getCourse();
