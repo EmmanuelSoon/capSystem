@@ -97,15 +97,18 @@ public class StudentController {
 
     @RequestMapping("/editProfile")
     public String editStudentProfile(Model model, HttpSession session){
-        // userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        // Student student = studService.getStudentProfile(usd);
-        // model.addAttribute("student", student);
+    	System.out.print("testing");
+         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+         Student student = studService.getStudentProfile(usd);
+         model.addAttribute("student", student);
         return "students/student-updateProfile";
     }
 
-    @RequestMapping("")
-    public String editStudentProfile(){
-        return "";
+    @RequestMapping("/updatedProfile")
+    public void updatedStudentProfile(@ModelAttribute("student") Student student){
+    	//System.out.println("UPdate");
+        studService.saveStudent(student);
+        System.out.println("updated");
     }
 
 
