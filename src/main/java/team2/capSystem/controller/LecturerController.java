@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import team2.capSystem.helper.lecturerCoursesTaught;
 import team2.capSystem.helper.nominalRoll;
+import team2.capSystem.helper.studentTranscript;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
@@ -112,13 +113,24 @@ public class LecturerController {
 
 	@RequestMapping(value = "/student-performance/{student_id}")
 	public String viewStudentPerformance(Model model, @PathVariable int student_id) {
+		ArrayList<studentTranscript> studTS =new ArrayList<studentTranscript>();
 		List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 		
 		if(scList.isEmpty()) {
-			model.addAttribute("studCourse", "NoData");
+			model.addAttribute("studentTranscript", "NoData");
 		}
 		else {
-			model.addAttribute("studCourse", scList);
+			for (StudentCourse sc:scList) {
+				studentTranscript singleModRec = studentTranscript.builder()
+						.courseBatchId(sc.getId())
+						.courseName(sc.getCourse().getCourse().getName())
+						.dateOfCompletion(sc.getCourse().getEndDate())
+						.gpa(sc.getGpa())
+						.build();	
+				studTS.add(singleModRec);
+			}
+			model.addAttribute("studentTranscript", studTS);
+			
 		}
 		return "/lecturer/lecturer-view-performance";
 	}
