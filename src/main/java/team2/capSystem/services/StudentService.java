@@ -44,3 +44,4 @@ public interface StudentService {
 
 	List<CourseDetail> findAvailableCoursesByStudentId(int id);
 }
+

@@ -30,9 +30,12 @@ public interface LecturerService {
 	
 	List<StudentCourse> getSCList(CourseDetail cd);
 
-
+	List<StudentCourse> getCourseListTakenByStudent(int id);
+	
 	List<CourseDetail> findCoursesByLecturerId(int id);
-
+	
+	
 	void removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer);
+	
 
 }

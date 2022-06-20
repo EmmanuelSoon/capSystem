@@ -91,6 +91,7 @@ public class LecturerController {
 			for (StudentCourse sc : scList) {
 				Student student = sc.getStudent();
 				nominalRoll singleRecNominalRoll = nominalRoll.builder()
+						.studentId(student.getStudentId())
 						.studentName(student.getName())
 						.studentEmail(student.getEmail())
 						.build();
@@ -103,14 +104,23 @@ public class LecturerController {
 
 	}
 
-	@RequestMapping(value = "/grading")
-	public String gradecourse() { 
+	@RequestMapping(value = "/student-performance/{student_id}/grading")
+	public String gradecourse() {
+		
 		return "/lecturer/lecturer-grade-course";
 	}
 
-	@RequestMapping(value = "/student-performance")
-	public String viewStudentPerformance() {
-		return "/lecturer/lecturer-course-taught";
+	@RequestMapping(value = "/student-performance/{student_id}")
+	public String viewStudentPerformance(Model model, @PathVariable int student_id) {
+		List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
+		
+		if(scList.isEmpty()) {
+			model.addAttribute("studCourse", "NoData");
+		}
+		else {
+			model.addAttribute("studCourse", scList);
+		}
+		return "/lecturer/lecturer-view-performance";
 	}
 
 }
