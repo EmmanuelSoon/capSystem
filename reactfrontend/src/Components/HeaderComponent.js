@@ -35,7 +35,7 @@ class Header extends Component {
                 <Navbar dark expand="md"> 
                     <Container>
                         <NavbarToggler onClick={this.toggleNav} />
-                        <NavbarBrand className="mr-auto" href = "/">
+                        <NavbarBrand className="mr-auto" tag={Link} to={"/admin"}>
                             <img src={logo} height="40" width="41"
                                 alt="blank" /> Cap System
                         </NavbarBrand>

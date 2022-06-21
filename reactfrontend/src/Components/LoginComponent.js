@@ -62,11 +62,11 @@ export default function Login({setToken}) {
                             <div className="mb-3">
                                 <Input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} placeholder="Password" />            
                             </div>
-                            <div className="text-center"><button type="submit" className="btn btn-color px-5 mb-5 w-100">Login</button></div>
+                            <div className="text-center"><button type="submit" className="btn btn-color px-5 w-100">Login</button></div>
                             <div className="panel panel-default">
                                             <FormErrors formErrors={error} />
                             </div>
-                            <div id="emailHelp" class="form-text text-center mb-5 text-dark">
+                            <div id="emailHelp" class="form-text text-center mb-5 mt-5 text-dark">
                                 Not an Admin? <a href="http://localhost:8080" class="text-dark fw-bold"> Student/Lecturer Login</a>
                             </div>
                         </form>

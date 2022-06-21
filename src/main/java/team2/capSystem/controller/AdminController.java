@@ -97,6 +97,10 @@ public class AdminController {
         return studentService.findAvailableCoursesByStudentId(id);
     }
 
+    @GetMapping(value = "/lecturer/course/{id}/new")
+    public List<CourseDetail> getAvailableCoursesForLecturer(@PathVariable int id){
+        return lecturerService.findAvailableCoursesByLecturerId(id);
+    }
 
     @GetMapping("/course")
     public List<Course> getCourses(){
@@ -122,14 +126,19 @@ public class AdminController {
 
     @PostMapping(value = "/login")
     public ResponseEntity loginSetToken(@RequestBody Admin admin){
-        Admin user = adminService.findAdminByUsername(admin.getUsername());
-        if (user.getPassword().equalsIgnoreCase(admin.getPassword())){
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("token", user.getName());
-            return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+        try{
+            Admin user = adminService.findAdminByUsername(admin.getUsername());
+            if (user.getPassword().equalsIgnoreCase(admin.getPassword())){
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("token", user.getName());
+                return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+            }
+            else {
+                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            }
         }
-        else {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+    catch (Exception e){
+        return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
 
@@ -178,6 +187,20 @@ public class AdminController {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
+
+    @PostMapping(value="/lecturer/course/{username}/{id}")
+    public ResponseEntity AddLecturerToCourse(@PathVariable int id,@PathVariable String username){
+        try {
+            Lecturer currLecturer = lecturerService.findByUsername(username);
+            CourseDetail cd = courseService.findCourseDetailById(id);
+            lecturerService.addCourseDetailToLecturer(currLecturer, cd);
+            return new ResponseEntity<>(lecturerService.findAvailableCoursesByLecturerId(currLecturer.getLecturerId()), HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
 
 
     /*-----------------------------------UPDATE FUNCTIONS--------------------------------------*/
@@ -279,7 +302,7 @@ public class AdminController {
     @DeleteMapping(value="/course/{id}")
     public ResponseEntity deleteCourse(@PathVariable int id){
         try{
-            courseService.deleteCourse(id);
+            courseService.deleteCourseById(id);
             return ResponseEntity.ok().build();
         } 
         catch (Exception e){

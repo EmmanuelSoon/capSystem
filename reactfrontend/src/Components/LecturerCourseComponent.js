@@ -102,6 +102,7 @@ class LecturerCourse extends Component {
                         {lecturerCourseList}
                     </tbody>
                 </Table>
+                <Button outline color="success" tag={Link} to={`/admin/lecturer/course/${this.state.lecturer.lecturerId}/new`}>Add Lecturer into a new Course</Button>
             </Container>
         );
 

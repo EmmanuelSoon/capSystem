@@ -109,4 +109,23 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(lecturer);
 	};
 
+	public Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd){
+		lecturer.getCourses().add(cd);
+		lecturerRepository.save(lecturer);
+		return lecturerRepository.findByUsername(lecturer.getUsername());
+	};
+
+	public List<CourseDetail> findAvailableCoursesByLecturerId(int id){
+		List<CourseDetail> cdList = cdRepository.findByStartDateAfter(LocalDate.now());
+		List<CourseDetail> results = new ArrayList<CourseDetail>();
+		Lecturer currLecturer = lecturerRepository.getReferenceById(id);
+		
+		for(CourseDetail cd: cdList){
+			if(!currLecturer.getCourses().contains(cd)){
+				results.add(cd);
+			}
+		}
+		return results;
+	};
+
 }

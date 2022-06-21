@@ -34,8 +34,9 @@ public interface LecturerService {
 	
 	List<CourseDetail> findCoursesByLecturerId(int id);
 	
-	
 	void removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer);
 	
+	Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd);
 
+	List<CourseDetail> findAvailableCoursesByLecturerId(int id);
 }
