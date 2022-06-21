@@ -328,7 +328,6 @@ public class LecturerController {
 	            //catch
 	        }
 	        else {
-	        	 //TO DO -- still not working (showing error message)
 	        	model.addAttribute("message", "Incorrect Password!");
 		        return "lecturer/lecturer-password-change";
 	        }

@@ -139,7 +139,7 @@ public class StudentController {
     
 
     @RequestMapping(value="change-password")
-    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult){
+    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model){
         if (bindingresult.hasErrors()){
             return "students/password-change";
         }
@@ -155,7 +155,12 @@ public class StudentController {
             return "forward:/student/profile";
         //catch
         }
-        return "forward:/logout";
+        else {
+        	model.addAttribute("message", "Incorrect Password!");
+            return "students/password-change";
+        }
+    	
+        
     }
         
     //helper functions

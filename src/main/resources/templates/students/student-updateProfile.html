@@ -32,8 +32,7 @@
 				<tr>
 					<th>UserName</th>
 					<td>
-						<input type="text" th:field="*{username}" th:value="${username}"/>
-						<p class="text-danger" th:value="${username}" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+						<input type="text" th:field="*{username}" th:value="${username}" readonly/>
 					</td>
 				</tr>
                 <tr>
