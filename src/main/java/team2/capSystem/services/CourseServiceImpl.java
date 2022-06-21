@@ -141,5 +141,17 @@ public class CourseServiceImpl implements CourseService {
         return cdRepository.findById(id).get();
     };
 
+    public void updateCourseDetails(Course course){
+        Course currCourse = courseRepository.findCourseByName(course.getName());
+        currCourse.setDescription(course.getDescription());
+        currCourse.setName(course.getName());
+
+        for(CourseDetail cd : currCourse.getCourseDetails()){
+            cd.setCourse(currCourse);
+            cdRepository.save(cd);
+        }
+        courseRepository.save(currCourse);
+    };
+
 
 }
