@@ -1,21 +1,26 @@
 package team2.capSystem.controller;
 
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import team2.capSystem.helper.userSessionDetails;
-import team2.capSystem.model.Admin;
 import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.User;
-import team2.capSystem.services.*;
+import team2.capSystem.services.LecturerService;
+import team2.capSystem.services.StudentService;
 
 @Controller
 public class LoginController {
@@ -35,7 +40,10 @@ public class LoginController {
 
 	@RequestMapping("/login/authenticate")
 	public String login(@ModelAttribute("user") @Valid User user, BindingResult bindingresult, HttpSession session,
-			@RequestParam("LoginAs") String role) {
+			@RequestParam("LoginAs") String role)  {
+	
+		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+		String password = encoder.encode(user.getPassword());
 
 		if(bindingresult.hasErrors())
 		{
@@ -43,25 +51,26 @@ public class LoginController {
 		}
 		switch (role) {
 		case "lecturer":
-			Lecturer lec = lecturerService.getLecturer(user);
-			if (lec != null) {
+			Lecturer lec = lecturerService.findByUsername(user.getUsername());
+			if (lec != null && encoder.matches(user.getPassword(), lec.getPassword()) && user.getActive()==true) {
 				userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
 				session.setAttribute("userSessionDetails", p);
 				return "forward:/lecturer/dashboard";
 			}
+			
 			break;
 
 		case "student":
-			Student stu = studentService.getStudent(user);
-			if (stu != null) {
+			Student stu = studentService.findStudentByUsername(user.getUsername());
+			if (stu != null && encoder.matches(user.getPassword(), stu.getPassword()) && user.getActive()==true) {
 				userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
 				session.setAttribute("userSessionDetails", p);
 				return "forward:/student/student-dashboard";
 			}
 			break;
 
-		default:
-			return "Login";
+		default:			
+			throw new UsernameNotFoundException("Incorrect username and password");
 		}
 
 		return "Login";
@@ -79,14 +88,4 @@ public class LoginController {
 		model.addAttribute("user", new User());
 		return "Login";
 	}
-
-
 }
-/* case "admin":
-	Admin adm = adminService.getAdmin(user);
-	if (adm != null) {
-		userSessionDetails p = new userSessionDetails(adm, adm.getStaffId(), role);
-		session.setAttribute("userSessionDetails", p);
-		return "forward:/admin/dashboard";
-	}
-	break;*/
