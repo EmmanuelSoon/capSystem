@@ -241,12 +241,15 @@ public class SeedDBServiceImpl implements SeedDBService{
             courseService.addStudentToCourseDetail(farming1, hein, 2.5);
             courseService.addStudentToCourseDetail(farming1, yc, 5);
 
+            courseService.addStudentToCourseDetail(java3, alyssa, -1);
 
-            courseService.addStudentToCourseDetail(java3, anand, -1);
-            courseService.addStudentToCourseDetail(java3, yc, -1);
 
+            courseService.addStudentToCourseDetail(java4, anand, -1);
+            courseService.addStudentToCourseDetail(java4, yc, -1);
             courseService.addStudentToCourseDetail(java4, yoonmie, -1);
-            courseService.addStudentToCourseDetail(java4, gavin, -1);
+            courseService.addStudentToCourseDetail(java4, gavin, -1);            
+
+
 
 
         }
