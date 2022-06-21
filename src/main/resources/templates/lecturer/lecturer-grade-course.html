@@ -12,19 +12,12 @@
 	<div>
 		<form action="#"
 			th:action="@{/lecturer/student-performance/updateGrading/} + ${courseBatchId} + '/' + ${student_id}"
-			method="post" th:object="${gradeStudent}">
+			method="post">
 			<label for="gpa">Grade Student:</label>
-			<select name="gpa" th:value="*{gpa}">
-				<option th:value="5.0">S</option>
-				<option th:value="4.5">A+</option>
-				<option th:value="4.0">A</option>
-				<option th:value="3.5">B+</option>
-				<option th:value="3.0">B</option>
-				<option th:value="2.5">C+</option>
-				<option th:value="2.0">C</option>
-				<option th:value="1.5">D+</option>
-				<option th:value="1.0">D</option>
-				<option th:value="0.0">F</option>
+			<select id="gpa" name="gpa">
+				<option th:each="lectrsGrades : ${T(team2.capSystem.helper.LectCourseGrades).values()}"
+					th:value="${lectrsGrades.getGradeValue}" th:text="${lectrsGrades.getGradeName}"
+					th:selected="${lectrsGrades.getGradeValue} eq ${gpa}"></option>
 			</select>
 			<input type="submit">
 		</form>
