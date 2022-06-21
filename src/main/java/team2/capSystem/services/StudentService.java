@@ -3,6 +3,7 @@ package team2.capSystem.services;
 import java.util.List;
 
 import team2.capSystem.helper.courseDetailSearchQuery;
+import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 
@@ -50,5 +51,9 @@ public interface StudentService {
 	List<CourseDetail> findAvailableCoursesByStudentId(int id);
 
 	Double getAverageGPA(int id);
+
+	public Student setStudentPassword(int id, userChangePassword userpass);
+	
+	void updateStudentCourseGPA(int coursebatchID, int studentId, double selectedGPA);
 }
 

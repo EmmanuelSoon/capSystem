@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-9">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
+<header th:replace="fragments/header :: html_head"></header>
+<link rel="stylesheet" th:href="@{/css/login.css}">
+<link rel="stylesheet" th:href="@{/css/layout.css}">
+
+</head>
+
+<body>
+	<br/><br/><br/>
+	<div class="container text-center col-8">
+		<img th:src="@{/images/error_pig.gif}" alt="Error_pig" class="rounded" height="300"/>
+		</br> </br>
+		<div class="center_text">
+			<h1> OPPS! PAGE NOT FOUND </h1>
+			<p> Sorry, the page you requested could not be found</p>
+			<p> Please go back to the homepage</p>	
+		</div>
+		<div class="d-flex justify-content-center mt-5">
+		<span th:if="${session.userSessionDetails.userRole=='lecturer'}">
+			<a th:href="@{/lecturer/dashboard}">
+				<button type="submit" class="btn btn-primary mr-5"> GO HOME </button>
+			</a>
+		</span>
+		
+		<span th:if="${session.userSessionDetails.userRole=='student'}">
+			<a th:href="@{/student/student-dashboard}">
+				<button type="submit" class="btn btn-primary mr-5"> GO HOME </button>
+			</a>
+		</span>
+		</div>
+	</div>
+	
+	
+<div th:replace="fragments/header :: jsLink"></div>
+</body>

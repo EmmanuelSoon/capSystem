@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import team2.capSystem.helper.batchCreator;
 import team2.capSystem.model.*;
@@ -130,6 +131,9 @@ public class AdminController {
         return cd;
     }
 
+
+
+
     /*-----------------------------------CREATE FUNCTIONS--------------------------------------*/
 
     @PostMapping(value = "/login")
@@ -150,6 +154,47 @@ public class AdminController {
         }
     catch (Exception e){
         return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PostMapping(value ="/student/verify/{id}")
+    public ResponseEntity verifyStudentPassword(@RequestBody Student student, @PathVariable int id){
+        try{
+            Student currStudent = studentService.findStudentById(id);
+            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+            String password = encoder.encode(student.getPassword());
+
+            if(currStudent != null && encoder.matches(student.getPassword(), currStudent.getPassword())){
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("status", true);
+                return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+            }
+            else {
+                throw new Exception();
+            }
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    @PostMapping(value ="/lecturer/verify/{id}")
+    public ResponseEntity verifyLecturerPassword(@RequestBody Lecturer lecturer, @PathVariable int id){
+        try{
+            Lecturer currLecturer = lecturerService.findLecturerById(id);
+            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+            String password = encoder.encode(lecturer.getPassword());
+
+            if(currLecturer != null && encoder.matches(lecturer.getPassword(), currLecturer.getPassword())){
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("status", true);
+                return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+            }
+            else {
+                throw new Exception();
+            }
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
 
@@ -236,10 +281,14 @@ public class AdminController {
             Student currStudent = studentService.findStudentById(id);
             if(currStudent == null) throw new RuntimeException();
             
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(student.getPassword());
+
             currStudent.setActive(student.getActive());
             currStudent.setEmail(student.getEmail());
             currStudent.setName(student.getName());
             currStudent.setUsername(student.getUsername());
+            currStudent.setPassword(encodedPassword);
             if (student.getActive() == true){
                 currStudent.setActive(true);
             }
@@ -263,10 +312,14 @@ public class AdminController {
             Lecturer currLecturer = lecturerService.findLecturerById(id);
             if(currLecturer == null) throw new RuntimeException();
             
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(lecturer.getPassword());
+
             currLecturer.setActive(lecturer.getActive());
             currLecturer.setEmail(lecturer.getEmail());
             currLecturer.setName(lecturer.getName());
             currLecturer.setUsername(lecturer.getUsername());
+            currLecturer.setPassword(encodedPassword);
             currLecturer.setActive(lecturer.getActive());
             lecturerService.saveLecturer(lecturer);
             

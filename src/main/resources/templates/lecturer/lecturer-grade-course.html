@@ -10,16 +10,16 @@
 
 	</div>
 	<div>
-		<form action="#" th:action="@{/student-performance/{courseBatchId}/{student_id}/grading}"
-			th:object="${gradeStudent}" method="post">
+		<form action="#"
+			th:action="@{/lecturer/student-performance/updateGrading/} + ${courseBatchId} + '/' + ${student_id}"
+			method="post" th:object="${gradeStudent}">
 			<label for="gpa">Grade Student:</label>
-			<select th:field="*{gpa}">
-				<option th:value="5.0">A+</option>
-				<option th:value="5.0">A</option>
-				<option th:value="4.5">A-</option>
-				<option th:value="4.0">B+</option>
-				<option th:value="3.5">B</option>
-				<option th:value="3.0">B-</option>
+			<select name="gpa" th:value="*{gpa}">
+				<option th:value="5.0">S</option>
+				<option th:value="4.5">A+</option>
+				<option th:value="4.0">A</option>
+				<option th:value="3.5">B+</option>
+				<option th:value="3.0">B</option>
 				<option th:value="2.5">C+</option>
 				<option th:value="2.0">C</option>
 				<option th:value="1.5">D+</option>

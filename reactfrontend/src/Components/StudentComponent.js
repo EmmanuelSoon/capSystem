@@ -50,7 +50,7 @@ class Student extends Component {
                         {student.username}
                     </td>
                     <td>
-                        {student.password}
+                        *****
                     </td>
                     <td>
                         {student.email}

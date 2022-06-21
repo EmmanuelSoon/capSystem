@@ -42,8 +42,8 @@
 				<tr th:each="ac: ${enrollCourses}">
 					<td th:text="${ac.course.name}">Course Name</td>
 					<td th:text="${ac.course.description}">Course Description</td>
-					<td th:text="${ac.startDate}">Course Start Date</td>
-					<td th:text="${ac.endDate}">Course End Date</td>
+					<td th:text="${#temporals.format(ac.startDate,'dd-MM-yyyy')}">Course Start Date</td>
+					<td th:text="${#temporals.format(ac.endDate,'dd-MM-yyyy')}">Course End Date</td>
 					<!-- <td>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							Enroll

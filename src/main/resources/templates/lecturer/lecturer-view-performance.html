@@ -27,7 +27,7 @@
 				<tr th:each="st: ${studentTranscript}">
 					<td align="left" th:text="${st.courseBatchId}">Course Batch Id</td>
 					<td align="left" th:text="${st.courseName}">Course Name</td>
-					<td align="left" th:text="${st.dateOfCompletion}">Date of Completion</td>
+					<td align="left" th:text="${#temporals.format(st.dateOfCompletion, 'dd-MM-yyyy')}">Date of Completion</td>
 					<td align="left" th:text="${st.gpa}">Grade</td>
 				</tr>
 			</table>

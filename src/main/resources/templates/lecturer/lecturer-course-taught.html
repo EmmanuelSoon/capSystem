@@ -42,8 +42,8 @@
 					<td align="left" th:text="${lectCrsTght.courseBatchId}">Course Batch Id</td>
 					<td align="left" th:text="${lectCrsTght.courseName}">Course Name</td>
 					<td align="left" th:text="${lectCrsTght.courseDescription}">Course Description</td>
-					<td align="left" th:text="${lectCrsTght.startDate}">Course Start Date</td>
-					<td align="left" th:text="${lectCrsTght.endDate}">Course End Date</td>
+					<td align="left" th:text="${#temporals.format(lectCrsTght.startDate, 'dd-MM-yyyy')}">Course Start Date</td>
+					<td align="left" th:text="${#temporals.format(lectCrsTght.endDate, 'dd-MM-yyyy')}">Course End Date</td>
 
 					<td>
 						<a th:href="@{/lecturer/course-enrolment/}+${lectCrsTght.courseId}+'/'+${lectCrsTght.courseBatchId}"
