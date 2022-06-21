@@ -50,16 +50,6 @@ public class CourseServiceImpl implements CourseService {
 
      };
 
-    public void deleteCourse(int id){
-        Optional<Course> c = courseRepository.findById(id);
-        if (c.isPresent()) {
-            deleteCourse(c.get());
-        }
-    }
-
-    public void deleteCourse(Course c) {
-        courseRepository.delete(c);
-    }
 
     public Course getCourseByName(String name){
         return courseRepository.findCourseByName(name);
@@ -130,7 +120,6 @@ public class CourseServiceImpl implements CourseService {
                 cdRepository.save(cd);
                 scRepository.delete(sc);
             }
-
             for (CourseDetail cd: cdList){
                 for (Lecturer lecturer : cd.getLecturers()){
                     lecturer.getCourses().remove(cd);

@@ -302,7 +302,7 @@ public class AdminController {
     @DeleteMapping(value="/course/{id}")
     public ResponseEntity deleteCourse(@PathVariable int id){
         try{
-            courseService.deleteCourse(id);
+            courseService.deleteCourseById(id);
             return ResponseEntity.ok().build();
         } 
         catch (Exception e){
