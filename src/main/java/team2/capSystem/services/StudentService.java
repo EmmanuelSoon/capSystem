@@ -53,5 +53,7 @@ public interface StudentService {
 	Double getAverageGPA(int id);
 
 	public Student setStudentPassword(int id, userChangePassword userpass);
+	
+	void updateStudentCourseGPA(int coursebatchID, int studentId, double selectedGPA);
 }
 

@@ -50,7 +50,7 @@ class Lecturer extends Component {
                         {lecturer.username}
                     </td>
                     <td>
-                        {lecturer.password}
+                        *****
                     </td>
                     <td>
                         {lecturer.email}
@@ -75,7 +75,7 @@ class Lecturer extends Component {
                     <Button color="success" tag={Link} to="/admin/lecturer/new">Add Lecturer</Button>
                 </div>
                 <h3>Lecturers</h3>
-                <Table>
+                <Table className='text-center'>
                     <thead>
                         <tr>
                             <th>
