@@ -45,9 +45,9 @@ class Course extends Component {
                     <td>{course.description}</td>
                     <td>
                     <ButtonGroup>
-                        <Button sm color='primary' tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
-                        <Button sm color='secondary' tag={Link} to={"/admin/course/" +course.courseId}>Edit Course Info</Button>
-                        <Button sm color='danger' onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
+                        <Button size="sm" color='primary' tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
+                        <Button size="sm" color='secondary' tag={Link} to={"/admin/course/" +course.courseId}>Edit Course Info</Button>
+                        <Button size="sm" color='danger' onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
                     </ButtonGroup></td>
                 </tr>
             );

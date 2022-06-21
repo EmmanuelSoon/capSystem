@@ -101,7 +101,6 @@ public class LecturerServiceImpl implements LecturerService {
 
 	public List<CourseDetail> findCoursesByLecturerId(int id) {
 		Lecturer lecturer = lecturerRepository.getReferenceById(id);
-		System.out.println(lecturer.getCourses().size());
 		return lecturer.getCourses();
 	};
 	

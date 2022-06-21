@@ -65,9 +65,7 @@ class BatchDetail extends Component {
                     <td>{parseFloat(student.gpa).toFixed(1)}</td>
                     <td>
                         <ButtonGroup>
-
-                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student</Button>
-
+                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-trash"></span></Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -75,15 +73,15 @@ class BatchDetail extends Component {
         });
         const batchSummary = () => {
             return (
-              <div className="row">
+              <div className="row mt-4 mb-4">
                   <div className="col-12 col-md-4" >
-                      <strong>Course Name :{ batch.course.name}</strong>
+                      <strong>Course Name : { batch.course.name}</strong>
                   </div>
                   <div className="col-12 col-md-4">
-                      <strong>Batch Schedule: { batch.startDate} to { batch.endDate}</strong>
+                      <strong>Batch Schedule : { batch.startDate} to { batch.endDate}</strong>
                   </div>
                   <div className="col-12 col-md-4">
-                      <strong>Stduent Registered: { batch.size}/{ batch.maxSize}</strong>
+                      <strong>No. of Students : { batch.size}/{ batch.maxSize}</strong>
                   </div>
               </div>
             );
@@ -91,24 +89,24 @@ class BatchDetail extends Component {
         return(
             <Container>
                 <div>
-                    <h2>Stduent Registration Summary</h2>
+                    <h2 className='mt-3'>Student Registration Summary</h2>
                 </div>
                 <div>
                     {batchSummary()}
                 </div>
-                <Table className="text-center">
-                    <thead>
+                <table className='table table-hover text-center mt-3'>
+                    <thead className='table-light'>
                     <tr>
                         <th>S/N</th>
-                        <th>Stduent ID</th>
-                        <th>Stduent Name</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
                         <th>GPA</th>
-                        <th>action</th>
+                        <th>Action</th>
                     </tr></thead>
                     <tbody>
                     {studentList}
                     </tbody>
-                </Table>
+                </table>
             </Container>
         );
     }

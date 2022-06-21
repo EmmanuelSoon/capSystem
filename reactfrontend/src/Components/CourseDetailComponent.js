@@ -65,21 +65,21 @@ class CourseDetail extends Component {
             if (now < new Date(batch.startDate)) {
                 return (
                     <div>
-                    <Button color="danger" onClick={() => this.deleteCourseDetail(batch.id)}>Remove Batch</Button>
+                    <Button size="sm" color="danger" onClick={() => this.deleteCourseDetail(batch.id)}>Remove Batch</Button>
                     </div>
                 );
             }
             else if (now < new Date(batch.endDate)) {
                 return (
                     <div>
-                        <Button color="success">Ongoing</Button>
+                        <Button size="sm" color="success">Ongoing</Button>
                     </div>
                 );
             }
             else {
                 return (
                     <div>
-                        <Button color="secondary">Completed</Button>
+                        <Button size="sm" color="secondary">Completed</Button>
                     </div>
                 );
             }
@@ -93,10 +93,13 @@ class CourseDetail extends Component {
                     <td>{batch.size} / {batch.maxSize}</td>
                     <td>
                         <ButtonGroup>
-                            <Button color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
-                            {action(batch)}
-                            {deleteaction(batch)}
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
+
                         </ButtonGroup>
+                    </td>
+                    <td>
+                        {action(batch)}
+                        {deleteaction(batch)}
                     </td>
                 </tr>
             );
@@ -110,18 +113,19 @@ class CourseDetail extends Component {
                 <div>
                     <h2>Batch Details</h2>
                 </div>
-                <Table className="text-center">
-                    <thead >
+                <table className='table table-hover text-center mt-3'>
+                    <thead className='table-light'>
                     <tr>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Current Batch Size</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr></thead>
                     <tbody>
                     {batchList}
                     </tbody>
-                </Table>
+                </table>
             </Container>
         );
     }
