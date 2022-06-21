@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class nominalRoll {
 
+	private Integer courseBatchId;
 	private Integer studentId;
 	private String studentName;
 	private String studentEmail;

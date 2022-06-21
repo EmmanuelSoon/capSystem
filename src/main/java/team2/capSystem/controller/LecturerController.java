@@ -93,7 +93,7 @@ public class LecturerController {
 		} else {
 			for (StudentCourse sc : scList) {
 				Student student = sc.getStudent();
-				nominalRoll singleRecNominalRoll = nominalRoll.builder().studentId(student.getStudentId())
+				nominalRoll singleRecNominalRoll = nominalRoll.builder().courseBatchId(sc.getCourse().getId()).studentId(student.getStudentId())
 						.studentName(student.getName()).studentEmail(student.getEmail()).build();
 				{
 					if (keyword.keywordNullOrEmpty()) {
@@ -112,9 +112,11 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-enrolment";
 	}
 
-	@RequestMapping(value = "/student-performance/{student_id}/grading")
-	public String gradecourse() {
-
+	@RequestMapping(value = "/student-performance/{courseBatchId}/{student_id}/grading")
+	public String gradeCourse(Model model, @PathVariable int courseBatchId, @PathVariable int student_id) {
+		List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
+		StudentCourse sc = scList.stream().filter(x->x.getCourse().getId() == courseBatchId).findFirst().get();
+		model.addAttribute("gradeStudent",sc);
 		return "/lecturer/lecturer-grade-course";
 	}
 

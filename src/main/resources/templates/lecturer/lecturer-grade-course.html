@@ -5,41 +5,29 @@
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
-
-	<form th:action="@{/Search}" method="get">
-		<input type="text" name="keyword" th:value="${keyword}" placeholder="Find Student" size="50">
-		<button type="submit" class="btn btn-info">Search Students</button>
-		<button type="submit" class="btn btn-info">Reset</button>
-	</form>
 	<div>
-		<h1>Class List</h1>
+		<h1>Grade Student</h1>
 
 	</div>
 	<div>
-		<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
-		<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
-		<th:block th:unless="${nominalRoll=='NoData'}">
-
-			<table class="table table-stripped" th:object="${nominalRoll}">
-
-				<tr>
-					<th><span>Student Id</span></th>
-					<th><span>Name</span></th>
-					<th><span>Email</span></th>
-					<th><span>Grade</span></th>
-				</tr>
-
-				<tr th:each="student : ${nominalRoll}">
-					<td align="left" th:text="${student.studentId}"></td>
-					<td align="left" th:text="${student.studentName}">Name</td>
-					<td align="left" th:text="${student.studentEmail}">Email</td>
-					<td align="left" th:text="${student.}">View Performance</td>
-				</tr>
-			</table>
-			<div>
-				<a th:href="@{/lecturer/grading}">Grade Student</a>
-			</div>
-		</th:block>
+		<form action="#" th:action="@{/student-performance/{courseBatchId}/{student_id}/grading}"
+			th:object="${gradeStudent}" method="post">
+			<label for="gpa">Grade Student:</label>
+			<select th:field="*{gpa}">
+				<option th:value="5.0">A+</option>
+				<option th:value="5.0">A</option>
+				<option th:value="4.5">A-</option>
+				<option th:value="4.0">B+</option>
+				<option th:value="3.5">B</option>
+				<option th:value="3.0">B-</option>
+				<option th:value="2.5">C+</option>
+				<option th:value="2.0">C</option>
+				<option th:value="1.5">D+</option>
+				<option th:value="1.0">D</option>
+				<option th:value="0.0">F</option>
+			</select>
+			<input type="submit">
+		</form>
 	</div>
 
 	<div th:replace="fragments/header.html :: jsLink"></div>
