@@ -1,5 +1,6 @@
 package team2.capSystem.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import team2.capSystem.helper.lecturerCourseStudentSearch;
-import team2.capSystem.helper.lecturerCoursesTaught;
+import team2.capSystem.helper.lecturerCoursesHelper;
 import team2.capSystem.helper.nominalRoll;
 import team2.capSystem.helper.studentTranscript;
 import team2.capSystem.helper.userSessionDetails;
@@ -41,17 +42,6 @@ public class LecturerController {
 	private LecturerService lecturerService;
 	@Autowired
 	private StudentService studentService;
-
-	@RequestMapping(value = "/dashboard")
-	public String displayDashboard(Model model, HttpSession session) {
-		try {
-			if (!isUserLecturer(session))
-				return "forward:/logout";
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "/lecturer/lecturer-dashboard";
-	}
 
 	@RequestMapping("/profile")
 	public String displayLecturerProfile(Model model, HttpSession session) {
@@ -86,35 +76,95 @@ public class LecturerController {
 
 	}
 
-	@RequestMapping(value = "/course-taught")
-	public String viewCoursetaught(HttpSession session, Model model,
+	@RequestMapping(value = "/dashboard")
+	public String displayDashboard(Model model, HttpSession session,
+			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
+		try {
+			if (!isUserLecturer(session))
+				return "forward:/logout";
+			ArrayList<lecturerCoursesHelper> lectCrsUpcoming = new ArrayList<lecturerCoursesHelper>();
+			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
+			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
+			List<CourseDetail> courseDetail = lecturerService.getUpcomingCoursesByLecturer(lecturer);
+			for (CourseDetail crsdtl : courseDetail) {
+				Course course = crsdtl.getCourse();
+				lecturerCoursesHelper lectCrs = lecturerService.createLecturerCoursesHelper(crsdtl, course);
+				{
+					if (keyword.keywordNullOrEmpty()) {
+						lectCrsUpcoming.add(lectCrs);
+					} else if (!keyword.keywordNullOrEmpty()
+							&& lectCrs.getCourseName().toLowerCase().contains(keyword.getKeyword().toLowerCase())) {
+						lectCrsUpcoming.add(lectCrs);
+					}
+				}
+			}
+			model.addAttribute("lecturerCourse", lectCrsUpcoming);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "/lecturer/lecturer-dashboard";
+	}
+
+	@RequestMapping(value = "/course-ongoing")
+	public String viewCourseOngoing(HttpSession session, Model model,
 			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 
 		try {
 			if (!isUserLecturer(session))
 				return "forward:/logout";
 
-			ArrayList<lecturerCoursesTaught> lectCrsTght = new ArrayList<lecturerCoursesTaught>();
+			ArrayList<lecturerCoursesHelper> lectCrsOngoing = new ArrayList<lecturerCoursesHelper>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-			List<CourseDetail> courseDetail = lecturer.getCourses().stream().distinct().collect(Collectors.toList());
+			List<CourseDetail> courseDetail = lecturerService.getOnGoingCourseByLecturer(lecturer);
 
 			for (CourseDetail crsdtl : courseDetail) {
 				Course course = crsdtl.getCourse();
-				lecturerCoursesTaught lectght = lecturerCoursesTaught.builder().courseBatchId(crsdtl.getId())
-						.courseId(course.getCourseId()).courseName(course.getName())
-						.courseDescription(course.getDescription()).startDate(crsdtl.getStartDate())
-						.endDate(crsdtl.getEndDate()).build();
+				lecturerCoursesHelper lectOn = lecturerService.createLecturerCoursesHelper(crsdtl, course);
 				{
 					if (keyword.keywordNullOrEmpty()) {
-						lectCrsTght.add(lectght);
+						lectCrsOngoing.add(lectOn);
 					} else if (!keyword.keywordNullOrEmpty()
-							&& lectght.getCourseName().toLowerCase().contains(keyword.getKeyword().toLowerCase())) {
-						lectCrsTght.add(lectght);
+							&& lectOn.getCourseName().toLowerCase().contains(keyword.getKeyword().toLowerCase())) {
+						lectCrsOngoing.add(lectOn);
+					}
+
+				}
+			}
+			model.addAttribute("lecturerCourse", lectCrsOngoing);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return "/lecturer/lecturer-course-ongoing";
+	}
+
+	@RequestMapping(value = "/course-taught")
+	public String viewCourseTaught(HttpSession session, Model model,
+			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
+
+		try {
+			if (!isUserLecturer(session))
+				return "forward:/logout";
+
+			ArrayList<lecturerCoursesHelper> lectCrsTght = new ArrayList<lecturerCoursesHelper>();
+			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
+			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
+			List<CourseDetail> courseDetail = lecturerService.getCompletedCoursesByLecturer(lecturer);
+
+			for (CourseDetail crsdtl : courseDetail) {
+				Course course = crsdtl.getCourse();
+				lecturerCoursesHelper lecTght = lecturerService.createLecturerCoursesHelper(crsdtl, course);
+				{
+					if (keyword.keywordNullOrEmpty()) {
+						lectCrsTght.add(lecTght);
+					} else if (!keyword.keywordNullOrEmpty()
+							&& lecTght.getCourseName().toLowerCase().contains(keyword.getKeyword().toLowerCase())) {
+						lectCrsTght.add(lecTght);
 					}
 				}
 			}
-			model.addAttribute("lecturerCourseTaught", lectCrsTght);
+			model.addAttribute("lecturerCourse", lectCrsTght);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -122,7 +172,7 @@ public class LecturerController {
 		return "/lecturer/lecturer-course-taught";
 	}
 
-	@RequestMapping(value = "/course-enrolment/{courseId}/{course_batch_id}")
+	@RequestMapping(value = "/class-list/{courseId}/{course_batch_id}")
 	public String viewCourseEnrol(HttpSession session, Model model, @PathVariable int course_batch_id,
 			@PathVariable int courseId,
 			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
@@ -134,8 +184,7 @@ public class LecturerController {
 			ArrayList<nominalRoll> nomRoll = new ArrayList<nominalRoll>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
-			CourseDetail cd = lecturer.getCourses().stream().filter(x -> x.getId() == course_batch_id).findFirst()
-					.get();
+			CourseDetail cd = lecturerService.getCourseDetailByBatchIdByLecturer(course_batch_id, lecturer);
 
 			List<StudentCourse> scList = lecturerService.getSCList(cd);
 			if (scList.isEmpty()) {
@@ -143,9 +192,7 @@ public class LecturerController {
 			} else {
 				for (StudentCourse sc : scList) {
 					Student student = sc.getStudent();
-					nominalRoll singleRecNominalRoll = nominalRoll.builder().courseBatchId(sc.getCourse().getId())
-							.studentId(student.getStudentId()).studentName(student.getName())
-							.studentEmail(student.getEmail()).build();
+					nominalRoll singleRecNominalRoll = lecturerService.createNominalRoll(student, sc);
 					{
 						if (keyword.keywordNullOrEmpty()) {
 							nomRoll.add(singleRecNominalRoll);
@@ -175,7 +222,7 @@ public class LecturerController {
 				return "forward:/logout";
 
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
-			StudentCourse sc = scList.stream().filter(x -> x.getCourse().getId() == courseBatchId).findFirst().get();
+			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
 			model.addAttribute("gradeStudent", sc);
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
@@ -196,7 +243,7 @@ public class LecturerController {
 
 			studentService.updateStudentCourseGPA(courseBatchId, student_id, gpa);
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
-			StudentCourse sc = scList.stream().filter(x -> x.getCourse().getId() == courseBatchId).findFirst().get();
+			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
 			model.addAttribute("gradeStudent", sc);
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
@@ -221,9 +268,7 @@ public class LecturerController {
 				model.addAttribute("studentTranscript", "NoData");
 			} else {
 				for (StudentCourse sc : scList) {
-					studentTranscript singleModRec = studentTranscript.builder().courseBatchId(sc.getId())
-							.courseName(sc.getCourse().getCourse().getName())
-							.dateOfCompletion(sc.getCourse().getEndDate()).gpa(sc.getGpa()).build();
+					studentTranscript singleModRec = lecturerService.createStudentTransciptRec(sc);
 					studTS.add(singleModRec);
 				}
 				model.addAttribute("studentTranscript", studTS);

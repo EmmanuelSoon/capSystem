@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
-import team2.capSystem.helper.userSessionDetails;
+import team2.capSystem.helper.*;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
 
@@ -90,7 +91,7 @@ public class LecturerServiceImpl implements LecturerService {
 		lecturerRepository.save(l);
 	}
 
-	// for the controller
+	// Lecturer Controller Methods------
 	public List<StudentCourse> getSCList(CourseDetail cd) {
 		return scRepository.findByCourse(cd);
 	}
@@ -103,36 +104,90 @@ public class LecturerServiceImpl implements LecturerService {
 		Lecturer lecturer = lecturerRepository.getReferenceById(id);
 		return lecturer.getCourses();
 	};
-	
-	public Lecturer getLecturerProfile(userSessionDetails usd){
+
+	public Lecturer getLecturerProfile(userSessionDetails usd) {
 		return getLecturer(usd.getUser());
 	}
 
+	// streams filters
+	public List<CourseDetail> getUpcomingCoursesByLecturer(Lecturer lecturer) {
+		return lecturer.getCourses().stream().filter(x -> x.getStartDate().isAfter(LocalDate.now())).distinct()
+				.collect(Collectors.toList());
+	}
+
+	public List<CourseDetail> getCompletedCoursesByLecturer(Lecturer lecturer) {
+		return lecturer.getCourses().stream().filter(x -> x.getEndDate().isBefore(LocalDate.now())).distinct()
+				.collect(Collectors.toList());
+	}
+
+	public List<CourseDetail> getStartedCourse(Lecturer lecturer) {
+		return lecturer.getCourses().stream().filter(x -> x.getStartDate().isBefore(LocalDate.now())).distinct()
+				.collect(Collectors.toList());
+	}
+
+	public List<CourseDetail> getOnGoingCourseByLecturer(Lecturer lecturer) {
+		return getStartedCourse(lecturer).stream().filter(x -> x.getEndDate().isAfter(LocalDate.now())).distinct()
+				.collect(Collectors.toList());
+	}
+	
+	public StudentCourse getSCByBatchId(int batchId, List<StudentCourse> scList) {
+		return scList.stream().filter(x -> x.getCourse().getId() == batchId).findFirst().get();
+	}
+
+
+	public CourseDetail getCourseDetailByBatchIdByLecturer(int batchId, Lecturer lecturer) {
+		return lecturer.getCourses().stream().filter(x -> x.getId() == batchId).findFirst().get();
+	}
+
+	
+	// lecturerCoursesHelper builder
+	public lecturerCoursesHelper createLecturerCoursesHelper(CourseDetail cd, Course course) {
+		return lecturerCoursesHelper.builder().courseBatchId(cd.getId()).courseId(course.getCourseId())
+				.courseName(course.getName()).courseDescription(course.getDescription()).startDate(cd.getStartDate())
+				.endDate(cd.getEndDate()).build();
+	}
+
+	// nominalRoll builder
+	public nominalRoll createNominalRoll(Student student, StudentCourse sc) {
+		return nominalRoll.builder().courseBatchId(sc.getCourse().getId())
+				.studentId(student.getStudentId()).studentName(student.getName())
+				.studentEmail(student.getEmail()).build();
+	}
+
+	public studentTranscript createStudentTransciptRec(StudentCourse sc) {
+		return studentTranscript.builder().courseBatchId(sc.getId())
+				.courseName(sc.getCourse().getCourse().getName())
+				.dateOfCompletion(sc.getCourse().getEndDate()).gpa(sc.getGpa()).build();
+	}
+	
+	
+
+	// -------------------------
+
 	public boolean removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer) {
-		if(cd.getLecturers().size() > 1){
+		if (cd.getLecturers().size() > 1) {
 			lecturer.getCourses().remove(cd);
 			lecturerRepository.save(lecturer);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 
 	};
 
-	public Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd){
+	public Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd) {
 		lecturer.getCourses().add(cd);
 		lecturerRepository.save(lecturer);
 		return lecturerRepository.findByUsername(lecturer.getUsername());
 	};
 
-	public List<CourseDetail> findAvailableCoursesByLecturerId(int id){
+	public List<CourseDetail> findAvailableCoursesByLecturerId(int id) {
 		List<CourseDetail> cdList = cdRepository.findByStartDateAfter(LocalDate.now());
 		List<CourseDetail> results = new ArrayList<CourseDetail>();
 		Lecturer currLecturer = lecturerRepository.getReferenceById(id);
-		
-		for(CourseDetail cd: cdList){
-			if(!currLecturer.getCourses().contains(cd)){
+
+		for (CourseDetail cd : cdList) {
+			if (!currLecturer.getCourses().contains(cd)) {
 				results.add(cd);
 			}
 		}

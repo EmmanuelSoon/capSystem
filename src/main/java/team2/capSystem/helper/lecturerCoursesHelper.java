@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class lecturerCoursesTaught {
+public class lecturerCoursesHelper {
 
 	private int courseBatchId;
 	private int courseId;

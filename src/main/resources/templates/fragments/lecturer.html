@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="container">
+
+<head></head>
+
+<body>
+
+		
+
+	<div th:fragment="lecturerCourseTable">
+		<table class="table table-striped" th:object="${lecturerCourse}">
+			<tr>
+				<th> Batch Number</th>
+				<th> Course Name </th>
+				<th> Course Description </th>
+				<th> Course Start Date </th>
+				<th> Course End Date </th>
+				<th> View Class List </th>
+			</tr>
+			<tr th:if="${lecturerCourse.empty}">
+				<td colspan="4" class="p-4 border">No Course(s) Assigned!</td>
+			</tr>
+			<tr th:each="lectCrs : ${lecturerCourse}">
+				<td align="left" th:text="${lectCrs.courseBatchId}">Course Batch Id</td>
+				<td align="left" th:text="${lectCrs.courseName}">Course Name</td>
+				<td align="left" th:text="${lectCrs.courseDescription}">Course Description</td>
+				<td align="left" th:text="${#temporals.format(lectCrs.startDate, 'dd-MM-yyyy')}">Course Start
+					Date</td>
+				<td align="left" th:text="${#temporals.format(lectCrs.endDate, 'dd-MM-yyyy')}">Course End Date
+				</td>
+
+				<td>
+					<a th:href="@{/lecturer/class-list/}+${lectCrs.courseId}+'/'+${lectCrs.courseBatchId}"
+						class="btn btn-success btn-outline">
+						<span> View Details </span></a>
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</body>
+
+
+</html>

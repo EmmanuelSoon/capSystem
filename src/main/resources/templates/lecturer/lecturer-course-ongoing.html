@@ -9,11 +9,11 @@
 <body>
 	<header th:replace="fragments/header :: menu"></header>
 
-
 	<div class="container">
-		<h2>Completed Course</h2>
+		<h2>Ongoing Courses</h2>
 
-		<form action="#" th:action="@{/lecturer/course-taught}" method="get" th:object="${lecturerCourseStudentSearch}">
+		<form action="#" th:action="@{/lecturer/course-ongoing}" method="get"
+			th:object="${lecturerCourseStudentSearch}">
 			<form th:action="@{/lecturer/course-taught}" method="get">
 				<div class="row my-3">
 					<div class="col-3 mr-1">
@@ -31,9 +31,8 @@
 			</form>
 			<br>
 			<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
-
 	</div>
-	<div th:insert="fragments/header :: jsLink"></div>
+	<div th:replace="fragments/header :: jsLink"></div>
 </body>
 
 </html>
