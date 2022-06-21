@@ -99,10 +99,6 @@ public class StudentServiceImpl implements StudentService {
 		return scRepository.findSCByStudentId(id);
 	}
 
-
-
-
-	//to change to get by end date for validating
 	public List<StudentCourse> findStudentCoursesFinish(int id, String keyword) {
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
 		if (keyword != null && keyword != ""){
@@ -120,7 +116,6 @@ public class StudentServiceImpl implements StudentService {
 
 	}
 	
-	//to change to get by end date
 	public List<StudentCourse> findStudentCoursesOngoing(int id, String keyword) {
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
 		if (keyword != null && keyword != ""){
@@ -153,18 +148,15 @@ public class StudentServiceImpl implements StudentService {
 		List<StudentCourse> takenCourse = findCoursesByStudentId(usd.getUserId());
 		List<CourseDetail> courseList = new ArrayList<CourseDetail>();
 		List<CourseDetail> availCourse = new ArrayList<CourseDetail>();
-		LocalDate start = search.getLocalStartDate();
-		LocalDate end = search.getLocalEndDate();
-
 
 		if (!search.startNullOrEmpty()) {
 			if (!search.endNullOrEmpty()) {
-				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(start, end);
+				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(search.getStartDate()), LocalDate.parse(search.getEndDate()));
 			} else if (search.endNullOrEmpty()) {
-				courseList = cdRepository.findByStartDateAfter(start);
+				courseList = cdRepository.findByStartDateAfter(LocalDate.parse(search.getStartDate()));
 			}
 		} else if (!search.endNullOrEmpty()) {
-			courseList = cdRepository.findByEndDateBefore(end);
+			courseList = cdRepository.findByEndDateBefore(LocalDate.parse(search.getEndDate()));
 		} else {
 			courseList = cdRepository.findByStartDateAfter(LocalDate.now());
 		}
@@ -190,7 +182,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId) {
-		// double check the edge cases here
+		// add check for date. do not allow enrollment if start date has passed
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
@@ -200,6 +192,15 @@ public class StudentServiceImpl implements StudentService {
 			throw new RequestException("Unable to enroll, class is full");
 		}
 	}
+
+	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd){
+		int studentId = usd.getUserId();
+		StudentCourse sc = scRepository.findCourseByCourseIdStudentId(studcourseId, studentId);
+		//try catch here?
+		removeStudentCourse(sc);
+	}
+
+
 
 	public Student getStudentProfile(userSessionDetails usd) {
 		return getStudent(usd.getUser());

@@ -69,7 +69,7 @@ public class StudentController {
     }
 
     @RequestMapping(path = "/enroll*")
-    public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("CourseDetailSearchQuery") courseDetailSearchQuery search){
+    public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
         if (!checkUser(session)){
             return "forward:/logout";
         }
@@ -94,6 +94,21 @@ public class StudentController {
         }
         
     	return "redirect:/student/course-history";
+    }
+
+    @RequestMapping("/unenrollCourse/" )
+    public String unenrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
+        userSessionDetails usd = getUsd(session);
+        try {
+            studService.studentUnenrollCourse(id, usd);
+        } catch (RequestException e) {
+            //TODO: handle exception
+        }
+        
+    	return "forward:/student/course-history";
     }
 
     @RequestMapping("/profile")

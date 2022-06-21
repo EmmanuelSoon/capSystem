@@ -38,6 +38,8 @@ public interface StudentService {
 
 	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
 
+	void studentUnenrollCourse(int studcourseId, userSessionDetails usd);
+
 	List<StudentCourse> findCoursesByStudentId(int id);
 
 	Student getStudentProfile(userSessionDetails usd);

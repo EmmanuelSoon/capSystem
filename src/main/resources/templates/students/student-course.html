@@ -32,7 +32,7 @@
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
-					<th>Grade</th>
+					<th> </th>
 				</tr>
 				<tr th:if="${studCourse.empty}">
 					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
@@ -41,7 +41,14 @@
 				<tr th:each="sc: ${studCourse}">
 					<td th:text="${sc.course.course.name}">Course Name</td>
 					<td th:text="${sc.course.course.description}">Course Description</td>
-					<td></td>
+					<td>
+						<form action="#" th:action="@{/student/unenrollCourse/}" method="post">
+							<input type="hidden" th:value="${sc.course.id}" name="cdId">
+							<button type="submit" class="btn btn-primary">
+								Unenroll
+							</button>
+						</form>
+					</td>
 				</tr>
 			</table>
 		</div>
