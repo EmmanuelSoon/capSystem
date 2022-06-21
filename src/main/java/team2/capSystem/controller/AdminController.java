@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import team2.capSystem.helper.batchCreator;
 import team2.capSystem.model.*;
 import team2.capSystem.services.*;
 
@@ -88,6 +89,11 @@ public class AdminController {
         return courseService.findCourseById(id);
     }
 
+    @GetMapping(value = "/course/batch/{id}")
+    public CourseDetail getCourseDetail(@PathVariable int id){
+        return courseService.findCourseDetailById(id);
+    }
+
     @GetMapping(value = "/lecturer/course/{id}")
     public List<CourseDetail> getCoursesForLecturer(@PathVariable int id){
         List<CourseDetail> cdList = lecturerService.findCoursesByLecturerId(id);
@@ -114,7 +120,7 @@ public class AdminController {
     public List<CourseDetail> getCourseDetails(@PathVariable int courseId) {
         Course c = courseService.findCourseById(courseId);
         if (c != null)
-            return  c.getCourseDetails();
+            return courseService.findAllCourseDetailsByCourseId(courseId);
         else
             return null;
     }
@@ -250,8 +256,21 @@ public class AdminController {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
-
-
+    @PostMapping(value="/course/batch/{id}")
+    public ResponseEntity AddCourseDetailToCourse(@RequestBody batchCreator cd, @PathVariable int id){
+        try {
+            Course c = courseService.findCourseById(id);
+            if(c == null) throw new RuntimeException();
+            CourseDetail newcd = new CourseDetail(LocalDate.parse(cd.getStartDate()), LocalDate.parse(cd.getEndDate()), c);
+            newcd.setMaxSize(cd.getSize());
+            c.getCourseDetails().add(newcd);
+            courseService.saveCourse(c);
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
     /*-----------------------------------UPDATE FUNCTIONS--------------------------------------*/
 
@@ -319,8 +338,6 @@ public class AdminController {
             Course currCourse = courseService.findCourseById(id);
             if(currCourse == null) throw new RuntimeException();
             courseService.updateCourseDetails(course);
-
-            
             return ResponseEntity.ok(courseService.findCourseById(id));
 
         }
@@ -400,6 +417,15 @@ public class AdminController {
         }
     }
 
-
+    @DeleteMapping(value="/course/batch/{id}")
+    public ResponseEntity deleteCourseDetail(@PathVariable int id){
+        try{
+            courseService.deleteCourseDetailById(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+        }
+    }
 
 }

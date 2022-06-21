@@ -47,7 +47,7 @@ public class LoginController {
 
 		if(bindingresult.hasErrors())
 		{
-			return "error";
+			return "login";
 		}
 		switch (role) {
 		case "lecturer":
