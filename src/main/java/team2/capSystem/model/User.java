@@ -2,11 +2,8 @@ package team2.capSystem.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-<<<<<<< Updated upstream
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-=======
->>>>>>> Stashed changes
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -4,7 +4,7 @@
 <link rel="stylesheet" th:href="@{/css/login.css}">
 
 <body>
-<<<<<<< Updated upstream
+
   <div class="container justify-content-center col-5 mt-3">
     <div class="text-center">
       <img th:src="@{/images/logo.jpg}" alt="Logo" width="250" height="250" class="rounded-circle" />
@@ -51,35 +51,7 @@
             </div>
         </form>
     </div>
-=======
-	<!--<div th:replace="fragments/layout.html :: menu"/>
-	<div th:replace="fragments/layout.html :: header"/> -->
-	<form action="#" th:object="${user}" th:action="@{'/login/authenticate'}" method="post">
-		<table class="framed">
-			<tr>
-				<select id="type" name="LoginAs">
-					<!--<option value="admin">Administrator</option> -->
-					<option value="lecturer">Lecturer</option>
-					<option value="student">Student</option>
-				</select>
-			</tr>
-			<tr>
-				<td><span th:text="username">Username</span></td>
-				<td colspan="3">
-					<fieldset>
-						<input type="text" th:field="*{username}">
-						<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
-					</fieldset>
-				</td>
-			</tr>
-			<tr>
-				<td><span th:text="password">Password</span></td>
-				<td colspan="3">
-					<fieldset> <input type="password" th:field="*{password}" name="password">
-						<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-					</fieldset>
-				</td>
->>>>>>> Stashed changes
+
 
 <div th:replace="fragments/header :: jsLink"></div>
 </body>
