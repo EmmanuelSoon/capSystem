@@ -8,6 +8,7 @@ import { FormErrors } from './FormErrors';
 class EditLecturer extends Component {
 
     emptyItem = {
+        lecturerId: 0,
         name: '',
         username: '',
         password: '',
@@ -25,9 +26,14 @@ class EditLecturer extends Component {
             nameValid: false,
             formValid: false,
             formErrors: {email:'', password:'', username: '', name:''},
+            verifiedPass: true,
+            oldPassword: '',
+            showError: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.verifyPassword = this.verifyPassword.bind(this);
+
     }
 
 
@@ -35,7 +41,7 @@ class EditLecturer extends Component {
         if (this.props.match.params.id !== 'new') {
             const lecturer = await (await fetch(`/admin/lecturer/${this.props.match.params.id}`)).json();
             lecturer.active = true;
-            this.setState({item: lecturer, formValid: true, emailValid: true, passwordValid: true, usernameValid: true, nameValid: true});
+            this.setState({item: lecturer, formValid: true, verifiedPass: false, emailValid: true, passwordValid: true, usernameValid: true, nameValid: true});
         }
     }
 
@@ -62,11 +68,15 @@ class EditLecturer extends Component {
                 emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
                 break;
-            case 'password':
-                passwordValid = value.length >= 6;
-                fieldValidationErrors.password = passwordValid ? '': ' needs to be more than 6 characters';
+            case 'confirmPassword':
+                passwordValid = value.length >= 6 && value === this.state.item.password;
+                fieldValidationErrors.password = passwordValid ? '': ' needs to be more than 6 characters and matching';
                 break;
-            case 'name':
+            case 'password':
+                passwordValid = value.length >= 6 && value === this.state.item.confirmPassword;
+                fieldValidationErrors.password = passwordValid ? '': ' needs to be more than 6 characters and matching';
+                break;
+        case 'name':
                 nameValid = value.length >= 3 && value.length <= 15;
                 fieldValidationErrors.name = nameValid ? '' : ' needs to be within 3 to 15 characters';
                 break;
@@ -108,10 +118,51 @@ class EditLecturer extends Component {
         this.props.history.push('/admin/lecturer');
     }
 
+
+    async verifyPassword(event){
+        event.preventDefault();
+        const item = this.state;
+        item.password = this.state.oldPassword;
+        item.lecturerId = this.state.item.lecturerId;
+        await fetch(`/admin/lecturer/verify/${item.lecturerId}`,  {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item),
+        })
+        .then(response => {
+            if(response.status === 202){
+                this.setState({verifiedPass: true, showError: false})
+            }
+            else{
+                this.setState({showError: true})
+            }
+        })
+    }
+
+
     render() {
         const {item} = this.state;
         const title = <h2 className='mb-3 mt-3'>{item.lecturerId ? 'Edit Lecturer' : 'Add Lecturer'}</h2>;
     
+        const RenderError = (check) => {
+            if (check){
+                return(
+                    <div style={{color: 'red'}}>
+                        <p>**Incorrect Password**</p>
+                    </div>
+                )
+
+            }
+            else{
+                return(
+                    <div></div>
+                )
+            }
+        }
+
         return <div>
             <Container>
                 {title}
@@ -126,11 +177,6 @@ class EditLecturer extends Component {
                         <Input type="text" name="username" id="username" value={item.username || ''}
                                onChange={this.handleChange} autoComplete="username"  disabled={item.lecturerId ? true : false}/>
                     </FormGroup>
-                    <FormGroup className={`${this.errorClass(this.state.formErrors.password)}`}>
-                        <Label for="password">Password</Label>
-                        <Input type="text" name="password" id="password" value={item.password || ''}
-                               onChange={this.handleChange} autoComplete="password"/>
-                    </FormGroup>
                     <FormGroup className={`${this.errorClass(this.state.formErrors.email)}`}>
                         <Label for="email">Email</Label>
                         <Input type="text" name="email" id="email" value={item.email || ''}
@@ -144,6 +190,16 @@ class EditLecturer extends Component {
                                 <option value={false}>False</option>
                             </Input>
                     </FormGroup>
+                    <FormGroup className={`${this.errorClass(this.state.formErrors.password)}`}>
+                        <Label for="password">Password</Label>
+                        <Input type="password" name="password" id="password" value={item.password || ''}
+                               onChange={this.handleChange} autoComplete="password" disabled={!this.state.verifiedPass}/>
+                    </FormGroup>
+                    <FormGroup className={`${this.errorClass(this.state.formErrors.password)}`}>
+                        <Label for="confirmPassword">Confirm Password</Label>
+                        <Input type="password" name="confirmPassword" id="confirmPassword" 
+                               onChange={this.handleChange} disabled={!this.state.verifiedPass}/>
+                    </FormGroup>
                     <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>
@@ -151,6 +207,16 @@ class EditLecturer extends Component {
                         <Button color="primary" type="submit" disabled={!this.state.formValid}>Save</Button>{' '}
                         <Button color="secondary" tag={Link} to="/admin/lecturer">Cancel</Button>
                     </FormGroup>
+                </Form>
+                <h4>To Change password, Please Verify the password first</h4>
+                <Form onSubmit={this.verifyPassword}>
+                    <FormGroup>
+                        <Label for="password">Enter Old Password</Label>
+                        <Input type="password" name="oldPassword" id="oldPassword"  
+                                autoComplete="password" onChange={event => this.setState({oldPassword: event.target.value})}/>
+                    </FormGroup>
+                    {RenderError(this.state.showError)}
+                    <Button className='mt-3' color="primary" type="submit">Verify</Button>{' '}
                 </Form>
             </Container>
         </div>

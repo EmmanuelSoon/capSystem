@@ -23,11 +23,10 @@ class EditStudent extends Component {
             item: this.emptyItem,
             emailValid: false,
             passwordValid: false,
-            confirmPasswordValid: false,
             usernameValid: false,
             nameValid: false,
             formValid: false,
-            formErrors: {email:'', password:'', username: '', name:'', matching: ''},
+            formErrors: {email:'', password:'', username: '', name:''},
             verifiedPass: true,
             oldPassword: '',
             showError: false,
@@ -42,7 +41,7 @@ class EditStudent extends Component {
         if (this.props.match.params.id !== 'new') {
             const student = await (await fetch(`/admin/student/${this.props.match.params.id}`)).json();
             student.active = true;
-            this.setState({item: student, formValid: true, verifiedPass: false, emailValid: true, passwordValid: true, usernameValid: true, nameValid: true, confirmPasswordValid: true});
+            this.setState({item: student, formValid: true, verifiedPass: false, emailValid: true, passwordValid: true, usernameValid: true, nameValid: true});
         }
     }
 
@@ -63,7 +62,6 @@ class EditStudent extends Component {
         let fieldValidationErrors = this.state.formErrors;
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
-        let confirmPasswordValid = this.state.confirmPasswordValid;
         let nameValid = this.state.nameValid;
         let usernameValid = this.state.usernameValid;
     
@@ -73,7 +71,7 @@ class EditStudent extends Component {
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
                 break;
             case 'confirmPassword':
-                passwordValid = value.length >= 6 && value === this.state.item.confirmPassword;
+                passwordValid = value.length >= 6 && value === this.state.item.password;
                 fieldValidationErrors.password = passwordValid ? '': ' needs to be more than 6 characters and matching';
                 break;
             case 'password':
@@ -94,14 +92,13 @@ class EditStudent extends Component {
         this.setState({formErrors: fieldValidationErrors,
                         emailValid: emailValid,
                         passwordValid: passwordValid,
-                        confirmPasswordValid: confirmPasswordValid,
                         nameValid: nameValid,
                         usernameValid: usernameValid
                       }, this.validateForm);
       }
 
     validateForm() {
-        this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid && this.state.usernameValid && this.state.confirmPasswordValid});
+        this.setState({formValid: this.state.emailValid && this.state.passwordValid && this.state.nameValid && this.state.usernameValid});
     }
 
     errorClass(error) {

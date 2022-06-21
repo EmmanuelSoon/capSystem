@@ -171,6 +171,26 @@ public class AdminController {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
+    @PostMapping(value ="/lecturer/verify/{id}")
+    public ResponseEntity verifyLecturerPassword(@RequestBody Lecturer lecturer, @PathVariable int id){
+        try{
+            Lecturer currLecturer = lecturerService.findLecturerById(id);
+            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+            String password = encoder.encode(lecturer.getPassword());
+
+            if(currLecturer != null && encoder.matches(lecturer.getPassword(), currLecturer.getPassword())){
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("status", true);
+                return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
+            }
+            else {
+                throw new Exception();
+            }
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
     @PostMapping(value = "/student")
     public ResponseEntity createStudent(@RequestBody Student student){
