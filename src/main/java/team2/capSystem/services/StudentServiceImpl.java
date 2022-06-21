@@ -1,6 +1,5 @@
 package team2.capSystem.services;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ import team2.capSystem.repo.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-	
+
 	@Autowired
 	StudentCourseRepository scRepository;
 
@@ -37,44 +36,43 @@ public class StudentServiceImpl implements StudentService {
 	@Resource
 	CourseRepository cRepo;
 
-	public boolean tableExist(){
+	public boolean tableExist() {
 		return studentRepository.existsBy();
 	}
 
-	public boolean scTableExist(){
+	public boolean scTableExist() {
 		return scRepository.existsBy();
 	}
 
-	 public void createStudent(String username, String password, String name, String email){
-		studentRepository.save(new Student(username,password, name, email));
-	 };
-
+	public void createStudent(String username, String password, String name, String email) {
+		studentRepository.save(new Student(username, password, name, email));
+	};
 
 	public Student findStudentByUsername(String username) {
 		return studentRepository.findStudentByUsername(username);
 	}
-	
+
 	public Student getStudent(User u) {
 		return studentRepository.findStudentByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
 
-	public List<Student> getAllStudents(){
+	public List<Student> getAllStudents() {
 		return studentRepository.findAll();
 	};
 
-	public Student saveStudent(Student student){
+	public Student saveStudent(Student student) {
 		return studentRepository.save(student);
 	}
 
-	public Student findStudentById(int id){
+	public Student findStudentById(int id) {
 		return studentRepository.findById(id).get();
 	}
 
-	public void deleteStudentById(int id){
+	public void deleteStudentById(int id) {
 		Student student = studentRepository.findById(id).get();
-		if(student != null){
+		if (student != null) {
 			List<StudentCourse> scList = student.getCourses();
-			for (StudentCourse sc : scList){
+			for (StudentCourse sc : scList) {
 				CourseDetail cd = cdRepository.getReferenceById(sc.getCourse().getId());
 				cd.getStudent_course().remove(sc);
 				cdRepository.save(cd);
@@ -82,8 +80,7 @@ public class StudentServiceImpl implements StudentService {
 			student.getCourses().clear();
 			studentRepository.save(student);
 			studentRepository.delete(student);
-		}
-		else{
+		} else {
 			throw new NullPointerException();
 		}
 	}
@@ -95,101 +92,90 @@ public class StudentServiceImpl implements StudentService {
 		return sc;
 	}
 
-	//Student controller methods
+	// Student controller methods
 
-	public List<StudentCourse> findCoursesByStudentId(int id){
+	public List<StudentCourse> findCoursesByStudentId(int id) {
 		return scRepository.findSCByStudentId(id);
 	}
 
-	public List<StudentCourse> findStudentCoursesGraded(int id){
+	public List<StudentCourse> findStudentCoursesGraded(int id) {
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
-		courseList = courseList.stream()
-		.filter(x -> x.getGpa() != -1)
-		.collect(Collectors.toList());
+		courseList = courseList.stream().filter(x -> x.getGpa() != -1).collect(Collectors.toList());
 		return courseList;
 	}
 
-	public Double getAverageGPA(int id){
+	public Double getAverageGPA(int id) {
 		List<StudentCourse> courseList = findStudentCoursesGraded(id);
-		Double averageGPA=courseList.stream()
-				.mapToDouble(x->x.getGpa())
-				.average()
-				.getAsDouble();
+		Double averageGPA = courseList.stream().mapToDouble(x -> x.getGpa()).average().getAsDouble();
 		return averageGPA;
 	}
 
-
-	public List<StudentCourse> findStudentCoursesUngraded(int id){
+	public List<StudentCourse> findStudentCoursesUngraded(int id) {
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
-		courseList = courseList.stream()
-		.filter(x -> x.getGpa() == -1)
-		.collect(Collectors.toList());
+		courseList = courseList.stream().filter(x -> x.getGpa() == -1).collect(Collectors.toList());
 		return courseList;
 	}
 
-	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd){
-		List<StudentCourse> studentCourseList= scRepository.findSCByStudentId(usd.getUserId());
+	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd) {
+		List<StudentCourse> studentCourseList = scRepository.findSCByStudentId(usd.getUserId());
 		return studentCourseList;
 	}
 
-	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, courseDetailSearchQuery search){
+	public List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, courseDetailSearchQuery search) {
 		List<StudentCourse> takenCourse = findCoursesByStudentId(usd.getUserId());
 		List<CourseDetail> courseList = new ArrayList<CourseDetail>();
 		List<CourseDetail> availCourse = new ArrayList<CourseDetail>();
 
-		if (!search.startNullOrEmpty()){
-			if(!search.endNullOrEmpty()){
-				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(search.getStartDate()), LocalDate.parse(search.getEndDate()));
-			}
-			else if(search.endNullOrEmpty()){
+		if (!search.startNullOrEmpty()) {
+			if (!search.endNullOrEmpty()) {
+				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(search.getStartDate()),
+						LocalDate.parse(search.getEndDate()));
+			} else if (search.endNullOrEmpty()) {
 				courseList = cdRepository.findByStartDateAfter(LocalDate.parse(search.getStartDate()));
 			}
-		}
-		else if(!search.endNullOrEmpty()){
-				courseList = cdRepository.findByEndDateBefore(LocalDate.parse(search.getEndDate()));
-			}
-		else{
+		} else if (!search.endNullOrEmpty()) {
+			courseList = cdRepository.findByEndDateBefore(LocalDate.parse(search.getEndDate()));
+		} else {
 			courseList = cdRepository.findByStartDateAfter(LocalDate.now());
-		}	
-		
-		for (StudentCourse sc : takenCourse){
+		}
+
+		for (StudentCourse sc : takenCourse) {
 			courseList = courseList.stream()
-               .filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
-               .collect(Collectors.toList());
+					.filter(x -> x.getCourse().getCourseId() != sc.getCourse().getCourse().getCourseId())
+					.collect(Collectors.toList());
 		}
 		String keyword = search.getKeyword();
-		if (keyword != null && keyword != ""){
-			for (CourseDetail course: courseList){
-				if (course.getCourse().getName().toLowerCase().contains(keyword.toLowerCase()) || course.getCourse().getDescription().toLowerCase().contains(keyword.toLowerCase())){
+		if (keyword != null && keyword != "") {
+			for (CourseDetail course : courseList) {
+				if (course.getCourse().getName().toLowerCase().contains(keyword.toLowerCase())
+						|| course.getCourse().getDescription().toLowerCase().contains(keyword.toLowerCase())) {
 					availCourse.add(course);
 				}
 			}
-		}
-		else{
+		} else {
 			availCourse = courseList;
 		}
 
 		return availCourse;
 	}
 
-	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId){
-		//double check the edge cases here
+	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId) {
+		// double check the edge cases here
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
-		if (cd.getMaxSize() > enrolled.size()){
-		 	addCourseDetailToStudent(student, cd);
-		}
-		else{
+		if (cd.getMaxSize() > enrolled.size()) {
+			addCourseDetailToStudent(student, cd);
+		} else {
 			throw new RequestException("Unable to enroll, class is full");
 		}
 	}
 
-	public Student getStudentProfile(userSessionDetails usd){
+	public Student getStudentProfile(userSessionDetails usd) {
 		return getStudent(usd.getUser());
 	}
 
-	public Student setStudentPassword(int id, userChangePassword userpass){
+	public Student setStudentPassword(int id, userChangePassword userpass) {
 		Student student = studentRepository.findById(id).get();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String setPass = encoder.encode(userpass.getNewPassword());
@@ -198,29 +184,29 @@ public class StudentServiceImpl implements StudentService {
 		return student;
 	}
 
-
-	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList){
+	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList) {
 		List<StudentCourseJson> scJsonList = new ArrayList<StudentCourseJson>();
 
-        for (StudentCourse sc : scList){
-            int studentId = sc.getStudent().getStudentId();
-            int courseDetailId = sc.getCourse().getId();
-            String courseName = sc.getCourse().getCourse().getName();
-            LocalDate startDate = sc.getCourse().getStartDate();
-            LocalDate endDate = sc.getCourse().getEndDate();
-            double gpa = sc.getGpa();
-            StudentCourseJson scJson = new StudentCourseJson(studentId, courseDetailId, courseName, startDate, endDate, gpa);
-            scJsonList.add(scJson);
-        }
+		for (StudentCourse sc : scList) {
+			int studentId = sc.getStudent().getStudentId();
+			int courseDetailId = sc.getCourse().getId();
+			String courseName = sc.getCourse().getCourse().getName();
+			LocalDate startDate = sc.getCourse().getStartDate();
+			LocalDate endDate = sc.getCourse().getEndDate();
+			double gpa = sc.getGpa();
+			StudentCourseJson scJson = new StudentCourseJson(studentId, courseDetailId, courseName, startDate, endDate,
+					gpa);
+			scJsonList.add(scJson);
+		}
 
-        return scJsonList;
+		return scJsonList;
 	};
 
-	public StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId){
+	public StudentCourse findCourseByCourseIdStudentId(int courseId, int studentId) {
 		return scRepository.findCourseByCourseIdStudentId(courseId, studentId);
 	};
 
-	public void removeStudentCourse(StudentCourse sc){
+	public void removeStudentCourse(StudentCourse sc) {
 		Student student = studentRepository.getReferenceById(sc.getStudent().getStudentId());
 		CourseDetail cd = cdRepository.getReferenceById(sc.getCourse().getId());
 		student.getCourses().remove(sc);
@@ -230,25 +216,27 @@ public class StudentServiceImpl implements StudentService {
 		scRepository.delete(sc);
 	};
 
-
-
-	public List<CourseDetail> findAvailableCoursesByStudentId(int id){
+	public List<CourseDetail> findAvailableCoursesByStudentId(int id) {
 		List<CourseDetail> cdList = cdRepository.findByStartDateAfter(LocalDate.now());
 		List<CourseDetail> results = new ArrayList<CourseDetail>();
 		Student currStudent = studentRepository.getReferenceById(id);
 		List<Course> CoursesDoneBefore = new ArrayList<Course>();
-		for (StudentCourse sc : currStudent.getCourses()){
+		for (StudentCourse sc : currStudent.getCourses()) {
 			CoursesDoneBefore.add(sc.getCourse().getCourse());
 		}
-		
-		for (CourseDetail cd : cdList){
-			if(!CoursesDoneBefore.contains(cd.getCourse())){
+
+		for (CourseDetail cd : cdList) {
+			if (!CoursesDoneBefore.contains(cd.getCourse())) {
 				results.add(cd);
 			}
 		}
 		return results;
 	};
 
+	public void updateStudentCourseGPA(int coursebatchID, int studentId, double selectedGPA) {
 
+		scRepository.updateStudentCourseGPA(coursebatchID, studentId, selectedGPA);
+
+	};
 
 }
