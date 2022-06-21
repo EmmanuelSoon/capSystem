@@ -227,6 +227,7 @@ public class LecturerController {
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
 			model.addAttribute("gradeStudent", sc);
+			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
 		} catch (Exception e) {
@@ -248,6 +249,7 @@ public class LecturerController {
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
 			model.addAttribute("gradeStudent", sc);
+			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
 		} catch (Exception e) {
@@ -283,8 +285,10 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-performance";
 	}
 
-	@RequestMapping(value="change-password")
-    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model){
+	@RequestMapping(value = "change-password")
+	public String ChangePassword(HttpSession session,
+			@ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,
+			Model model) {
 //		if (bindingresult.hasErrors()){
 //			model.addAttribute("testing", "this is testing");
 //            return "lecturer/lecturer-password-change";
@@ -305,39 +309,35 @@ public class LecturerController {
 //        model.addAttribute("testing", "this is testing");
 //        return "lecturer/lecturer-password-change";
 
-
-        
-        try {
+		try {
 			if (!isUserLecturer(session))
 				return "forward:/logout";
-			
-			
-			if (bindingresult.hasErrors()){
-				//model.addAttribute("testing", "this is testing");
-	            return "lecturer/lecturer-password-change";
-	        }
-			
-	        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	        userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
-	        if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
-	            //try
+
+			if (bindingresult.hasErrors()) {
+				// model.addAttribute("testing", "this is testing");
+				return "lecturer/lecturer-password-change";
+			}
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
+			if (encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())) {
+				// try
 				Lecturer lecturer = lecturerService.setLecturerPassword(usd.getUserId(), userPass);
-	 
-	            userSessionDetails p = new userSessionDetails(lecturer, lecturer.getLecturerId(), "lecturer");
-	            session.setAttribute("userSessionDetails", p);
-	            //catch
-	        }
-	        else {
-	        	model.addAttribute("message", "Incorrect Password!");
-		        return "lecturer/lecturer-password-change";
-	        }
-	        
+
+				userSessionDetails p = new userSessionDetails(lecturer, lecturer.getLecturerId(), "lecturer");
+				session.setAttribute("userSessionDetails", p);
+				// catch
+			} else {
+				model.addAttribute("message", "Incorrect Password!");
+				return "lecturer/lecturer-password-change";
+			}
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-        return "forward:/lecturer/profile";
-    }
-	
+		return "forward:/lecturer/profile";
+	}
+
 	private Boolean isUserLecturer(HttpSession session) {
 		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 		if (user != null && user.getUserRole().equals("lecturer")) {
