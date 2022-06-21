@@ -260,12 +260,10 @@ public class AdminController {
         try {
             Course currCourse = courseService.findCourseById(id);
             if(currCourse == null) throw new RuntimeException();
+            courseService.updateCourseDetails(course);
+
             
-            currCourse.setName(course.getName());
-            currCourse.setDescription(course.getDescription());
-            courseService.saveCourse(course);
-            
-            return ResponseEntity.ok(currCourse);
+            return ResponseEntity.ok(courseService.findCourseById(id));
 
         }
         catch (Exception e){

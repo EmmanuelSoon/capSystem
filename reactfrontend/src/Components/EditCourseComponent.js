@@ -7,6 +7,7 @@ import { FormErrors } from './FormErrors';
 class EditCourse extends Component {
 
     item = {
+        courseId: 0,
         name: '',
         description: ''
     };
@@ -30,7 +31,7 @@ class EditCourse extends Component {
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             const course = await (await fetch(`/admin/course/${this.props.match.params.id}`)).json();
-            this.setState({item: course, formValid: true});
+            this.setState({item: course, formValid: true, descValid: true, nameValid: true});
         }
     }
 
@@ -81,7 +82,7 @@ class EditCourse extends Component {
         console.log(item)
         await fetch('/admin/course' + (item.courseId ? ('/' + item.courseId) : ''), {
 
-            method: (item.studentId) ? 'PUT' : 'POST',
+            method: (item.courseId) ? 'PUT' : 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

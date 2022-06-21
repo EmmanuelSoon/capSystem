@@ -119,7 +119,7 @@ public class CascadingTest {
         Assertions.assertEquals(0, lecturerService.findByUsername("test").getCourses().size());
         Assertions.assertEquals(false, lecturerService.findByUsername("test").getActive());
 
-        courseService.deleteCourse(courseService.getCourseByName("testname"));
+        courseService.deleteCourseById(courseService.getCourseByName("testname").getCourseId());
         Assertions.assertNull(courseService.getCourseByName("testname"));
         Assertions.assertNull(courseService.findExactCourseDetail(c, cd1.getStartDate(), cd1.getEndDate()));
         Assertions.assertNull(courseService.findExactCourseDetail(c, cd2.getStartDate(), cd2.getEndDate()));

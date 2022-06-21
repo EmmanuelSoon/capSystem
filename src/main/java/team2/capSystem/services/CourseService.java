@@ -20,6 +20,7 @@ public interface CourseService {
     void updateCourse(Course course, String change);
     void getCourse(int id);
     Course getCourseByName(String name);
+    void updateCourseDetails(Course course);
     
     List<Course> getAllCourses();
 	Course saveCourse(Course course);
