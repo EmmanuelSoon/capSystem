@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="fragments/header :: html_head"></header>
+
+<body>
+	<div th:replace="fragments/header :: menu"></div>
+	<div class="container mt-3">
+		<div class="row mb-5 d-flex justify-content-between">
+            <h3>My Profile</h3>
+			<form th:action="@{/lecturer/editProfile}" method="get">
+				<button type="submit" class="btn btn-primary">Edit Profile</button>
+			</form>
+        </div>
+
+		
+		<div>
+			<table class="table table-hover" th:object="${lecturer}">
+				<tr>
+					<th>Lecturer Name</th>
+					<td th:text="${lecturer.name}"></td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td th:text="${lecturer.email}">Email</td>
+				</tr>
+				<tr>
+					<th>UserName</th>
+					<td th:text="${lecturer.username}">Name</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: jsLink"></div>
+</body>

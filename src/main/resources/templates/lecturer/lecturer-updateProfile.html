@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="fragments/header :: html_head"></header>
+
+<body>
+	<div th:replace="fragments/header :: menu"></div>
+	<div class="container mt-3">
+		<div class="row mb-5">
+            <h3>Update Profile</h3>
+        </div>
+
+		
+		<div>
+		<form th:action="@{/lecturer/updatedProfile}" th:object="${lecturer}" method="post">
+			<table class="table table-striped">
+				<tr>
+				<input type="hidden" th:field="*{lecturerId}" th:value="${lecturerId}"/>
+				<input type="hidden" th:field="*{password}" th:value="${password}"/>
+					<th>Student Name</th>
+					<td>
+						<input type="text" th:field="*{name}" th:value="${name}"/>
+						<p class="text-danger" th:value="${name}" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+					</td>
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td>
+						<input type="text" th:field="*{email}" th:value="${email}"/>
+						<p class="text-danger" th:value="${email}" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+					</td>
+				</tr>
+				<tr>
+					<th>UserName</th>
+					<td>
+						<input type="text" th:field="*{username}" th:value="${username}"/>
+						<p class="text-danger" th:value="${username}" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+					</td>
+				</tr>
+                <tr>
+                    <td colspan="2" class="d-flex justify-content-around">
+                        <button type="submit" class="btn btn-outline-info">Update</button>
+                        <a th:href="@{/student/editPassword}" class="btn btn-outline-primary">Update Password</a>
+                        <button type="reset" class="btn btn-outline-danger">Reset</button>
+                    </td>
+                </tr>
+			</table>
+		</form>
+		</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: jsLink"></div>
+</body>

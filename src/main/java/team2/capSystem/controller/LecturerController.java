@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +47,39 @@ public class LecturerController {
 		}
 		return "/lecturer/lecturer-dashboard";
 	}
+	
+	@RequestMapping("/profile")
+	 public String displayLecturerProfile(Model model, HttpSession session){
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        Lecturer lecturer = lecturerService.getLecturerProfile(usd);
+        model.addAttribute("lecturer", lecturer);
+        return "lecturer/lecturer-profile";
+    }
+	
+	@RequestMapping("/editProfile")
+    public String editLecturerProfile(Model model, HttpSession session){
+    	System.out.print("testing");
+         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+         Lecturer lecturer = lecturerService.getLecturerProfile(usd);
+         model.addAttribute("student", lecturer);
+        return "lecturer/lecturer-updateProfile";
+    }
+	
+	@RequestMapping("/updatedProfile")
+    public String updatedStudentProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer, BindingResult bindingresult){
+        try{
+        	if(bindingresult.hasErrors()) {
+    			return "students/lecturer-updateProfile";
+    		}
+            lecturerService.saveLecturer(lecturer);
+            return "students/lecturer-profile";
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return "lecturer/lecturer-profile";
+
+    }
 
 	@RequestMapping(value = "/course-taught")
 	public String viewCoursetaught(HttpSession session, Model model,

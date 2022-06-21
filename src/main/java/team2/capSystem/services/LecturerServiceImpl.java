@@ -104,6 +104,10 @@ public class LecturerServiceImpl implements LecturerService {
 		System.out.println(lecturer.getCourses().size());
 		return lecturer.getCourses();
 	};
+	
+	public Lecturer getLecturerProfile(userSessionDetails usd){
+		return getLecturer(usd.getUser());
+	}
 
 	public boolean removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer) {
 		if(lecturer.getCourses().size() > 1){
