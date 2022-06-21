@@ -7,11 +7,14 @@
 		<form>
 			<div class="row my-3">
 				<div class="col-3 mr-1">
-					<label for="startDate">Course Name/Description</label>
-					<input type="text" class="form-control" placeholder="Search">
+				<form action="#" th:action="@{/student/course-history/}" method="get" th:object="${courseDetailSearchQuery}">
+					<label for="course-search">Course Name/Description</label>
+					<input type="text" class="form-control" placeholder="Search" th:field="*{keyword}">
+					<input type="hidden" th:field="*{startDate}">
+					<input type="hidden" th:field="*{endDate}">
 				</div>
 				<div class="col-3 mt-4">
-					<button type="submit" class="btn btn-success btn-outline ">
+					<button action="submit" class="btn btn-success btn-outline" >
 						<i class="fa fa-search ml mr-2"></i>
 						Search
 					</button>
@@ -64,6 +67,14 @@
 		</div>
 	</div>
 	<div th:replace="fragments/header :: jsLink"></div>
+
+	<script lang="javascript">
+	function postUrl(){
+		var action_src = "http://localhost/test/" + document.getElementsByName("keywords")[0].value;
+		var your_form = document.getElementById('your_form');
+		your_form.action = action_src ;
+	}
+</script>
 </body>
 
 </html>

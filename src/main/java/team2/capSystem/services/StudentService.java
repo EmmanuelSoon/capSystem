@@ -26,9 +26,9 @@ public interface StudentService {
 
 	Student findStudentById(int id);
 
-	List<StudentCourse> findStudentCoursesGraded(int id);
+	List<StudentCourse> findStudentCoursesFinish(int id, String keyword);
 
-	List<StudentCourse> findStudentCoursesUngraded(int id);
+	List<StudentCourse> findStudentCoursesOngoing(int id, String keyword);
 
 	void deleteStudentById(int id);
 	
