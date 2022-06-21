@@ -9,15 +9,12 @@ class NewBatch extends Component {
     emptyItem = {
         startDate: '',
         endDate: '',
-        course: '',
-        maxSize: '',
+        size: '',
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            startD: '',
-            endD: '',
             item: this.emptyItem,
             startValid: false,
             endValid: false,
@@ -26,7 +23,7 @@ class NewBatch extends Component {
             formErrors: {
                 startDate:'',
                 endDate:'',
-                maxSize:''
+                size:''
             }
         };
         this.handleChange = this.handleChange.bind(this);
@@ -34,10 +31,7 @@ class NewBatch extends Component {
     }
 
     async componentDidMount() {
-        const c = await (await fetch(`/admin/course/${this.props.match.params.id}`)).json();
-        let updateditem = {...this.state.item};
-        updateditem.course = c;
-        this.setState({formValid: true, item : updateditem});
+        this.setState({formValid: true});
     }
 
     handleChange(event) {
@@ -56,29 +50,27 @@ class NewBatch extends Component {
         let endValid = this.state.endValid;
         let sizeValid = this.state.sizeValid;
         let now = new Date();
-        let startD = this.state.startD;
-        let endD = this.state.endD;
+        let start = this.state.item.startDate ;
+        let end = this.state.item.endDate;
         switch(fieldName) {
             case 'startDate':
-                startValid = (value) =>  new Date(value) > now;
-                fieldValidationErrors.startDate = startValid ? '' : ' start Date must later than ' + now;
-                startD = startValid? new Date(value) : '';
+                startValid = (value) =>  new Date(value) >= now;
+                fieldValidationErrors.startDate = startValid ? '' : ' start Date must later than ' + now.toString();
                 break;
             case 'endDate':
                 if (!startValid) {
-                    endValid = false;
                     fieldValidationErrors.endDate = 'please comply startDate first!';
                 }
                 else {
-                    endValid = (value) => new Date(value) > now && new Date(value) > startD;
+                    endValid = (value) => end.length > 0 && new Date(value) > now && new Date(value) > new Date(start);
                     fieldValidationErrors.startDate = endValid ? '' : ' end Date must later than start date';
-                    console.log(new Date(value) > now && new Date(value) > startD);
                 }
-                endD = endValid ? value : '';
+                console.log(value);
                 break;
-            case 'maxSize':
+            case 'size':
                 sizeValid = value > 0;
-                fieldValidationErrors.maxSize = sizeValid ? '' : 'The maximum size must be a positive number';
+                fieldValidationErrors.size = sizeValid ? '' : 'The maximum size must be a positive number';
+                console.log(value);
                 break;
             default:
                 break;
@@ -87,8 +79,6 @@ class NewBatch extends Component {
             startValid: startValid,
             endValid: endValid,
             sizeValid: sizeValid,
-            startD: startD,
-            endD: endD
         }, this.validateForm);
     }
 
@@ -117,7 +107,7 @@ class NewBatch extends Component {
 
     render() {
         const {item} = this.state;
-        const title = <h2 className='mb-3 mt-3'>{'Add new Batch for ' + item.course.name}</h2>;
+        const title = <h2 className='mb-3 mt-3'>{'Add new Batch'}</h2>;
 
         return <div>
             <Container>
@@ -133,9 +123,9 @@ class NewBatch extends Component {
                         <Input type="date" name="endDate" id="endDate" value={item.endDate || ''}
                                onChange={this.handleChange} />
                     </FormGroup>
-                    <FormGroup className={`${this.errorClass(this.state.formErrors.maxSize)}`}>
-                        <Label for="maxSize">Maximum Size</Label>
-                        <Input type="number" name="maxSize" id="maxSize" value={item.maxSize || ''}
+                    <FormGroup className={`${this.errorClass(this.state.formErrors.size)}`}>
+                        <Label for="size">Maximum Size</Label>
+                        <Input type="number" name="size" id="size" value={item.size || ''}
                                onChange={this.handleChange} />
                     </FormGroup>
                     <div className="panel panel-default">

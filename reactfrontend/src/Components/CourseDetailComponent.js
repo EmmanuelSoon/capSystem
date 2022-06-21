@@ -27,9 +27,10 @@ class CourseDetail extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-        }).then(
-            this.setState({batches: this.state.batches.filter(batch => batch.id !== id)})
-        );
+        })
+        fetch('/admin/coursedetails/' + this.state.id)
+            .then(response => response.json())
+            .then(data => this.setState({batches: data, isLoaded: true}));
     };
 
 

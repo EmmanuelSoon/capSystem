@@ -40,5 +40,5 @@ public interface CourseService {
    /* void removeCourseDetailById(int id);*/
 
 	//List<StudentCourse> getClassList();
-
+    void deleteCourseDetailById(int id);
 }
