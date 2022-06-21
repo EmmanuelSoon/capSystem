@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import team2.capSystem.model.*;
 import team2.capSystem.services.*;
@@ -129,7 +130,10 @@ public class AdminController {
     public ResponseEntity loginSetToken(@RequestBody Admin admin){
         try{
             Admin user = adminService.findAdminByUsername(admin.getUsername());
-            if (user.getPassword().equalsIgnoreCase(admin.getPassword())){
+            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+            String password = encoder.encode(admin.getPassword());
+
+            if (user != null && encoder.matches(admin.getPassword(), user.getPassword())){
                 JSONObject jsonObj = new JSONObject();
                 jsonObj.put("token", user.getName());
                 return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
@@ -328,8 +332,13 @@ public class AdminController {
         try{
             Lecturer currLecturer = lecturerService.findByUsername(username);
             CourseDetail cd = courseService.findCourseDetailById(id);
-            lecturerService.removeLecturerFromCourseDetail(cd, currLecturer);
-            return ResponseEntity.ok(lecturerService.findCoursesByLecturerId(currLecturer.getLecturerId()));
+            boolean check = lecturerService.removeLecturerFromCourseDetail(cd, currLecturer);
+            if (check){
+                return ResponseEntity.ok(lecturerService.findCoursesByLecturerId(currLecturer.getLecturerId()));
+            }
+            else {
+                throw new Exception();
+            }
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Item couldnt be deleted");

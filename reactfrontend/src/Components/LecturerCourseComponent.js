@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Table , Container} from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FormErrors } from './FormErrors';
 
 
 class LecturerCourse extends Component {
@@ -15,7 +16,11 @@ class LecturerCourse extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {lecturerCourses: [], lecturer: this.defaultLecturer};
+        this.state = {
+            lecturerCourses: [], 
+            lecturer: this.defaultLecturer,
+            error: '',
+        };
         this.remove = this.remove.bind(this);
     }
 
@@ -39,7 +44,14 @@ class LecturerCourse extends Component {
             }
         })
         .then(response => response.json())
-        .then(data => this.setState({lecturerCourses: data}));
+        .then(data => {
+            if (data.status == null){
+                this.setState({lecturerCourses: data, error:""});
+            }
+            else{
+                this.setState({error: "Course only has 1 Lecturer"})
+            }
+        });
     };
     
       
@@ -105,6 +117,9 @@ class LecturerCourse extends Component {
                         {lecturerCourseList}
                     </tbody>
                 </Table>
+                <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
                 <Button outline color="success" tag={Link} to={`/admin/lecturer/course/${this.state.lecturer.lecturerId}/new`}>Add Lecturer into a new Course</Button>
             </Container>
         );

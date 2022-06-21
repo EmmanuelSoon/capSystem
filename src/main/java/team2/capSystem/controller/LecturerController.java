@@ -61,7 +61,7 @@ public class LecturerController {
     	System.out.print("testing");
          userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
          Lecturer lecturer = lecturerService.getLecturerProfile(usd);
-         model.addAttribute("student", lecturer);
+         model.addAttribute("lecturer", lecturer);
         return "lecturer/lecturer-updateProfile";
     }
 	

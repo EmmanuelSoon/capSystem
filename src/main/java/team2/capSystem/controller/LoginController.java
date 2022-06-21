@@ -89,4 +89,3 @@ public class LoginController {
 		return "Login";
 	}
 }
-
