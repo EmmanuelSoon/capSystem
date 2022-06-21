@@ -38,7 +38,7 @@
         </ul>
         <div class="justify-content-end">
           <a th:href="@{/lecturer/profile}">
-            <span class="navbar-text mx-3" th:utext="${session.userSessionDetails.user.name}"></span>
+            <span class="navbar-text mx-3" th:utext="${session.userSessionDetails.user.username}"></span>
           </a>
           <span class="navbar-text mx-3"> <a th:href="@{/logout}">Logout</a></span>
         </div>
@@ -54,7 +54,7 @@
         </ul>
         <div class="justify-content-end">
           <a th:href="@{/student/profile}">
-            <span class="navbar-text mx-3" th:utext="${session.userSessionDetails.user.name}"></span>
+            <span class="navbar-text mx-3" th:utext="${session.userSessionDetails.user.username}"></span>
           </a>
           <span class="navbar-text mx-3"> <a th:href="@{/logout}">Logout</a></span>
         </div>
