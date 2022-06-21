@@ -75,8 +75,8 @@ class Lecturer extends Component {
                     <Button color="success" tag={Link} to="/admin/lecturer/new">Add Lecturer</Button>
                 </div>
                 <h3>Lecturers</h3>
-                <Table className='text-center'>
-                    <thead>
+                <table className='table table-hover text-center mt-3'>
+                    <thead className='table-light'>
                         <tr>
                             <th>
                                 lecturer ID
@@ -96,12 +96,15 @@ class Lecturer extends Component {
                             <th>
                                 Currently Active
                             </th>
+                            <th>
+                    
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {lecturerList}
                     </tbody>
-                </Table>
+                </table>
             </Container>
         );
 

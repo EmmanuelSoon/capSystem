@@ -65,3 +65,25 @@
 a{
   text-decoration: none;
 }
+
+.btn-success{
+  background-color: darkcyan;
+  border-color: darkcyan;
+}
+
+.btn-success:hover{
+  background-color: cadetblue;
+  border-color: cadetblue;
+  color: #212529;
+}
+
+.btn-info{
+  background-color: lightskyblue;
+  border-color: #61dafb;
+}
+
+.btn-info:hover{
+  background-color:cornflowerblue;
+  border-color: cadetblue;
+  color: #212529;
+}

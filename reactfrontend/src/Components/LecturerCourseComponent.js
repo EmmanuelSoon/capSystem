@@ -19,7 +19,9 @@ class LecturerCourse extends Component {
         this.state = {
             lecturerCourses: [], 
             lecturer: this.defaultLecturer,
-            error: '',
+            formErrors: {Error:''},
+
+
         };
         this.remove = this.remove.bind(this);
     }
@@ -45,11 +47,12 @@ class LecturerCourse extends Component {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.status == null){
+            console.log(data.message)
+            if(data.message !== 'Item couldnt be deleted'){
                 this.setState({lecturerCourses: data, error:""});
             }
             else{
-                this.setState({error: "Course only has 1 Lecturer"})
+                this.setState({formErrors: {Error: ": Unable to drop lecturer as Course only has 1 Lecturer"}})
             }
         });
     };

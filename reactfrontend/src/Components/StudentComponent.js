@@ -76,8 +76,8 @@ class Student extends Component {
                 </div>
                 
                     <h3>Students</h3>
-                    <Table className='text-center'>
-                        <thead>
+                    <table className='table table-hover text-center mt-3'>
+                        <thead className='table-light'>
                             <tr>
                                 <th>
                                     student ID
@@ -97,12 +97,15 @@ class Student extends Component {
                                 <th>
                                     Currently Active
                                 </th>
+                                <th>
+                                    
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {studentList}
                         </tbody>
-                    </Table>
+                    </table>
                
             </Container>
         );

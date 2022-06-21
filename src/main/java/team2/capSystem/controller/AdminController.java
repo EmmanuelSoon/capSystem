@@ -394,7 +394,9 @@ public class AdminController {
             }
         }
         catch (Exception e){
-            return ResponseEntity.badRequest().body("Item couldnt be deleted");
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("message", "Item couldnt be deleted");
+            return ResponseEntity.badRequest().body(jsonObj);
         }
     }
 

@@ -45,9 +45,9 @@ class Course extends Component {
                     <td>{course.description}</td>
                     <td>
                     <ButtonGroup>
-                        <Button color="primary" tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
-                        <Button color="danger" onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
-                        <Button color="success" tag={Link} to={"/admin/course/" +course.courseId}>Edit Course Info</Button>
+                        <Button sm color='primary' tag={Link} to={"/admin/coursedetails/" +course.courseId}>View Batches</Button>
+                        <Button sm color='secondary' tag={Link} to={"/admin/course/" +course.courseId}>Edit Course Info</Button>
+                        <Button sm color='danger' onClick={() => this.deleteCourse(course.courseId)}>Delete Course</Button>
                     </ButtonGroup></td>
                 </tr>
             );
@@ -61,18 +61,19 @@ class Course extends Component {
                 <div>
                     <h2>Course List</h2>
                 </div>
-            <Table>
-                <thead>
-                <tr>
-                    <th>Course ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr></thead>
+                <table className='table table-hover text-center mt-3'>
+                    <thead className='table-light'>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
                 <tbody>
                 {CourseList}
                 </tbody>
-            </Table>
+            </table>
             </Container>
         );
     }

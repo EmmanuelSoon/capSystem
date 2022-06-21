@@ -110,7 +110,7 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	public boolean removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer) {
-		if(lecturer.getCourses().size() > 1){
+		if(cd.getLecturers().size() > 1){
 			lecturer.getCourses().remove(cd);
 			lecturerRepository.save(lecturer);
 			return true;
