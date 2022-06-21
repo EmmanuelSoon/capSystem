@@ -4,7 +4,6 @@
 <link rel="stylesheet" th:href="@{/css/login.css}">
 
 <body>
-
   <div class="container justify-content-center col-5 mt-3">
     <div class="text-center">
       <img th:src="@{/images/logo.jpg}" alt="Logo" width="250" height="250" class="rounded-circle" />
@@ -41,9 +40,9 @@
                         <p class="text-danger" th:value="${password}" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
                 </div>
-				<a th:href="@{/redirect/admin}">
-					<span> CLICK HERE TO LOGIN AS ADMIN </span>
-				</a>
+        <a th:href="@{/redirect/admin}">
+          <span> CLICK HERE TO LOGIN AS ADMIN </span>
+        </a>
                 <div class="d-flex justify-content-center mt-5">
                     <button type="submit" class="btn btn-primary mr-5" >LOGIN</button>
                     <button type="reset" class="btn btn-danger ml-5" >Reset</button>
@@ -51,7 +50,6 @@
             </div>
         </form>
     </div>
-
 
 <div th:replace="fragments/header :: jsLink"></div>
 </body>
