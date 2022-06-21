@@ -31,9 +31,9 @@ class Home extends Component {
                                         Students
                                     </CardTitle>
                                     <CardText>
-                                        For information about students currently enrolled in the system click here!
+                                        For information about students currently enrolled in the system.
                                     </CardText>
-                                    <Button color="primary" tag={Link} to={"/admin/student"}>Go to Student Page</Button>
+                                    <Button color="primary" tag={Link} to={"/admin/student"}>Click here!</Button>
                                 </CardBody>
                             </Card>
                         </div>
@@ -45,9 +45,9 @@ class Home extends Component {
                                         Lecturers
                                     </CardTitle>
                                     <CardText>
-                                        For information about Lecturers currently teaching in the system click here!
+                                        For information about Lecturers currently teaching in the system.
                                     </CardText>
-                                    <Button color="secondary" tag={Link} to={"/admin/lecturer"}>Go to Lecturer Page</Button>
+                                    <Button color="secondary" tag={Link} to={"/admin/lecturer"}>Click here!</Button>
                                 </CardBody>
                             </Card>
                         </div>
@@ -61,9 +61,9 @@ class Home extends Component {
                                         Courses
                                     </CardTitle>
                                     <CardText>
-                                        For information about Courses available in the system click here!
+                                        For information about Courses available in the system.
                                     </CardText>
-                                    <Button color="info" tag={Link} to={"/admin/courselist"}>Go to Courses Page</Button>
+                                    <Button color="info" tag={Link} to={"/admin/courselist"}>Click here!</Button>
                                 </CardBody>
                             </Card>
                         </div>
