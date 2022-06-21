@@ -1,13 +1,8 @@
 package team2.capSystem.services;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import team2.capSystem.helper.lecturerCourseStudentSearch;
-import team2.capSystem.helper.lecturerCoursesHelper;
-import team2.capSystem.helper.nominalRoll;
-import team2.capSystem.helper.studentTranscript;
-import team2.capSystem.helper.userSessionDetails;
+import team2.capSystem.helper.*;
 import team2.capSystem.model.*;
 
 public interface LecturerService {
@@ -68,4 +63,6 @@ public interface LecturerService {
 	Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd);
 
 	List<CourseDetail> findAvailableCoursesByLecturerId(int id);
+
+	Lecturer setLecturerPassword(int id, userChangePassword userpass);
 }

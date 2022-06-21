@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
 
 import team2.capSystem.helper.*;
@@ -193,5 +194,14 @@ public class LecturerServiceImpl implements LecturerService {
 		}
 		return results;
 	};
+
+	public Lecturer setLecturerPassword(int id, userChangePassword userpass) {
+		Lecturer lecturer= lecturerRepository.findById(id).get();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String setPass = encoder.encode(userpass.getNewPassword());
+		lecturer.setPassword(setPass);
+		lecturerRepository.save(lecturer);
+		return lecturer;
+	}
 
 }

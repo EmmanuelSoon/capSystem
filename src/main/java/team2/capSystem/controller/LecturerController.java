@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import team2.capSystem.helper.lecturerCourseStudentSearch;
 import team2.capSystem.helper.lecturerCoursesHelper;
 import team2.capSystem.helper.nominalRoll;
 import team2.capSystem.helper.studentTranscript;
+import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
@@ -280,6 +283,62 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-performance";
 	}
 
+	@RequestMapping(value="change-password")
+    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model){
+//		if (bindingresult.hasErrors()){
+//			model.addAttribute("testing", "this is testing");
+//            return "lecturer/lecturer-password-change";
+//        }
+//		
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
+//        if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
+//            //try
+//			Lecturer lecturer = lecturerService.setLecturerPassword(usd.getUserId(), userPass);
+// 
+//            userSessionDetails p = new userSessionDetails(lecturer, lecturer.getLecturerId(), "lecturer");
+//            session.setAttribute("userSessionDetails", p);
+//
+//            return "forward:/lecturer/profile";
+//        //catch
+//        }
+//        model.addAttribute("testing", "this is testing");
+//        return "lecturer/lecturer-password-change";
+
+
+        
+        try {
+			if (!isUserLecturer(session))
+				return "forward:/logout";
+			
+			
+			if (bindingresult.hasErrors()){
+				//model.addAttribute("testing", "this is testing");
+	            return "lecturer/lecturer-password-change";
+	        }
+			
+	        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	        userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
+	        if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
+	            //try
+				Lecturer lecturer = lecturerService.setLecturerPassword(usd.getUserId(), userPass);
+	 
+	            userSessionDetails p = new userSessionDetails(lecturer, lecturer.getLecturerId(), "lecturer");
+	            session.setAttribute("userSessionDetails", p);
+	            //catch
+	        }
+	        else {
+	        	 //TO DO -- still not working (showing error message)
+	        	model.addAttribute("message", "Incorrect Password!");
+		        return "lecturer/lecturer-password-change";
+	        }
+	        
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+        return "forward:/lecturer/profile";
+    }
+	
 	private Boolean isUserLecturer(HttpSession session) {
 		userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 		if (user != null && user.getUserRole().equals("lecturer")) {
