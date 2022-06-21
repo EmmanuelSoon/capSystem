@@ -12,12 +12,26 @@ class CourseDetail extends Component {
             id : this.props.match.params.id,
             isLoaded: false
         }
+        this.deleteCourseDetail = this.deleteCourseDetail.bind(this);
     }
     async componentDidMount() {
         fetch('/admin/coursedetails/' + this.state.id)
             .then(response => response.json())
             .then(data => this.setState({batches: data, isLoaded: true}));
     }
+
+    async deleteCourseDetail(id) {
+        await fetch(`/admin/course/batch/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(
+            this.setState({batches: this.state.batches.filter(batch => batch.id !== id)})
+        );
+    };
+
 
     render() {
         if (this.state.id == null) {
@@ -40,11 +54,35 @@ class CourseDetail extends Component {
             }
             else {
                 return (
-                    <div>
-                        <Button color="success" tag={Link} to={"/admin"}>Register Student</Button></div>
+                    <div></div>
                 );
             }
         };
+
+        const deleteaction = (batch) => {
+            const now = new Date();
+            if (now < new Date(batch.startDate)) {
+                return (
+                    <div>
+                    <Button color="danger" onClick={() => this.deleteCourseDetail(batch.id)}>Remove Batch</Button>
+                    </div>
+                );
+            }
+            else if (now < new Date(batch.endDate)) {
+                return (
+                    <div>
+                        <Button color="success">Ongoing</Button>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div>
+                        <Button color="secondary">Completed</Button>
+                    </div>
+                );
+            }
+        }
 
         const batchList = batches.map(batch => {
             return (
@@ -56,6 +94,7 @@ class CourseDetail extends Component {
                         <ButtonGroup>
                             <Button color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
                             {action(batch)}
+                            {deleteaction(batch)}
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -63,7 +102,10 @@ class CourseDetail extends Component {
         });
 
         return(
-            <Container>
+            <Container className="mt-5">
+                <div className="float-end">
+                    <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Add New Batch</Button>
+                </div>
                 <div>
                     <h2>Batch Details</h2>
                 </div>

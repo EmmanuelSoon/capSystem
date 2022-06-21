@@ -36,8 +36,9 @@ public interface CourseService {
     //StudentCourses 
     StudentCourse addStudentToCourseDetail(CourseDetail courseDetail, Student student, double gpa);
 
-   
-	
+    List<CourseDetail> findAllCourseDetailsByCourseId(int courseId);
+   /* void removeCourseDetailById(int id);*/
+
 	//List<StudentCourse> getClassList();
 
 }

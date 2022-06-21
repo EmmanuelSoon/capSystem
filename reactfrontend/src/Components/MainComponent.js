@@ -16,7 +16,7 @@ import BatchDetail from "./BatchDetailComponent";
 import Enrolment from './EnrolmentComponent';
 import EditCourse from './EditCourseComponent';
 import EnrollLecturer from './EnrollLecturerComponent';
-
+import NewBatch from "./NewBatchComponent";
 class Main extends Component {
 
   constructor(props) {
@@ -56,6 +56,8 @@ class Main extends Component {
 
             <Route path="/admin/coursedetails/:id" exact={true} component={CourseDetail} />
             <Route path="/admin/coursedetails/batch/:id" component={BatchDetail} />
+            <Route path="/admin/course/coursedetail/new/:id" component={NewBatch} />
+
             <Redirect to="/admin" />
         </Switch>
       </div>
