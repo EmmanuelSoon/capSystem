@@ -41,4 +41,12 @@ public class Course {
     public void Add(CourseDetail cd) {
         this.CourseDetails.add(cd);
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

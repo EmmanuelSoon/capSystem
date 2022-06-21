@@ -11,11 +11,13 @@ import java.util.stream.Stream;
 import javax.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
 
 import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.exceptions.TestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
+import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.*;
 import team2.capSystem.repo.*;
@@ -56,8 +58,6 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findStudentByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
 
-	
-
 	public List<Student> getAllStudents(){
 		return studentRepository.findAll();
 	};
@@ -87,7 +87,6 @@ public class StudentServiceImpl implements StudentService {
 			throw new NullPointerException();
 		}
 	}
-
 
 	public StudentCourse addCourseDetailToStudent(Student s, CourseDetail c) {
 		StudentCourse sc = new StudentCourse(s, c);
@@ -189,6 +188,16 @@ public class StudentServiceImpl implements StudentService {
 	public Student getStudentProfile(userSessionDetails usd){
 		return getStudent(usd.getUser());
 	}
+
+	public Student setStudentPassword(int id, userChangePassword userpass){
+		Student student = studentRepository.findById(id).get();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String setPass = encoder.encode(userpass.getNewPassword());
+		student.setPassword(setPass);
+		studentRepository.save(student);
+		return student;
+	}
+
 
 	public List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList){
 		List<StudentCourseJson> scJsonList = new ArrayList<StudentCourseJson>();

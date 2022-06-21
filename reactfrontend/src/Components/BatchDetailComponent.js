@@ -12,12 +12,26 @@ class BatchDetail extends Component {
             id : this.props.match.params.id,
             isLoaded: false
         }
+        this.remove = this.remove.bind(this);
     }
     async componentDidMount() {
         fetch('/admin/coursedetails/batch/' + this.state.id)
             .then(res => res.json())
             .then(data => this.setState({batch: data, isLoaded: true}));
     }
+
+    async remove(stdId, name, cdId) {
+        await fetch(`/admin/student/course/${name}/${cdId}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        fetch('/admin/coursedetails/batch/' + this.state.id)
+            .then(res => res.json())
+            .then(data => this.setState({batch: data, isLoaded: true}));
+    };
 
     render() {
         const { batch, isLoaded, id } = this.state
@@ -51,7 +65,9 @@ class BatchDetail extends Component {
                     <td>{parseFloat(student.gpa).toFixed(1)}</td>
                     <td>
                         <ButtonGroup>
-                            <Button color="danger" tag={Link} to={"/admin"}>Remove Stduent</Button>
+
+                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student</Button>
+
                         </ButtonGroup>
                     </td>
                 </tr>

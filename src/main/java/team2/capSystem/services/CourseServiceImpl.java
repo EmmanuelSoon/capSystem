@@ -2,6 +2,7 @@ package team2.capSystem.services;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,7 +144,7 @@ public class CourseServiceImpl implements CourseService {
     };
 
     public void updateCourseDetails(Course course){
-        Course currCourse = courseRepository.findCourseByName(course.getName());
+        Course currCourse = courseRepository.findById(course.getCourseId()).get();
         currCourse.setDescription(course.getDescription());
         currCourse.setName(course.getName());
 
@@ -154,5 +155,9 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(currCourse);
     };
 
+
+    public List<CourseDetail> findAllCourseDetailsByCourseId(int id){
+        return cdRepository.findAll().stream().filter(course -> course.getCourse().getCourseId() == id).collect(Collectors.toList());
+    }
 
 }
