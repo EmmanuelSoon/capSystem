@@ -54,11 +54,11 @@ public class StudentController {
         return "students/student-dashboard";
     }
 
-    @RequestMapping(path = "/course-history")
-    public String showCourseHistory(HttpSession session, Model model){
+    @RequestMapping(path = "/course-history/")
+    public String showCourseHistory(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
         userSessionDetails usd = getUsd(session);
-        List<StudentCourse> current = studService.findStudentCoursesUngraded(usd.getUserId());
-        List<StudentCourse> hist = studService.findStudentCoursesGraded(usd.getUserId());
+        List<StudentCourse> current = studService.findStudentCoursesOngoing(usd.getUserId(), search.getKeyword());
+        List<StudentCourse> hist = studService.findStudentCoursesFinish(usd.getUserId(), search.getKeyword());
         String getAverageGPA= String.format("%.2f", studService.getAverageGPA(usd.getUserId()));
         
         model.addAttribute("studCourse", current);
@@ -138,17 +138,6 @@ public class StudentController {
     }
     
 
-    // @RequestMapping(value="/change-password", method=RequestMethod.GET)
-	// public String PasswordChangeForm(Model model, HttpSession session){
-    //     if (!checkUser(session)){
-    //         return "forward:/logout";
-    //     }
-    //     userSessionDetails usd = getUsd(session);
-	// 	Student student = studService.findStudentById(usd.getUserId());
-    //     model.addAttribute("student", student);
-    //     return "students/password-change";
-    // }
-
     @RequestMapping(value="change-password")
     public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult){
         if (bindingresult.hasErrors()){
@@ -169,7 +158,7 @@ public class StudentController {
         return "forward:/logout";
     }
         
-    
+    //helper functions
     
     private boolean checkUser(HttpSession session){
         userSessionDetails usd = getUsd(session);

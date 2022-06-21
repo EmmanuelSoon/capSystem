@@ -2,6 +2,7 @@ package team2.capSystem.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.time.LocalDate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -98,23 +99,50 @@ public class StudentServiceImpl implements StudentService {
 		return scRepository.findSCByStudentId(id);
 	}
 
-	public List<StudentCourse> findStudentCoursesGraded(int id) {
+
+
+
+	//to change to get by end date for validating
+	public List<StudentCourse> findStudentCoursesFinish(int id, String keyword) {
 		List<StudentCourse> courseList = findCoursesByStudentId(id);
-		courseList = courseList.stream().filter(x -> x.getGpa() != -1).collect(Collectors.toList());
+		if (keyword != null && keyword != ""){
+			Predicate<StudentCourse> nameHas = x -> x.getCourse().getCourse().getName().toLowerCase().contains(keyword);
+			Predicate<StudentCourse> descHas = x -> x.getCourse().getCourse().getDescription().toLowerCase().contains(keyword);
+			courseList = courseList.stream()
+			.filter(nameHas.or(descHas))
+			.filter(x -> x.getCourse().getEndDate().isBefore(LocalDate.now()))
+			.collect(Collectors.toList());
+		}
+		else{
+			courseList = courseList.stream().filter(x -> x.getCourse().getEndDate().isBefore(LocalDate.now())).collect(Collectors.toList());
+		}
+		return courseList;
+
+	}
+	
+	//to change to get by end date
+	public List<StudentCourse> findStudentCoursesOngoing(int id, String keyword) {
+		List<StudentCourse> courseList = findCoursesByStudentId(id);
+		if (keyword != null && keyword != ""){
+			Predicate<StudentCourse> nameHas = x -> x.getCourse().getCourse().getName().toLowerCase().contains(keyword);
+			Predicate<StudentCourse> descHas = x -> x.getCourse().getCourse().getDescription().toLowerCase().contains(keyword);
+			courseList = courseList.stream()
+			.filter(nameHas.or(descHas))
+			.filter(x -> x.getCourse().getEndDate().isAfter(LocalDate.now()))
+			.collect(Collectors.toList());
+		}
+		else{
+			courseList = courseList.stream().filter(x -> x.getCourse().getEndDate().isAfter(LocalDate.now())).collect(Collectors.toList());
+		}
 		return courseList;
 	}
-
 	public Double getAverageGPA(int id) {
-		List<StudentCourse> courseList = findStudentCoursesGraded(id);
+		List<StudentCourse> courseList = findCoursesByStudentId(id);
+		courseList = courseList.stream().filter(x -> x.getGpa() != -1).collect(Collectors.toList());
 		Double averageGPA = courseList.stream().mapToDouble(x -> x.getGpa()).average().getAsDouble();
 		return averageGPA;
 	}
 
-	public List<StudentCourse> findStudentCoursesUngraded(int id) {
-		List<StudentCourse> courseList = findCoursesByStudentId(id);
-		courseList = courseList.stream().filter(x -> x.getGpa() == -1).collect(Collectors.toList());
-		return courseList;
-	}
 
 	public List<StudentCourse> getStudentCourseBySession(userSessionDetails usd) {
 		List<StudentCourse> studentCourseList = scRepository.findSCByStudentId(usd.getUserId());
@@ -125,16 +153,18 @@ public class StudentServiceImpl implements StudentService {
 		List<StudentCourse> takenCourse = findCoursesByStudentId(usd.getUserId());
 		List<CourseDetail> courseList = new ArrayList<CourseDetail>();
 		List<CourseDetail> availCourse = new ArrayList<CourseDetail>();
+		LocalDate start = search.getLocalStartDate();
+		LocalDate end = search.getLocalEndDate();
+
 
 		if (!search.startNullOrEmpty()) {
 			if (!search.endNullOrEmpty()) {
-				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(LocalDate.parse(search.getStartDate()),
-						LocalDate.parse(search.getEndDate()));
+				courseList = cdRepository.findByStartDateAfterAndEndDateBefore(start, end);
 			} else if (search.endNullOrEmpty()) {
-				courseList = cdRepository.findByStartDateAfter(LocalDate.parse(search.getStartDate()));
+				courseList = cdRepository.findByStartDateAfter(start);
 			}
 		} else if (!search.endNullOrEmpty()) {
-			courseList = cdRepository.findByEndDateBefore(LocalDate.parse(search.getEndDate()));
+			courseList = cdRepository.findByEndDateBefore(end);
 		} else {
 			courseList = cdRepository.findByStartDateAfter(LocalDate.now());
 		}

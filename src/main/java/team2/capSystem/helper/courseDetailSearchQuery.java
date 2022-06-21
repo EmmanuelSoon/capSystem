@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class courseDetailSearchQuery {
     private String keyword;
+    
     private String startDate;
     private String endDate;
 
