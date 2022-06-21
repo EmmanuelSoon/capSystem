@@ -67,7 +67,7 @@ export default function Login({setToken}) {
                                             <FormErrors formErrors={error} />
                             </div>
                             <div id="emailHelp" class="form-text text-center mb-5 mt-5 text-dark">
-                                Not an Admin? <a href="http://localhost:8080" class="text-dark fw-bold"> Student/Lecturer Login</a>
+                                Not an Admin? <a href="http://localhost:8080" class="text-dark fw-bold text-decoration-underline"> Go to Student/Lecturer Login</a>
                             </div>
                         </form>
                         </div>

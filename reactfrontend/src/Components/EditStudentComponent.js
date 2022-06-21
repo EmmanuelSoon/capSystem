@@ -125,7 +125,7 @@ class EditStudent extends Component {
                     <FormGroup className={`${this.errorClass(this.state.formErrors.username)}`}>
                         <Label for="username">Username</Label>
                         <Input type="text" name="username" id="username" value={item.username || ''}
-                               onChange={this.handleChange} autoComplete="username"/>
+                               onChange={this.handleChange} autoComplete="username" disabled={item.studentId ? true : false}/>
                     </FormGroup>
                     <FormGroup className={`${this.errorClass(this.state.formErrors.password)}`}>
                         <Label for="password">Password</Label>
