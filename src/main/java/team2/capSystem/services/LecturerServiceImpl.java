@@ -105,9 +105,16 @@ public class LecturerServiceImpl implements LecturerService {
 		return lecturer.getCourses();
 	};
 
-	public void removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer) {
-		lecturer.getCourses().remove(cd);
-		lecturerRepository.save(lecturer);
+	public boolean removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer) {
+		if(lecturer.getCourses().size() > 1){
+			lecturer.getCourses().remove(cd);
+			lecturerRepository.save(lecturer);
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	};
 
 	public Lecturer addCourseDetailToLecturer(Lecturer lecturer, CourseDetail cd){
