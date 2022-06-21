@@ -60,9 +60,9 @@ class Student extends Component {
                     </td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentId}>Edit</Button>
-                            <Button size="sm" color="secondary" tag={Link} to={"/admin/student/course/" + student.studentId}>Enrolment</Button>
-                            <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Delete</Button>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/student/" + student.studentId}>Edit info <span className="fa fa-pencil"></span></Button>
+                            <Button size="sm" color="secondary" tag={Link} to={"/admin/student/course/" + student.studentId}> View Enrolment <span className="fa fa-info"></span></Button>
+                            <Button size="sm" color="danger" onClick={() => this.remove(student.studentId)}>Delete <span className="fa fa-times"></span></Button>
                         </ButtonGroup>
                     </td>
                 </tr>

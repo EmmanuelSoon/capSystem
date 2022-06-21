@@ -65,7 +65,7 @@ class BatchDetail extends Component {
                     <td>{parseFloat(student.gpa).toFixed(1)}</td>
                     <td>
                         <ButtonGroup>
-                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-trash"></span></Button>
+                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
                         </ButtonGroup>
                     </td>
                 </tr>

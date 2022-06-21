@@ -65,21 +65,21 @@ class CourseDetail extends Component {
             if (now < new Date(batch.startDate)) {
                 return (
                     <div>
-                    <Button size="sm" color="danger" onClick={() => this.deleteCourseDetail(batch.id)}>Remove Batch</Button>
+                    <Button size="sm" color="danger" onClick={() => this.deleteCourseDetail(batch.id)}>Remove Batch <span className="fa fa-times"></span></Button>
                     </div>
                 );
             }
             else if (now < new Date(batch.endDate)) {
                 return (
                     <div>
-                        <Button size="sm" color="success">Ongoing</Button>
+                        <Button size="sm" color="success">Ongoing <span className="fa fa-commenting-o"></span> </Button>
                     </div>
                 );
             }
             else {
                 return (
                     <div>
-                        <Button size="sm" color="secondary">Completed</Button>
+                        <Button size="sm" color="secondary">Completed <span className="fa fa-ban"></span></Button>
                     </div>
                 );
             }
