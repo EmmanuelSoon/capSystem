@@ -3,8 +3,8 @@ import { Button, ButtonGroup, Table, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
-class Enrolment extends Component {
-    defaultStudent = {
+class EnrollLecturer extends Component {
+    defaultLecturer = {
         name: '',
         username: '',
         password: '',
@@ -15,30 +15,28 @@ class Enrolment extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { availableCourses: [], student: this.defaultStudent };
+        this.state = { availableCourses: [], lecturer: this.defaultLecturer };
         this.add = this.add.bind(this);
     }
 
     async componentDidMount() {
-        fetch(`/admin/student/course/${this.props.match.params.id}/new`)
+        fetch(`/admin/lecturer/course/${this.props.match.params.id}/new`)
             .then(response => response.json())
             .then(data => this.setState({ availableCourses: data }));
 
         if (this.state.availableCourses !== null) {
-            const currentStudent = await (await fetch(`/admin/student/${this.props.match.params.id}`)).json();
-            this.setState({ student: currentStudent });
+            const currentLecturer = await (await fetch(`/admin/lecturer/${this.props.match.params.id}`)).json();
+            this.setState({ lecturer: currentLecturer });
         }
     }
 
     async add(id) {
-        await fetch(`/admin/student/course/${this.state.student.username}/${id}`, {
+        await fetch(`/admin/lecturer/course/${this.state.lecturer.username}/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            
-
         })
             .then(response => response.json())
             .then(data => this.setState({ availableCourses: data }));
@@ -71,8 +69,7 @@ class Enrolment extends Component {
                     </td>
                     <td>
                         <ButtonGroup>
-                            {/* <Button size="sm" color="primary" tag={Link} to={"/admin/student/course" + studentCourseDetail.studentId}>Edit</Button> */}
-                            <Button outline size="sm" color="primary" onClick={() => this.add(CourseDetail.id)}>Enroll Student</Button>
+                            <Button outline size="sm" color="primary" onClick={() => this.add(CourseDetail.id)}>Add Lecturer</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -81,7 +78,7 @@ class Enrolment extends Component {
 
         return (
             <Container fluid>
-                <h3>Available Courses for {this.state.student.name}</h3>
+                <h3>Available Courses for {this.state.lecturer.name}</h3>
                 <Table className='mb-5'>
                     <thead>
                         <tr>
@@ -103,7 +100,6 @@ class Enrolment extends Component {
                         {availableCourseList}
                     </tbody>
                 </Table>
-                {/* <Button outline color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
             </Container>
         );
 
@@ -112,4 +108,4 @@ class Enrolment extends Component {
 
 }
 
-export default Enrolment;
+export default EnrollLecturer;

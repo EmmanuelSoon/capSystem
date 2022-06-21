@@ -15,6 +15,7 @@ import CourseDetail from "./CourseDetailComponent";
 import BatchDetail from "./BatchDetailComponent";
 import Enrolment from './EnrolmentComponent';
 import EditCourse from './EditCourseComponent';
+import EnrollLecturer from './EnrollLecturerComponent';
 
 class Main extends Component {
 
@@ -45,7 +46,8 @@ class Main extends Component {
             <Route path="/admin/lecturer" exact={true} component={Lecturer} />
             <Route path="/admin/lecturer/:id" exact={true} component={EditLecturer}/>
             <Route path="/admin/lecturer/new" exact={true} component={EditLecturer}/>
-            <Route path="/admin/lecturer/course/:id"  component={LecturerCourse} />
+            <Route path="/admin/lecturer/course/:id" exact={true} component={LecturerCourse} />
+            <Route path="/admin/lecturer/course/:id/new" exact={true} component={EnrollLecturer} />
 
 
             <Route path="/admin/courselist" exact={true} component={Course}/>
