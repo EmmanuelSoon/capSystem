@@ -145,7 +145,7 @@ class EditLecturer extends Component {
 
     render() {
         const {item} = this.state;
-        const title = <h2 className='mb-3 mt-3'>{item.lecturerId ? 'Edit Lecturer' : 'Add Lecturer'}</h2>;
+        const title = <h2 className='mb-3 mt-3'>{item.lecturerId ? 'Edit Lecturer Details: (' + item.name + ')': 'Add New Lecturer'}</h2>;
     
         const RenderError = (check) => {
             if (check){
@@ -208,7 +208,7 @@ class EditLecturer extends Component {
                         <Button color="secondary" tag={Link} to="/admin/lecturer">Cancel</Button>
                     </FormGroup>
                 </Form>
-                <h4>To Change password, Please Verify the password first</h4>
+                <h4 className='mt-5'>To Change password, Please verify the password first</h4>
                 <Form onSubmit={this.verifyPassword}>
                     <FormGroup>
                         <Label for="password">Enter Old Password</Label>
