@@ -54,6 +54,8 @@ public class CourseDetail {
         this.maxSize = maxSize;
     }
 
+
+
     //Ulility Methods 
     public void addLecturer(Lecturer lecturer){
         this.lecturers.add(lecturer);

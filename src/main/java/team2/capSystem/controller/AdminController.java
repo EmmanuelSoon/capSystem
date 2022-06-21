@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -89,7 +90,7 @@ public class AdminController {
     public List<CourseDetail> getCoursesForLecturer(@PathVariable int id){
         List<CourseDetail> cdList = lecturerService.findCoursesByLecturerId(id);
         // return courseService.convertCoursesToJson(cdList);
-        return cdList;
+        return cdList.stream().distinct().collect(Collectors.toList());
     }
 
     @GetMapping(value = "/student/course/{id}/new")

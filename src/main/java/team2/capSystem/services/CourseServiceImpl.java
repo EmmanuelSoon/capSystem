@@ -76,9 +76,10 @@ public class CourseServiceImpl implements CourseService {
     };
 
 
-    
     public StudentCourse addStudentToCourseDetail(CourseDetail courseDetail, Student student, double gpa){
-        StudentCourse sc = new StudentCourse( student, courseDetail, gpa);
+        CourseDetail cd = cdRepository.findById(courseDetail.getId()).get();
+        Student currStudent = studentRepository.findByUsername(student.getUsername());
+        StudentCourse sc = new StudentCourse(currStudent, courseDetail, gpa);
         scRepository.save(sc);
         return sc;
     };
