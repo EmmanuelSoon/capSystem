@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import team2.capSystem.helper.lecturerCourseStudentSearch;
 import team2.capSystem.helper.lecturerCoursesTaught;
 import team2.capSystem.helper.nominalRoll;
@@ -26,6 +28,7 @@ import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.LecturerRepository;
 import team2.capSystem.services.LecturerService;
+import team2.capSystem.services.StudentService;
 
 @Controller
 @RequestMapping("/lecturer")
@@ -36,6 +39,8 @@ public class LecturerController {
 
 	@Autowired
 	private LecturerService lecturerService;
+	@Autowired
+	private StudentService studentService;
 
 	@RequestMapping(value = "/dashboard")
 	public String displayDashboard(Model model, HttpSession session) {
@@ -47,39 +52,39 @@ public class LecturerController {
 		}
 		return "/lecturer/lecturer-dashboard";
 	}
-	
-	@RequestMapping("/profile")
-	 public String displayLecturerProfile(Model model, HttpSession session){
-        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-        Lecturer lecturer = lecturerService.getLecturerProfile(usd);
-        model.addAttribute("lecturer", lecturer);
-        return "lecturer/lecturer-profile";
-    }
-	
-	@RequestMapping("/editProfile")
-    public String editLecturerProfile(Model model, HttpSession session){
-    	System.out.print("testing");
-         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-         Lecturer lecturer = lecturerService.getLecturerProfile(usd);
-         model.addAttribute("student", lecturer);
-        return "lecturer/lecturer-updateProfile";
-    }
-	
-	@RequestMapping("/updatedProfile")
-    public String updatedStudentProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer, BindingResult bindingresult){
-        try{
-        	if(bindingresult.hasErrors()) {
-    			return "students/lecturer-updateProfile";
-    		}
-            lecturerService.saveLecturer(lecturer);
-            return "students/lecturer-profile";
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        return "lecturer/lecturer-profile";
 
-    }
+	@RequestMapping("/profile")
+	public String displayLecturerProfile(Model model, HttpSession session) {
+		userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
+		Lecturer lecturer = lecturerService.getLecturerProfile(usd);
+		model.addAttribute("lecturer", lecturer);
+		return "lecturer/lecturer-profile";
+	}
+
+	@RequestMapping("/editProfile")
+	public String editLecturerProfile(Model model, HttpSession session) {
+		System.out.print("testing");
+		userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
+		Lecturer lecturer = lecturerService.getLecturerProfile(usd);
+		model.addAttribute("lecturer", lecturer);
+		return "lecturer/lecturer-updateProfile";
+	}
+
+	@RequestMapping("/updatedProfile")
+	public String updatedStudentProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer,
+			BindingResult bindingresult) {
+		try {
+			if (bindingresult.hasErrors()) {
+				return "students/lecturer-updateProfile";
+			}
+			lecturerService.saveLecturer(lecturer);
+			return "students/lecturer-profile";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "lecturer/lecturer-profile";
+
+	}
 
 	@RequestMapping(value = "/course-taught")
 	public String viewCoursetaught(HttpSession session, Model model,
@@ -161,16 +166,40 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-enrolment";
 	}
 
-	@RequestMapping(value = "/student-performance/{courseBatchId}/{student_id}/grading")
+	@RequestMapping(value = "/student-performance/grading/{courseBatchId}/{student_id}")
 	public String gradeCourse(HttpSession session, Model model, @PathVariable int courseBatchId,
 			@PathVariable int student_id) {
 
 		try {
 			if (!isUserLecturer(session))
 				return "forward:/logout";
+
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = scList.stream().filter(x -> x.getCourse().getId() == courseBatchId).findFirst().get();
 			model.addAttribute("gradeStudent", sc);
+			model.addAttribute("courseBatchId", courseBatchId);
+			model.addAttribute("student_id", student_id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		return "/lecturer/lecturer-grade-course";
+	}
+
+	@RequestMapping(value = "/student-performance/updateGrading/{courseBatchId}/{student_id}")
+	public String updateStudentCourseGPA(HttpSession session, Model model, @PathVariable int courseBatchId,
+			@PathVariable int student_id, @RequestParam("gpa") double gpa) {
+
+		try {
+			if (!isUserLecturer(session))
+				return "forward:/logout";
+
+			studentService.updateStudentCourseGPA(courseBatchId, student_id, gpa);
+			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
+			StudentCourse sc = scList.stream().filter(x -> x.getCourse().getId() == courseBatchId).findFirst().get();
+			model.addAttribute("gradeStudent", sc);
+			model.addAttribute("courseBatchId", courseBatchId);
+			model.addAttribute("student_id", student_id);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

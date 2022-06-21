@@ -47,7 +47,7 @@ public class LoginController {
 
 		if(bindingresult.hasErrors())
 		{
-			return "login";
+			return "error";
 		}
 		switch (role) {
 		case "lecturer":
@@ -89,4 +89,3 @@ public class LoginController {
 		return "Login";
 	}
 }
-

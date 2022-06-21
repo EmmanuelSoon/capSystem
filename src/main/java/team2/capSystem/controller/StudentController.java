@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
+import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Student;
@@ -33,33 +36,31 @@ import team2.capSystem.repo.StudentCourseRepository;
 import team2.capSystem.repo.StudentRepository;
 import team2.capSystem.services.CourseService;
 import team2.capSystem.services.StudentService;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 @RequestMapping(path = "/student")
 public class StudentController {
     
-    @Autowired StudentRepository sRepo;
-    @Autowired StudentCourseRepository scRepo;
-    @Autowired CourseDetailRepository cdRepo;
-    
     @Autowired 
     private StudentService studService;
-    // @Autowired
-    // private CourseService courseService;
 
-    
     @RequestMapping("/student-dashboard")
-    public String showDashboard(){
+    public String showDashboard(HttpSession session){
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
         return "students/student-dashboard";
     }
 
     @RequestMapping(path = "/course-history")
     public String showCourseHistory(HttpSession session, Model model){
-        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        userSessionDetails usd = getUsd(session);
         List<StudentCourse> current = studService.findStudentCoursesUngraded(usd.getUserId());
         List<StudentCourse> hist = studService.findStudentCoursesGraded(usd.getUserId());
-        Double getAverageGPA=studService.getAverageGPA(usd.getUserId());
-        System.out.println(getAverageGPA);
+        String getAverageGPA= String.format("%.2f", studService.getAverageGPA(usd.getUserId()));
+        
         model.addAttribute("studCourse", current);
         model.addAttribute("studHist", hist);
         model.addAttribute("avgGPA", getAverageGPA);
@@ -69,7 +70,10 @@ public class StudentController {
 
     @RequestMapping(path = "/enroll*")
     public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("CourseDetailSearchQuery") courseDetailSearchQuery search){
-        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
+        userSessionDetails usd = getUsd(session);
         List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, search);
         model.addAttribute("enrollCourses", enrollCourses);
 
@@ -79,7 +83,10 @@ public class StudentController {
     
     @RequestMapping("/enrollCourse/" )
     public String enrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
-        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
+        userSessionDetails usd = getUsd(session);
         try {
             studService.studentEnrollCourse(usd,id);
         } catch (RequestException e) {
@@ -91,7 +98,10 @@ public class StudentController {
 
     @RequestMapping("/profile")
     public String displayStudentProfile(Model model, HttpSession session){
-        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
+        userSessionDetails usd = getUsd(session);
         Student student = studService.getStudentProfile(usd);
         model.addAttribute("student", student);
         return "students/student-profile";
@@ -99,15 +109,20 @@ public class StudentController {
 
     @RequestMapping("/editProfile")
     public String editStudentProfile(Model model, HttpSession session){
-    	System.out.print("testing");
-         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
-         Student student = studService.getStudentProfile(usd);
-         model.addAttribute("student", student);
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
+        userSessionDetails usd = getUsd(session);
+        Student student = studService.getStudentProfile(usd);
+        model.addAttribute("student", student);
         return "students/student-updateProfile";
     }
 
     @RequestMapping("/updatedProfile")
-    public String updatedStudentProfile(@ModelAttribute("student") @Valid Student student, BindingResult bindingresult){
+    public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult){
+        if (!checkUser(session)){
+            return "forward:/logout";
+        }
         try{
         	if(bindingresult.hasErrors()) {
     			return "students/student-updateProfile";
@@ -116,10 +131,56 @@ public class StudentController {
             return "students/student-profile";
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+            // to implement catch
         }
         return "students/student-profile";
 
+    }
+    
+
+    // @RequestMapping(value="/change-password", method=RequestMethod.GET)
+	// public String PasswordChangeForm(Model model, HttpSession session){
+    //     if (!checkUser(session)){
+    //         return "forward:/logout";
+    //     }
+    //     userSessionDetails usd = getUsd(session);
+	// 	Student student = studService.findStudentById(usd.getUserId());
+    //     model.addAttribute("student", student);
+    //     return "students/password-change";
+    // }
+
+    @RequestMapping(value="change-password")
+    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult){
+        if (bindingresult.hasErrors()){
+            return "students/password-change";
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userSessionDetails usd = getUsd(session);
+        if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
+            //try
+            Student student = studService.setStudentPassword(usd.getUserId(), userPass);
+ 
+            userSessionDetails p = new userSessionDetails(student, student.getStudentId(), "student");
+            session.setAttribute("userSessionDetails", p);
+
+            return "forward:/student/profile";
+        //catch
+        }
+        return "forward:/logout";
+    }
+        
+    
+    
+    private boolean checkUser(HttpSession session){
+        userSessionDetails usd = getUsd(session);
+        if (usd != null && usd.getUserRole().equals("student")){
+            return true;
+        } 
+        return false;
+    }
+
+    private userSessionDetails getUsd(HttpSession session){
+        return (userSessionDetails)session.getAttribute("userSessionDetails");
     }
 
 
