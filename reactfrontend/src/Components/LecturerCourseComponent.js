@@ -84,7 +84,7 @@ class LecturerCourse extends Component {
                     {/* <Button color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
                 </div>
                 <h3>{this.state.lecturer.name}'s Courses</h3>
-                <Table>
+                <Table className='text-center'>
                     <thead>
                         <tr>
                             <th>
@@ -95,6 +95,9 @@ class LecturerCourse extends Component {
                             </th>
                             <th>
                                 Course End Date
+                            </th>
+                            <th>
+                                Current Enrolment
                             </th>
                         </tr>
                     </thead>
