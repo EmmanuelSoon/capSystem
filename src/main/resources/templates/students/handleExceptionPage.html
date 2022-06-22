@@ -4,19 +4,8 @@
 <header th:replace="fragments/header :: html_head"></header>
 
 <body>
-    <div>
-        <div class="face">
-            <div class="band">
-                <div class="red"></div>
-                <div class="white"></div>
-                <div class="blue"></div>
-            </div>
-            <div class="eyes"></div>
-            <div class="dimples"></div>
-            <div class="mouth"></div>
-        </div>
-        
-        <h1>Oops! Sorry<span th:text ="${error}"></span></h1>
+    <div>        
+        <h1>Oops! Sorry <span th:text ="${error}"></span></h1>
         <div class="btn">Return to Home</div>
     </div>
 </body>
