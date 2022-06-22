@@ -50,12 +50,15 @@ class CourseDetail extends Component {
             if (batch.full === true) {
                 return (
                     <div>
-                        <Button color="secondary">Fullly Resgistered</Button></div>
+                        <Button size='sm' color="danger">Full</Button>
+                    </div>
                 );
             }
             else {
                 return (
-                    <div></div>
+                    <div>
+                        <Button size='sm' color="warning">Slots Available</Button>
+                    </div>
                 );
             }
         };
@@ -93,13 +96,18 @@ class CourseDetail extends Component {
                     <td>{batch.size} / {batch.maxSize}</td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Details</Button>
 
                         </ButtonGroup>
                     </td>
                     <td>
                         {action(batch)}
-                        {deleteaction(batch)}
+                    </td>
+                    <td>
+                        <div className='col-12'>
+                            {deleteaction(batch)}
+                        </div>
+
                     </td>
                 </tr>
             );
@@ -119,6 +127,7 @@ class CourseDetail extends Component {
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Current Batch Size</th>
+                        <th>View Details</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr></thead>
