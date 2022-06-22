@@ -3,6 +3,6 @@ nav{
 }
 
 table tbody tr:first-child{
-	border-top: none;
+	border-top: transparent 1px solid;
     border-bottom: red 2px solid;
 }
