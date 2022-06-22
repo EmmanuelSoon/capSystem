@@ -29,15 +29,9 @@
 				</form>
 			</div>
 		</div>
-<<<<<<< HEAD
-		<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
-		<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-
-=======
 		<div class="alert alert-primary" role="alert" th:id = "success" th:text="${success}" th:if="${success}"></div>
 		<div class="alert alert-danger" role="alert" th:id = "error" th:text="${error}" th:if="${error}"></div>
 		<div th:id = "timer"></div>
->>>>>>> bc900731baa0bb1956aa278296b68d39a7eca626
 		<div>
 			<h5 class="mb-3 mt-5">Currently enrolled</h5>
 			<table class="table mb-5 table-hover" th:object="${studCourse}" >
