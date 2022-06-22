@@ -5,10 +5,10 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
-		<h3>Student Course</h3>
-		<div class="row mb-3">
-			<div class="col">
-				<h4 class="align-bottom pt-5">Current Grade= <span th:text="${avgGPA}"></span></h4>
+		<div class="row mb-3 mt-5">
+			<div class="col" th:object="${currStudent}">
+				<h2 class="align-bottom pt-5"><strong>Welcome <span th:text ="${currStudent.name}"></span></strong></h2>
+				<h4 class="align-bottom pt-5">Average GPA: <span th:text="${avgGPA}"></span></h4>
 			</div>
 			<div class="col">
 				<form>
@@ -16,15 +16,14 @@
 						<div class="col-5 mr-1">
 						<form action="#" th:action="@{/student/course-history/}" method="get" th:object="${courseDetailSearchQuery}">
 							<label for="course-search">Course Name/Description</label>
-							<input type="text" class="form-control" placeholder="Search" th:field="*{keyword}">
-							<input type="hidden" th:field="*{startDate}">
-							<input type="hidden" th:field="*{endDate}">
-						</div>
-						<div class="col-3 mt-4">
-							<button action="submit" class="btn btn-success btn-outline search-button" >
-								<i class="fa fa-search ml mr-2"></i>
-								Search
-							</button>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Search" th:field="*{keyword}">
+								<input type="hidden" th:field="*{startDate}">
+								<input type="hidden" th:field="*{endDate}">
+								<button action="submit" class="btn btn-outline-primary">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
 						</div>
 					</div>
 				</form>
@@ -33,11 +32,13 @@
 
 		<div>
 			<h5 class="mb-3">Currently enrolled</h5>
-			<table class="table mb-5" th:object="${studCourse}" >
+			<table class="table mb-5 table-hover" th:object="${studCourse}" >
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
 					<th> show Details </th>
+					<th>Unenroll</th>
+
 				</tr>
 				<tr th:if="${studCourse.empty}">
 					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
@@ -46,6 +47,9 @@
 				<tr th:each="sc: ${studCourse}">
 					<td th:text="${sc.course.course.name}">Course Name</td>
 					<td th:text="${sc.course.course.description}">Course Description</td>
+					<td>
+						<a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sc.course.id})}">View Class</a>
+					</td>
 					<td>
 						<form action="#" th:action="@{/student/unenrollCourse/}" method="post">
 							<input type="hidden" th:value="${sc.course.id}" name="cdId">
@@ -60,7 +64,7 @@
 
 		<div>
 			<h5 class="mb-3">Past courses</h5>
-			<table class="table" th:object="${studCourse}" >
+			<table class="table  table-hover" th:object="${studCourse}" >
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
@@ -75,7 +79,7 @@
 					<td th:text="${sh.course.course.name}">Course Name</td>
 					<td th:text="${sh.course.course.description}">Course Description</td>
 					<td th:text="${sh.gpa}">Grade</td>
-					<td><a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sh.course.id})}">View Post</a></td>
+					<td><a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sh.course.id})}">View Class</a></td>
 				</tr>
 			</table>
 		</div>

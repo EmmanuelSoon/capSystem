@@ -51,6 +51,9 @@ public class StudentController {
     @Autowired
     private LecturerService lectService;
 
+    @Autowired
+    private CourseService courseService;
+
     @RequestMapping("/student-dashboard")
     public String showDashboard(HttpSession session){
         if (!checkUser(session)){
@@ -65,7 +68,9 @@ public class StudentController {
         List<StudentCourse> current = studService.findStudentCoursesOngoing(usd.getUserId(), search.getKeyword());
         List<StudentCourse> hist = studService.findStudentCoursesFinish(usd.getUserId(), search.getKeyword());
         String getAverageGPA= String.format("%.2f", studService.getAverageGPA(usd.getUserId()));
-        
+        Student student =studService.findStudentById(usd.getUserId());
+
+        model.addAttribute("currStudent", student);
         model.addAttribute("studCourse", current);
         model.addAttribute("studHist", hist);
         model.addAttribute("avgGPA", getAverageGPA);
@@ -77,7 +82,9 @@ public class StudentController {
     public String showClassList(@PathVariable("id") Integer id, HttpSession session, Model model){
         List<StudentCourse> classList = studService.getClassList(id);
         List<Lecturer> lectList = studService.getLecturerList(id);
+        CourseDetail cd = courseService.findCourseDetailById(id);
 
+        model.addAttribute("courseDetails", cd);
         model.addAttribute("classlist", classList);
         model.addAttribute("lecturerlist", lectList);
         

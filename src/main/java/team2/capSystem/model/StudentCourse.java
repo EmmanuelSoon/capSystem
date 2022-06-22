@@ -50,4 +50,8 @@ public class StudentCourse{
     public String getName() {
         return student.getName();
     }
+    public String getEmail() {
+        return student.getEmail();
+    }
+
 }

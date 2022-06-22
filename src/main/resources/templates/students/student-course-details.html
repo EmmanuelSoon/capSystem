@@ -4,31 +4,48 @@
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
-	<div class="container">
-		<h3>View Class list: </h3>
-	
-			<table class="table table-striped" th:object="${classlist}">
+	<div class="container mt-5">
+		<h2><strong>Class Details</strong></h2>
+		<div class="row">
+			<div class="col-12" th:object="${courseDetails}">
+				<p >
+					<strong>Course Name: </strong><span th:text ="${courseDetails.getName()}"></span> &emsp;
+					<strong>Course Start Date: </strong><span th:text ="${courseDetails.startDate}"></span> &emsp;
+					<strong>Course End Date: </strong><span th:text ="${courseDetails.endDate}"></span>
+				</p>
+			</div>
+		</div>
+		<h3>Class List: </h3>
+			<table class="table table-striped table-hover" th:object="${classlist}">
 				<tr>
 					<th>Student Name</th>
+					<th>Contact Details</th>
+
 				</tr>
 				<tr th:if="${classlist.empty}">
 					<td colspan="4" class="p-4 border">No Students Enrolled</td>
 				</tr>
 				<tr th:each="sc: ${classlist}">
-					<td th:text="${sc.getName()}">Student Name</td>
+					<td th:text="${sc.getName()}"></td>
+					<td th:text="${sc.getEmail()}"></td>
+
 			</table>
 	</div>
-    <div class="container">
+    <div class="container mt-5">
         <h3>Taught by:</h3>
-        <table class="table table-striped" th:object="${lecturerlist}">
+        <table class="table table-striped table-hover" th:object="${lecturerlist}">
             <tr>
                 <th>Lecturer Name</th>
+				<th>Contact Details</th>
+
             </tr>
             <tr th:if="${lecturerlist.empty}">
                 <td colspan="4" class="p-4 border">No lecturers!</td>
             </tr>
             <tr th:each="lect: ${lecturerlist}">
-                <td th:text="${lect.name}">Student Name</td>
+                <td th:text="${lect.name}"></td>
+				<td th:text="${lect.email}"></td>
+
         </table>
 
 	</div>

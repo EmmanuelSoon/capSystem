@@ -73,4 +73,9 @@ public class CourseDetail {
     public boolean isFull() {
         return student_course.size() >= maxSize;
     }
+
+    public String getName(){
+        return course.getName();
+    }
+
 }
