@@ -212,6 +212,8 @@ public class LecturerController {
 
 				if (sc.getCourse().getEndDate().isBefore(LocalDate.now()))
 					model.addAttribute("courseOver", "courseOver");
+				if (sc.getCourse().getStartDate().isAfter(LocalDate.now()))
+					model.addAttribute("courseOver", "courseNew");
 				model.addAttribute("studCount", nomRoll.size());
 				model.addAttribute("nominalRoll", nomRoll);
 				model.addAttribute("courseId", courseId);
@@ -222,7 +224,7 @@ public class LecturerController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "/lecturer/lecturer-view-enrolment";
+		return "/lecturer/lecturer-view-nominalroll";
 	}
 
 	@RequestMapping(value = "/student-performance/grading/{courseId}/{courseBatchId}/{student_id}")
