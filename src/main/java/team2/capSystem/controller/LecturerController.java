@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import team2.capSystem.helper.lecturerCourseStudentSearch;
 import team2.capSystem.helper.lecturerCoursesHelper;
+import team2.capSystem.helper.lecturerStudentGrading;
 import team2.capSystem.helper.nominalRoll;
 import team2.capSystem.helper.studentTranscript;
 import team2.capSystem.helper.userChangePassword;
@@ -232,11 +233,14 @@ public class LecturerController {
 
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
+			lecturerStudentGrading lectStudentGrading = new lecturerStudentGrading(sc.getName(), sc.getCourse().getId(),
+					sc.getCourse().getCourse().getName());
 			model.addAttribute("gradeStudent", sc);
 			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
 			model.addAttribute("courseId", courseId);
+			model.addAttribute("lecturerStudentGrading", lectStudentGrading);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -255,11 +259,14 @@ public class LecturerController {
 			studentService.updateStudentCourseGPA(courseBatchId, student_id, gpa);
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
+			lecturerStudentGrading lectStudentGrading = new lecturerStudentGrading(sc.getName(), sc.getCourse().getId(),
+					sc.getCourse().getCourse().getName());
 			model.addAttribute("gradeStudent", sc);
 			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
 			model.addAttribute("courseId", courseId);
+			model.addAttribute("lecturerStudentGrading", lectStudentGrading);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

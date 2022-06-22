@@ -9,6 +9,22 @@
 		<h1>Grade Student</h1>
 
 	</div>
+	<br>
+	<div style="justify-content: space-between;" th:object="${lecturerStudentGrading}">
+		<div style="display: inline-block;justify-content: space-between;padding-right: 250px;">
+			<label for="StudentName" style="font-weight: 500;"> Student Name: </label>
+			<label th:text="${lecturerStudentGrading.studentName}" />
+		</div>
+		<div style="display: inline-block;justify-content: space-between;padding-right: 250px;">
+			<label for="CourseName" style="font-weight: 500;"> Course Name: </label>
+			<label th:text="${lecturerStudentGrading.courseName}" />
+		</div>
+		<div style="display: inline-block;justify-content: space-between;padding-right: 100px;">
+			<label for="BatchNumber" style="font-weight: 500;"> Batch Number: </label>
+			<label th:text="${lecturerStudentGrading.batchNumber}" />
+		</div>
+	</div>
+	<br>
 	<div>
 		<form action="#"
 			th:action="@{/lecturer/student-performance/updateGrading/}  + ${courseId} + '/' + ${courseBatchId} + '/' + ${student_id}"
@@ -19,10 +35,11 @@
 					th:value="${lectrsGrades.getGradeValue}" th:text="${lectrsGrades.getGradeName}"
 					th:selected="${lectrsGrades.getGradeValue} eq ${gpa}"></option>
 			</select>
-			<input type="submit">
+			<input type="submit" value="Update Score" />
 		</form>
 	</div>
-	<div>
+	<br>
+	<div style="text-align: center;">
 		<a th:href="@{/lecturer/class-list/} + ${courseId} + '/' + ${courseBatchId}">Back
 			to list</a>
 	</div>
