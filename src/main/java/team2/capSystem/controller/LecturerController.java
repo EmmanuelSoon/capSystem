@@ -208,11 +208,13 @@ public class LecturerController {
 				}
 
 				StudentCourse sc = lecturerService.getSCByBatchId(course_batch_id, scList);
+
 				if (sc.getCourse().getEndDate().isBefore(LocalDate.now()))
 					model.addAttribute("courseOver", "courseOver");
-
+				model.addAttribute("studCount", nomRoll.size());
 				model.addAttribute("nominalRoll", nomRoll);
 				model.addAttribute("courseId", courseId);
+				model.addAttribute("courseName", cd.getCourse().getName());
 				model.addAttribute("course_batch_id", course_batch_id);
 
 			}

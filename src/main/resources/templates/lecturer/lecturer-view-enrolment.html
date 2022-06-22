@@ -25,10 +25,13 @@
 
 
 		<div>
-			<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
 			<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
 				<h1>Class List</h1>
+				<h5>Number of Students Enrolled: <span th:text="${studCount}"></span></h5>
+				<h5>Course Id: <span th:text="${courseId}"></span></h5>
+				<h5>Course Name: <span th:text="${courseName}"></span></h5>
+				<h5>Course Batch: <span th:text="${course_batch_id}"></span></h5>
 
 				<table class="table table-stripped" th:object="${nominalRoll}">
 
