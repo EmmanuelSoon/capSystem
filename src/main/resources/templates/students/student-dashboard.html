@@ -8,36 +8,36 @@
 		<h2 class="my-3 mb-2">Welcome<span class="navbar-text mx-3"
 			th:utext="${session.userSessionDetails.user.username}"></span></h2>
 		<div class='row align-items-start'>
-			<div class='col-12 col-md m-1'>
+			<div class='col-12 col-md m-1 card-data'>
 				<div body outline color="secondary" class="h-75 card border border-secondary">
 					<img class="card-img-top" th:src="@{/images/courses.jpg}" alt="My Courses" height="300">
 					<div class="card-body">
 						<h5 class="card-title text-center">My Courses</h5>
-						<p class="card-text">
-							<h6>5/6 Courses</h6>
+						<p class="card-text card-data-text text-wrap">
+							5/6 Courses
 						</p>
 						<a th:href="@{/student/course-history/}" class="btn btn-primary w-100">Click here!</a>
 					</div>
 				</div>
 			</div>
-			<div class='col-12 col-md m-1'>
+			<div class='col-12 col-md m-1 card-data'>
 				<div class="h-75 border border-secondary card">
 					<img class="card-img-top" th:src="@{/images/studyingpig.jpg}" alt="Enroll Course" height="300">
 					<div class="card-body">
 						<h5 class="card-title text-center">Enroll Course</h5>
-						<p class="card-text">
+						<p class="card-text card-data-text text-wrap">
 							This is Enroll Course
 						</p>
 						<a th:href="@{/student/enroll}" class="btn btn-primary w-100">Click here!</a>
 					</div>
 				</div>
 			</div>
-			<div class='col-12 col-md m-1'>
+			<div class='col-12 col-md m-1 card-data'>
 				<div class="h-75 border border-secondary card">
 					<img class="card-img-top" th:src="@{/images/profile.jpg}" alt="My Profile" height="300">
 					<div class="card-body">
 						<h5 class="card-title text-center">My Profile</h5>
-						<p class="card-text">
+						<p class="card-text card-data-text text-wrap">
 							This is My Profile
 						</p>
 						<a th:href="@{/student/profile}" class="btn btn-primary w-100">Click here!</a>

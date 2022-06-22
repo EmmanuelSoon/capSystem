@@ -18,7 +18,7 @@
 				<th> View Class List </th>
 			</tr>
 			<tr th:if="${lecturerCourse.empty}">
-				<td colspan="4" class="p-4 border">No Course(s) Assigned!</td>
+				<td colspan="6" class="p-4 border">No Course(s) Assigned!</td>
 			</tr>
 			<tr th:each="lectCrs : ${lecturerCourse}">
 				<td align="left" th:text="${lectCrs.courseBatchId}">Course Batch Id</td>
@@ -31,7 +31,7 @@
 
 				<td>
 					<a th:href="@{/lecturer/class-list/}+${lectCrs.courseId}+'/'+${lectCrs.courseBatchId}"
-						class="btn btn-success btn-outline">
+						class="btn btn-info btn-outline">
 						<span> View Details </span></a>
 				</td>
 			</tr>

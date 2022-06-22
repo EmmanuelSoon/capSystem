@@ -1,4 +1,12 @@
 .search-button{
-	padding-top: 7px;
+	margin-top: 9px;
+}
+
+.search-input{
+	height: 48px;
+}
+
+.search-btn-for-course{
+	margin-top: 40px;
 }
 

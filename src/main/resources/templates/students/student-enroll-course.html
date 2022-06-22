@@ -8,20 +8,20 @@
 		<h3 class="mt-5">Enroll in a Course</h3>
 		<form class="align-bottom" action="#" th:action="@{/student/enroll}" method="get" th:object="${courseDetailSearchQuery}">
 			<div class="row my-3">
-				<div class="col-3 mr-1">
+				<div class="col-3">
 					<label for="Search">Search</label>
-					<input type="text" class="form-control py-2" placeholder="Search" th:field="*{keyword}">
+					<input type="text" class="form-control py-2 search-input" placeholder="Search" th:field="*{keyword}">
 				</div>
-				<div class="col-3 mr-1">
+				<div class="col-3">
 					<label for="startDate">Start Date</label>
 					<input type="date" class="form-control" th:field="*{startDate}">
 				</div>
-				<div class="col-3 mr-1">
+				<div class="col-3">
 					<label for="startDate">End Date</label>
 					<input type="date" class="form-control" th:field="*{endDate}">
 				</div>
 				<div class="col-3 mt-4">
-					<button type="submit" class="btn btn-outline-success">
+					<button type="submit" class="btn btn-outline-success search-btn-for-course">
                         <i class="fa fa-search ml mr-2"></i>
                         Search
                 	</button>
@@ -37,12 +37,12 @@
 					<th>Course Name</th>
 					<th>Course Description</th>
 					<th>Start Date</th>
-					<th>End Date</thead>
-					<th>Class size</thead>
-					<th> </thead>
+					<th>End Date</th>
+					<th>Class size</th>
+					<th> </th>
 				</tr>
 				<tr th:if="${enrollCourses.empty}">
-					<td colspan="4" class="p-4 border">No Course Available!!!</td>
+					<td colspan="6" class="p-4 border">No Course Available!!!</td>
 				</tr>
 				<tr th:each="ac: ${enrollCourses}">
 					<td th:text="${ac.course.name}">Course Name</td>
@@ -64,9 +64,6 @@
 		</div>
 
 	</div>
-
-<<<<<<< Updated upstream
-=======
 	<!-- <div th:replace="fragments/header :: jsLink"></div> -->
->>>>>>> Stashed changes
+
 </body>

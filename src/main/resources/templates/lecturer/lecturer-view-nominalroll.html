@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+<link rel="stylesheet" th:href="@{/css/student-course.css}">
 <head th:replace="fragments/header.html :: html_head"></head>
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
-	<div class="container">
+	<div class="container mt-5">
 
 		<div>
-			<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
+			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> No Enrolment for this course </th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
 				<h1>Class List</h1>
-				<h5>Number of Students Enrolled: <span th:text="${studCount}"></span></h5>
-				<h5>Course Id: <span th:text="${courseId}"></span></h5>
-				<h5>Course Name: <span th:text="${courseName}"></span></h5>
-				<h5>Course Batch: <span th:text="${course_batch_id}"></span></h5>
+				<div class="row">
+					<div class="col">
+						<h5 class="my-3">Number of Students Enrolled: <span th:text="${studCount}"></span></h5>
+						<h5 class="my-3">Course Name: <span th:text="${courseName}"></span></h5>
+					</div>
+					<div class="col">
+						<h5 class="my-3">Course Id: <span th:text="${courseId}"></span></h5>
+						<h5 class="my-3">Course Batch: <span th:text="${course_batch_id}"></span></h5>
+					</div>
+				</div>
+				
+				
 				<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
 					method="get" th:object="${lecturerCourseStudentSearch}">
 					<div class="row my-3">
@@ -24,7 +33,7 @@
 								th:field="*{keyword}">
 						</div>
 						<div class="col-3 mt-4">
-							<button type="submit" class="btn btn-success btn-outline ">
+							<button type="submit" class="btn btn-success btn-outline search-button">
 								<i class="fa fa-search ml mr-2"></i>
 								Search
 							</button>

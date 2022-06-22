@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="row mb-3 mt-5">
 			<div class="col" th:object="${currStudent}">
-				<h2 ><strong>Welcome <span th:text ="${currStudent.name}"></span></strong></h2>
+				<h2 >My Courses</h2>
 				<h5>Average GPA: <span th:text="${avgGPA}"></span></h5>
 			</div>
 			<div class="col">
@@ -82,7 +82,7 @@
 					<td th:text="${sh.course.course.name}">Course Name</td>
 					<td th:text="${sh.course.course.description}">Course Description</td>
 					<td th:text="${sh.gpa}">Grade</td>
-					<td><a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sh.course.id})}">View Class</a></td>
+					<td><a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sh.course.id})}">View Class <i class="fa fa-book"></i></a></td>
 				</tr>
 			</table>
 		</div>

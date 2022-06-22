@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/student-course.css}">
 <header th:replace="fragments/header :: html_head"></header>
 
 <head>
@@ -9,7 +10,7 @@
 <body>
 	<header th:replace="fragments/header :: menu"></header>
 
-	<div class="container">
+	<div class="container mt-5">
 		<h2>Ongoing Courses</h2>
 
 		<form action="#" th:action="@{/lecturer/course-ongoing}" method="get"
@@ -22,7 +23,7 @@
 							th:field="*{keyword}">
 					</div>
 					<div class="col-3 mt-4">
-						<button type="submit" class="btn btn-success btn-outline ">
+						<button type="submit" class="btn btn-success btn-outline search-button">
 							<i class="fa fa-search ml mr-2"></i>
 							Search
 						</button>

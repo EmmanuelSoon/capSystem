@@ -65,14 +65,14 @@ public class LecturerController {
 	}
 
 	@RequestMapping("/updatedProfile")
-	public String updatedStudentProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer,
+	public String updatedLecturerProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer,
 			BindingResult bindingresult) {
 		try {
 			if (bindingresult.hasErrors()) {
-				return "students/lecturer-updateProfile";
+				return "lecturer/lecturer-updateProfile";
 			}
 			lecturerService.saveLecturer(lecturer);
-			return "students/lecturer-profile";
+			return "lecturer/lecturer-profile";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

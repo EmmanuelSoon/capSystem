@@ -5,47 +5,48 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container mt-3">
-		<div class="row mb-5">
-            <h3>Update Profile</h3>
-        </div>
-
+		<h3 class="ml-3">Update Profile</h3>
 		
 		<div>
-		<form th:action="@{/student/updatedProfile}" th:object="${student}" method="post">
-			<table class="table table-striped">
-				<tr>
-				<input type="hidden" th:field="*{studentId}" th:value="${studentId}"/>
-				<input type="hidden" th:field="*{password}" th:value="${password}"/>
-					<th>Student Name</th>
-					<td>
-						<input type="text" th:field="*{name}" th:value="${name}"/>
+			<form th:action="@{/student/updatedProfile}" th:object="${student}" method="post">
+			<div class="container border p-5 mt-3 bg-light rounded col-10">
+				<div class="row">
+					<input type="hidden" th:field="*{studentId}" th:value="${studentId}"/>
+					<input type="hidden" th:field="*{password}" th:value="${password}"/>
+				  	<div class="col">
+						<label for="studentName" class="font-weight-bold">Student Name</label>
+					</div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Enter Name" th:field="*{name}" th:value="${name}"/>
 						<p class="text-danger" th:value="${name}" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-					</td>
-				</tr>
-				<tr>
-					<th>Email</th>
-					<td>
-						<input type="text" th:field="*{email}" th:value="${email}"/>
+					</div>
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<label for="email" class="font-weight-bold">Email</label>
+					</div>
+					<div class="col">
+						<input type="text" class="form-control" placeholder="Enter Email" th:field="*{email}" th:value="${email}"/>
 						<p class="text-danger" th:value="${email}" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-					</td>
-				</tr>
-				<tr>
-					<th>UserName</th>
-					<td>
-						<input type="text" th:field="*{username}" th:value="${username}" readonly/>
-					</td>
-				</tr>
-                <tr>
-                    <td colspan="2" class="d-flex justify-content-around">
-                        <button type="submit" class="btn btn-outline-info">Update</button>
-                        <a th:href="@{/student/change-password}" class="btn btn-outline-primary">Update Password</a>
-                        <button type="reset" class="btn btn-outline-danger">Reset</button>
-                    </td>
-                </tr>
-			</table>
+					</div>
+				</div>
+				<div class="row my-3">
+					<div class="col">
+						<label for="userName" class="font-weight-bold">UserName</label>
+					</div>
+					<div class="col">
+						<input type="text" th:field="*{username}" th:value="${username}" readonly class="border-0 bg-light"/>
+					</div>
+				</div>
+				<div class="row mt-5 mb-3">
+					<button type="reset" class="btn btn-outline-danger w-25 mx-auto">Reset</button>
+					<a th:href="@{/student/change-password}" class="btn btn-outline-primary w-25 mx-auto">Update Password</a>
+					<button type="submit" class="btn btn-outline-info w-25 mx-auto">Update</button>
+				</div>
+				
+			</div>
 		</form>
 		</div>
-
 	</div>
 
 	<div th:replace="fragments/header :: jsLink"></div>

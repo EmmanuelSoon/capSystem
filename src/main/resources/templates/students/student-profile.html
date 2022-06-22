@@ -8,14 +8,14 @@
 		<div class="row mb-5 d-flex justify-content-between">
             <h3>My Profile</h3>
 			<form th:action="@{/student/editProfile}" method="get">
-				<button type="submit" class="btn btn-primary">Edit Profile</button>
+				<button type="submit" class="btn btn-info">Edit Profile</button>
 			</form>
         </div>
 
 		
 		<div>
 			<table class="table table-hover" th:object="${student}">
-				<tr>
+				<tr style="border-bottom: transparent;">
 					<th>Student Name</th>
 					<td th:text="${student.name}"></td>
 				</tr>
