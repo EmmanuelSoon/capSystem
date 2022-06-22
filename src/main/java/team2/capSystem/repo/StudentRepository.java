@@ -9,6 +9,9 @@ import team2.capSystem.model.*;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 	
 	Boolean existsBy();
+
+	@Query("SELECT s from Student s WHERE s.studentId = :studentId")
+	Student findStudentById(@Param("studentId")int studentId);
 	
 	@Query("SELECT s from Student s WHERE s.username = :username")
 	Student findStudentByUsername(@Param("username") String username);
@@ -23,4 +26,5 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 	
 	@Query("FROM Student s WHERE s.username= :username AND s.password= :password AND s.active= 1")
 	Student findStudentByUsernameAndPassword(@Param("username") String u, @Param("password") String p);
+
 }

@@ -156,7 +156,8 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	public studentTranscript createStudentTransciptRec(StudentCourse sc) {
-		return studentTranscript.builder().courseBatchId(sc.getId())
+		return studentTranscript.builder()
+				.courseBatchId(sc.getCourse().getId())
 				.courseName(sc.getCourse().getCourse().getName())
 				.dateOfCompletion(sc.getCourse().getEndDate()).gpa(sc.getGpa()).build();
 	}
