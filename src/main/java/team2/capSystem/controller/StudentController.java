@@ -74,8 +74,7 @@ public class StudentController {
     }
 
     @RequestMapping(path = "/view-classlist/{id}")
-    public String showClassList(@PathVariable("id") int id, HttpSession session, Model model){
-        System.out.println(id);
+    public String showClassList(@PathVariable("id") Integer id, HttpSession session, Model model){
         List<StudentCourse> classList = studService.getClassList(id);
         List<Lecturer> lectList = studService.getLecturerList(id);
 

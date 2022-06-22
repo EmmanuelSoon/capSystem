@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/student-course.css}">
 <header th:replace="fragments/header :: html_head"></header>
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
-		<form>
-			<div class="row my-3">
-				<div class="col-3 mr-1">
-				<form action="#" th:action="@{/student/course-history/}" method="get" th:object="${courseDetailSearchQuery}">
-					<label for="course-search">Course Name/Description</label>
-					<input type="text" class="form-control" placeholder="Search" th:field="*{keyword}">
-					<input type="hidden" th:field="*{startDate}">
-					<input type="hidden" th:field="*{endDate}">
-				</div>
-				<div class="col-3 mt-4">
-					<button action="submit" class="btn btn-success btn-outline" >
-						<i class="fa fa-search ml mr-2"></i>
-						Search
-					</button>
-				</div>
-			</div>
-		</form>
-
-
-
 		<h3>Student Course</h3>
-		<h4>Current Grade= <span th:text="${avgGPA}"></span></h4>
+		<div class="row mb-3">
+			<div class="col">
+				<h4 class="align-bottom pt-5">Current Grade= <span th:text="${avgGPA}"></span></h4>
+			</div>
+			<div class="col">
+				<h4 class="align-bottom pt-5">Current Grade= <span th:text="${avgGPA}"></span></h4>
+			</div>
+			<div class="col">
+				<form>
+					<div class="row my-3 justify-content-end">
+						<div class="col-5 mr-1">
+						<form action="#" th:action="@{/student/course-history/}" method="get" th:object="${courseDetailSearchQuery}">
+							<label for="course-search">Course Name/Description</label>
+							<input type="text" class="form-control" placeholder="Search" th:field="*{keyword}">
+							<input type="hidden" th:field="*{startDate}">
+							<input type="hidden" th:field="*{endDate}">
+						</div>
+						<div class="col-3 mt-4">
+							<button action="submit" class="btn btn-success btn-outline search-button" >
+								<i class="fa fa-search ml mr-2"></i>
+								Search
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
 		<div>
 			<h5>Currently enrolled</h5>
-			<table class="table table-striped" th:object="${studCourse}" >
+			<table class="table table-responsive mb-5" th:object="${studCourse}" >
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
-					<th> </th>
+					<th> show Details </th>
 				</tr>
 				<tr th:if="${studCourse.empty}">
 					<td colspan="4" class="p-4 border">No Courses listed!!!</td>
@@ -55,11 +63,12 @@
 
 		<div>
 			<h5>Past courses</h5>
-			<table class="table table-striped" th:object="${studHist}" >
+			<table class="table table-responsive" th:object="${studCourse}" >
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
 					<th>Grade</th>
+					<th>Details</th>
 				</tr>
 				<tr th:if="${studHist.empty}">
 					<td colspan="4" class="p-4 border">No Student History listed!!!</td>
