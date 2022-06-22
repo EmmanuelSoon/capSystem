@@ -190,6 +190,7 @@ public class LecturerController {
 			CourseDetail cd = lecturerService.getCourseDetailByBatchIdByLecturer(course_batch_id, lecturer);
 
 			List<StudentCourse> scList = lecturerService.getSCList(cd);
+
 			if (scList.isEmpty()) {
 				model.addAttribute("nominalRoll", "NoData");
 			} else {
@@ -205,6 +206,11 @@ public class LecturerController {
 						}
 					}
 				}
+
+				StudentCourse sc = lecturerService.getSCByBatchId(course_batch_id, scList);
+				if (sc.getCourse().getEndDate().isBefore(LocalDate.now()))
+					model.addAttribute("courseOver", "courseOver");
+
 				model.addAttribute("nominalRoll", nomRoll);
 				model.addAttribute("courseId", courseId);
 				model.addAttribute("course_batch_id", course_batch_id);
@@ -270,9 +276,9 @@ public class LecturerController {
 
 			ArrayList<studentTranscript> studTS = new ArrayList<studentTranscript>();
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
-	        String getAverageGPA= String.format("%.2f", studentService.getAverageGPA(student_id));
-	        String studentName = studentService.getStudent(student_id).getName();
-			
+			String getAverageGPA = String.format("%.2f", studentService.getAverageGPA(student_id));
+			String studentName = studentService.getStudent(student_id).getName();
+
 			if (scList.isEmpty()) {
 				model.addAttribute("studentTranscript", "NoData");
 			} else {
