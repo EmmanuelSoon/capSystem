@@ -28,8 +28,9 @@
 				</div>
 			</div>
 		</form>
-		<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
-		<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+		<!-- <div class="alert alert-primary" role="alert" th:id = "success" th:text="${success}" th:if="${success}"></div>
+		<div class="alert alert-danger" role="alert" th:id = "error" th:text="${error}" th:if="${error}"></div> -->
+		<div th:replace="fragments/alerts :: alert"></div>
 		<div>
 			<table class="table table-striped" th:object="${enrollCourses}">
 				<tr>
@@ -64,4 +65,8 @@
 
 	</div>
 
+<<<<<<< Updated upstream
+=======
+	<!-- <div th:replace="fragments/header :: jsLink"></div> -->
+>>>>>>> Stashed changes
 </body>
