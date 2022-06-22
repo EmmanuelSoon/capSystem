@@ -209,23 +209,23 @@ public class StudentServiceImpl implements StudentService {
 
 	}
 
-	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd) throws CourseEndedException, GpaExistException, AfterTwoWeekUnenrollmentException {
-
-		int studentId = usd.getUserId();
-		StudentCourse sc = scRepository.findCourseByCourseIdStudentId(studcourseId, studentId);
-		if (sc.getGpa() != -1.0) {
-			// If the Gpa if the student is awared
-			throw  new GpaExistException("Unenrollment failed as student has finished the course with awarded GPA!");
-		}
-		else if (sc.getCourse().getEndDate().isBefore(LocalDate.now())) {
-			//if the course has ended
-			throw new CourseEndedException("Unenrollment failed as the course had ended!");
-		}
-		else if (sc.getCourse().getStartDate().plusWeeks(2).isBefore(LocalDate.now())) {
-			throw new AfterTwoWeekUnenrollmentException("Unenrollment failed as the course has started 2 weeks!");
-		}
-		removeStudentCourse(sc);
-	}
+//	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd) throws CourseEndedException, GpaExistException, AfterTwoWeekUnenrollmentException {
+//
+//		int studentId = usd.getUserId();
+//		StudentCourse sc = scRepository.findCourseByCourseIdStudentId(studcourseId, studentId);
+//		if (sc.getGpa() != -1.0) {
+//			// If the Gpa if the student is awared
+//			throw  new GpaExistException("Unenrollment failed as student has finished the course with awarded GPA!");
+//		}
+//		else if (sc.getCourse().getEndDate().isBefore(LocalDate.now())) {
+//			//if the course has ended
+//			throw new CourseEndedException("Unenrollment failed as the course had ended!");
+//		}
+//		else if (sc.getCourse().getStartDate().plusWeeks(2).isBefore(LocalDate.now())) {
+//			throw new AfterTwoWeekUnenrollmentException("Unenrollment failed as the course has started 2 weeks!");
+//		}
+//		removeStudentCourse(sc);
+//	}
 
 	public List<StudentCourse> getClassList(int courseDetailId){
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
