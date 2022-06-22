@@ -35,6 +35,8 @@
 					<th>Course Description</th>
 					<th>Start Date</th>
 					<th>End Date</thead>
+					<th>Class size</thead>
+					<th> </thead>
 				</tr>
 				<tr th:if="${enrollCourses.empty}">
 					<td colspan="4" class="p-4 border">No Course Available!!!</td>
@@ -44,6 +46,7 @@
 					<td th:text="${ac.course.description}">Course Description</td>
 					<td th:text="${#temporals.format(ac.startDate,'dd-MM-yyyy')}">Course Start Date</td>
 					<td th:text="${#temporals.format(ac.endDate,'dd-MM-yyyy')}">Course End Date</td>
+					<td th:text="${ac.getSize()} + '/' + ${ac.maxSize}">Class size</td>
 					<!-- <td>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							Enroll

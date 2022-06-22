@@ -43,6 +43,16 @@ class CourseDetail extends Component {
         if (!this.state.isLoaded) {
             return <p>Loading...</p>;
         }
+        if (this.state.batches.length === 0) {
+            return(
+                <div>
+                <h4>There is currently no batches for this Course.</h4>
+                <div>
+                    <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Click to add New Batch Now !</Button>
+                </div>
+                </div>
+            );
+        }
 
         const batches = this.state.batches;
 
@@ -50,12 +60,15 @@ class CourseDetail extends Component {
             if (batch.full === true) {
                 return (
                     <div>
-                        <Button color="secondary">Fullly Resgistered</Button></div>
+                        <Button size='sm' color="danger">Full</Button>
+                    </div>
                 );
             }
             else {
                 return (
-                    <div></div>
+                    <div>
+                        <Button size='sm' color="warning">Slots Available</Button>
+                    </div>
                 );
             }
         };
@@ -93,17 +106,23 @@ class CourseDetail extends Component {
                     <td>{batch.size} / {batch.maxSize}</td>
                     <td>
                         <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Status</Button>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Details</Button>
 
                         </ButtonGroup>
                     </td>
                     <td>
                         {action(batch)}
-                        {deleteaction(batch)}
+                    </td>
+                    <td>
+                        <div className='col-12'>
+                            {deleteaction(batch)}
+                        </div>
+
                     </td>
                 </tr>
             );
         });
+
 
         return(
             <Container className="mt-5">
@@ -119,6 +138,7 @@ class CourseDetail extends Component {
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Current Batch Size</th>
+                        <th>View Details</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr></thead>

@@ -29,12 +29,14 @@ import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
 import team2.capSystem.model.CourseDetail;
+import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
 import team2.capSystem.repo.CourseDetailRepository;
 import team2.capSystem.repo.StudentCourseRepository;
 import team2.capSystem.repo.StudentRepository;
 import team2.capSystem.services.CourseService;
+import team2.capSystem.services.LecturerService;
 import team2.capSystem.services.StudentService;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -45,6 +47,9 @@ public class StudentController {
     
     @Autowired 
     private StudentService studService;
+
+    @Autowired
+    private LecturerService lectService;
 
     @RequestMapping("/student-dashboard")
     public String showDashboard(HttpSession session){
@@ -67,6 +72,20 @@ public class StudentController {
         return "students/student-course";
 
     }
+
+    @RequestMapping(path = "/view-classlist/{id}")
+    public String showClassList(@PathVariable("id") int id, HttpSession session, Model model){
+        System.out.println(id);
+        List<StudentCourse> classList = studService.getClassList(id);
+        List<Lecturer> lectList = studService.getLecturerList(id);
+
+        model.addAttribute("classlist", classList);
+        model.addAttribute("lecturerlist", lectList);
+        
+        return "students/student-course-details";
+    }
+
+
 
     @RequestMapping(path = "/enroll*")
     public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
