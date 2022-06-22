@@ -58,7 +58,12 @@
 
 
 						<th:block th:if="${courseOver=='courseOver' or courseOver=='courseNew'}">
-							<td><span th:text="${student.gpa}">Student Grade</span></td>
+							<td>
+								<th:block th:if="${student.gpa >= 0}"><span th:text="${student.gpa}">Student
+										Grade</span></th:block>
+								<th:block th:if="${student.gpa < 0}">Not Graded</th:block>
+
+							</td>
 						</th:block>
 						<th:block th:unless="${courseOver=='courseOver' or courseOver=='courseNew'}">
 							<td align-"left"><a
