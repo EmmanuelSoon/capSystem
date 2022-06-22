@@ -182,7 +182,7 @@ public class CascadingTest {
         courseService.addLecturer(cook1, tin);
         courseService.addLecturer(cook1, test);
 
-        lecturerService.deleteLecturer(test);
+        lecturerService.deleteLecturerById(test.getLecturerId());
         Assertions.assertNull(lecturerService.findByUsername("test"));
 
 		CourseDetail course = cdRepo.findByCourseNameAndTime(cookingCourse, LocalDate.of(2023, 06, 15), LocalDate.of(2024, 06, 15));
