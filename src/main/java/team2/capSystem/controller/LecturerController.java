@@ -216,9 +216,9 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-enrolment";
 	}
 
-	@RequestMapping(value = "/student-performance/grading/{courseBatchId}/{student_id}")
+	@RequestMapping(value = "/student-performance/grading/{courseId}/{courseBatchId}/{student_id}")
 	public String gradeCourse(HttpSession session, Model model, @PathVariable int courseBatchId,
-			@PathVariable int student_id) {
+			@PathVariable int student_id, @PathVariable int courseId) {
 
 		try {
 			if (!isUserLecturer(session))
@@ -230,6 +230,7 @@ public class LecturerController {
 			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
+			model.addAttribute("courseId", courseId);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -237,9 +238,9 @@ public class LecturerController {
 		return "/lecturer/lecturer-grade-course";
 	}
 
-	@RequestMapping(value = "/student-performance/updateGrading/{courseBatchId}/{student_id}")
-	public String updateStudentCourseGPA(HttpSession session, Model model, @PathVariable int courseBatchId,
-			@PathVariable int student_id, @RequestParam("gpa") double gpa) {
+	@RequestMapping(value = "/student-performance/updateGrading/{courseId}/{courseBatchId}/{student_id}")
+	public String updateStudentCourseGPA(HttpSession session, Model model, @PathVariable int courseId,
+			@PathVariable int courseBatchId, @PathVariable int student_id, @RequestParam("gpa") double gpa) {
 
 		try {
 			if (!isUserLecturer(session))
@@ -252,11 +253,12 @@ public class LecturerController {
 			model.addAttribute("gpa", sc.getGpa());
 			model.addAttribute("courseBatchId", courseBatchId);
 			model.addAttribute("student_id", student_id);
+			model.addAttribute("courseId", courseId);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
-		return "/lecturer/lecturer-grade-course";
+		return "forward:/lecturer/class-list/" + courseId + "/" + courseBatchId;
 	}
 
 	@RequestMapping(value = "/student-performance/{student_id}")

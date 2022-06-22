@@ -11,7 +11,7 @@
 	</div>
 	<div>
 		<form action="#"
-			th:action="@{/lecturer/student-performance/updateGrading/} + ${courseBatchId} + '/' + ${student_id}"
+			th:action="@{/lecturer/student-performance/updateGrading/}  + ${courseId} + '/' + ${courseBatchId} + '/' + ${student_id}"
 			method="post">
 			<label for="gpa">Grade Student:</label>
 			<select id="gpa" name="gpa">
@@ -22,8 +22,10 @@
 			<input type="submit">
 		</form>
 	</div>
-	<div><a th:action="@{/course-enrolment/{courseId}/{course_batch_id}}">Back
-			to list</a></div>
+	<div>
+		<a th:href="@{/lecturer/class-list/} + ${courseId} + '/' + ${courseBatchId}">Back
+			to list</a>
+	</div>
 
 	<div th:replace="fragments/header.html :: jsLink"></div>
 </body>
