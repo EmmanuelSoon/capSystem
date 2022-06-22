@@ -152,7 +152,7 @@ public class LecturerServiceImpl implements LecturerService {
 	public nominalRoll createNominalRoll(Student student, StudentCourse sc) {
 		return nominalRoll.builder().courseBatchId(sc.getCourse().getId())
 				.studentId(student.getStudentId()).studentName(student.getName())
-				.studentEmail(student.getEmail()).build();
+				.studentEmail(student.getEmail()).gpa(sc.getGpa()).build();
 	}
 
 	public studentTranscript createStudentTransciptRec(StudentCourse sc) {
