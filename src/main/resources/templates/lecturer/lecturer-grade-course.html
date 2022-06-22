@@ -5,45 +5,59 @@
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
-	<div>
-		<h1>Grade Student</h1>
 
-	</div>
-	<br>
-	<div style="justify-content: space-between;" th:object="${lecturerStudentGrading}">
-		<div style="display: inline-block;justify-content: space-between;padding-right: 250px;">
-			<label for="StudentName" style="font-weight: 500;"> Student Name: </label>
-			<label th:text="${lecturerStudentGrading.studentName}" />
-		</div>
-		<div style="display: inline-block;justify-content: space-between;padding-right: 250px;">
-			<label for="CourseName" style="font-weight: 500;"> Course Name: </label>
-			<label th:text="${lecturerStudentGrading.courseName}" />
-		</div>
-		<div style="display: inline-block;justify-content: space-between;padding-right: 100px;">
-			<label for="BatchNumber" style="font-weight: 500;"> Batch Number: </label>
-			<label th:text="${lecturerStudentGrading.batchNumber}" />
-		</div>
-	</div>
-	<br>
-	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+	<div class="container mt-5">
+		<h1 class="mb-5">Grade Student</h1>
+		<a th:href="@{/lecturer/class-list/} + ${courseId} + '/' + ${courseBatchId}"><<< Back to list</a>
+		
+		<div class="alert alert-primary my-5" role="alert" th:text="${success}" th:if="${success}"></div>
 	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-	<div>
+
 		<form action="#"
-			th:action="@{/lecturer/student-performance/updateGrading/}  + ${courseId} + '/' + ${courseBatchId} + '/' + ${student_id}"
-			method="post">
-			<label for="gpa">Grade Student:</label>
-			<select id="gpa" name="gpa">
-				<option th:each="lectrsGrades : ${T(team2.capSystem.helper.LectCourseGrades).values()}"
+		th:action="@{/lecturer/student-performance/updateGrading/}  + ${courseId} + '/' + ${courseBatchId} + '/' + ${student_id}"
+		method="post">
+	<div class="container border p-5 mt-3 bg-light rounded">
+		<div class="row">
+			<div class="col">
+				<label for="studentName" class="font-weight-bold">Student Name: </label>
+			</div>
+			<div class="col">
+				<label th:text="${lecturerStudentGrading.studentName}" ></label>
+			</div>
+		</div>
+		<div class="row my-3">
+			<div class="col">
+				<label for="courseName" class="font-weight-bold">Course Name:</label>
+			</div>
+			<div class="col">
+				<label for="courseName" th:text="${lecturerStudentGrading.courseName}"></label>
+            </div>
+		</div>
+		<div class="row my-3">
+			<div class="col">
+				<label for="batchNumber" class="font-weight-bold">Batch Number:</label>
+			</div>
+			<div class="col">
+				<label for="batchNumber" th:text="${lecturerStudentGrading.batchNumber}"></label>
+            </div>
+		</div>
+		<div class="row my-3">
+			<div class="col">
+				<label for="gradeStudetn" class="font-weight-bold">Grade Student:</label>
+			</div>
+			<div class="col">
+				<select class="form-control" id="gpa" name="gpa">
+					<option th:each="lectrsGrades : ${T(team2.capSystem.helper.LectCourseGrades).values()}"
 					th:value="${lectrsGrades.getGradeValue}" th:text="${lectrsGrades.getGradeName}"
 					th:selected="${lectrsGrades.getGradeValue} eq ${gpa}"></option>
-			</select>
-			<input type="submit" value="Update Score" />
-		</form>
+				  </select>
+            </div>
+		</div>
+		<div class="row mt-5">
+			<input type="submit" class="btn btn-info w-50 mx-auto" value="Update Score" />
+		</div>
 	</div>
-	<br>
-	<div style="text-align: center;">
-		<a th:href="@{/lecturer/class-list/} + ${courseId} + '/' + ${courseBatchId}">Back
-			to list</a>
+	</form>
 	</div>
 
 	<div th:replace="fragments/header.html :: jsLink"></div>
