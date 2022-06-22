@@ -63,7 +63,7 @@ class NewBatch extends Component {
                 }
                 else {
                     endValid =  end.length > 0 && new Date(value) > now && new Date(value) > new Date(start) ? true : false;
-                    fieldValidationErrors.startDate = endValid ? '' : ' end Date must later than start date';
+                    fieldValidationErrors.endDate = endValid ? '' : ' end Date must later than start date';
                 }
                 break;
             case 'size':
