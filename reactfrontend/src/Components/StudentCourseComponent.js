@@ -80,10 +80,10 @@ class StudentCourse extends Component {
         });
 
         return (
-            <Container fluid>
-                <h3>{this.state.student.name}'s Current Enrolment</h3>
-                <Table className='mb-5'>
-                    <thead>
+            <Container className='mt-5'>
+                <h3><Link to={"/admin/student"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> {this.state.student.name}'s Current Enrolment</h3>
+                <table className='table table-hover text-center mt-3'>
+                        <thead className='table-light'>
                         <tr>
                             <th>
                                 Course Name
@@ -97,12 +97,14 @@ class StudentCourse extends Component {
                             <th>
                                 Student GPA
                             </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {studentCourseList}
                     </tbody>
-                </Table>
+                </table>
                 <Button outline color="success" tag={Link} to={`/admin/student/course/${this.state.student.studentId}/new`}>Enroll Student into a new Course</Button>
             </Container>
         );

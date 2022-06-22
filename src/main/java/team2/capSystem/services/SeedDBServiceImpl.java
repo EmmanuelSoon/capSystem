@@ -31,7 +31,7 @@ public class SeedDBServiceImpl implements SeedDBService{
 
     public void loadInitialData(){
         if(!adminService.tableExist()){
-            adminService.createAdmin("admin", "password", "admin1", "admin@gmail.com");
+            adminService.createAdmin("admin", "password", "Admin1", "admin@gmail.com");
         }
 
         if(!studentService.tableExist()){

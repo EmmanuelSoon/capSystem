@@ -94,13 +94,13 @@ class LecturerCourse extends Component {
         });
 
         return (
-            <Container fluid>
-                <div className="float-right">
+            <Container className='mt-5'>
+                <div className="float-end">
                     {/* <Button color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
                 </div>
-                <h3>{this.state.lecturer.name}'s Courses</h3>
-                <Table className='text-center'>
-                    <thead>
+                <h3><Link to={"/admin/lecturer"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> {this.state.lecturer.name}'s Courses</h3>
+                <table className='table table-hover text-center mt-3'>
+                        <thead className='table-light'>
                         <tr>
                             <th>
                                 Course Name
@@ -114,12 +114,14 @@ class LecturerCourse extends Component {
                             <th>
                                 Current Enrolment
                             </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {lecturerCourseList}
                     </tbody>
-                </Table>
+                </table>
                 <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>

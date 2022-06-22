@@ -54,7 +54,7 @@ class BatchDetail extends Component {
                     <td>{parseFloat(student.gpa) < 0 ? 'N.A.' : parseFloat(student.gpa).toFixed(1, 10)}</td>
                     <td>
                         <ButtonGroup>
-                            <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
+                            <Button size='sm' color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -78,8 +78,7 @@ class BatchDetail extends Component {
         return(
             <Container className='mt-5'>
                 <div>
-                    <h2 > <Link to={"/admin/coursedetails/" + this.state.batch.course.courseId}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link>
-                            Student Registration Summary</h2>
+                    <h2 ><Link to={"/admin/coursedetails/" + this.state.batch.course.courseId}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Student Registration Summary</h2>
                 </div>
                 <div>
                     {batchSummary()}
