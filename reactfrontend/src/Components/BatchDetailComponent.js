@@ -42,18 +42,7 @@ class BatchDetail extends Component {
         }
 
         const students = batch.student_course;
-        const getGPA = ({gpa}) => {
-            if (gpa < 0) {
-                return (
-                    <span>NaN</span>
-                );
-            }
-            else {
-                return (
-                    <span>parseFloat(gpa).toFixed(1)</span>
-                );
-            }
-        }
+
         var index = 0;
         const studentList = students.map(student => {
             index++;
@@ -62,7 +51,7 @@ class BatchDetail extends Component {
                     <td>{index}</td>
                     <td>{student.id}</td>
                     <td>{student.name}</td>
-                    <td>{parseFloat(student.gpa).toFixed(1)}</td>
+                    <td>{parseFloat(student.gpa) < 0 ? 'N.A.' : parseFloat(student.gpa).toFixed(1, 10)}</td>
                     <td>
                         <ButtonGroup>
                             <Button color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
