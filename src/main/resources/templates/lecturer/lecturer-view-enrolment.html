@@ -6,8 +6,8 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
-		<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
-			method="get" th:object="${lecturerCourseStudentSearch}">
+		<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}" method="get"
+			th:object="${lecturerCourseStudentSearch}">
 			<div class="row my-3">
 				<div class="col-3 mr-1">
 					<label for="Search">Search</label>
@@ -22,14 +22,13 @@
 				</div>
 			</div>
 		</form>
-		<div>
-			<h1>Class List</h1>
 
-		</div>
+
 		<div>
 			<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
 			<th:block th:if="${nominalRoll=='NoData'}"> No Enrolment for this course </th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
+				<h1>Class List</h1>
 
 				<table class="table table-stripped" th:object="${nominalRoll}">
 
@@ -38,7 +37,13 @@
 						<th><span>Name</span></th>
 						<th><span>Email</span></th>
 						<th><span>View Performance</span></th>
-						<th><span>Grade Student</span></th>
+						<th:block th:if="${courseOver=='courseOver'}">
+							<th><span>Student Grade</span></th>
+						</th:block>
+						<th:block th:unless="${courseOver=='courseOver'}">
+							<th><span>Grade Student</span></th>
+						</th:block>
+
 					</tr>
 
 					<tr th:each="student : ${nominalRoll}">
@@ -49,9 +54,19 @@
 								class="btn btn-default">View
 								Performance</a>
 						</td>
-						<td align-"left"><a
-								th:href="@{/lecturer/student-performance/grading} + '/' + ${courseId} + '/' + ${student.courseBatchId} + '/' + ${student.studentId}">
-								Grade Student</a></td>
+
+
+						<th:block th:if="${courseOver=='courseOver'}">
+							<td><span th:text="${student.gpa}">Student Grade</span></td>
+						</th:block>
+						<th:block th:unless="${courseOver=='courseOver'}">
+							<td align-"left"><a
+									th:href="@{/lecturer/student-performance/grading} + '/' + ${courseId} + '/' + ${student.courseBatchId} + '/' + ${student.studentId}">
+									Grade Student</a></td>
+						</th:block>
+
+
+
 					</tr>
 				</table>
 
