@@ -19,6 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
 
 import team2.capSystem.exceptions.*;
+import team2.capSystem.exceptions.ClassFullException;
+import team2.capSystem.exceptions.ClassStartedException;
+import team2.capSystem.exceptions.RequestException;
+import team2.capSystem.exceptions.TestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
@@ -188,16 +192,15 @@ public class StudentServiceImpl implements StudentService {
 		return availCourse;
 	}
 
-	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId) {
-		// add check for date. do not allow enrollment if start date has passed
+	public void studentEnrollCourse(userSessionDetails usd, int courseDetailId) throws ClassStartedException, ClassFullException {
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
 		if (cd.getStartDate().isBefore(LocalDate.now())){
-			throw new RequestException("Cannot enroll in a course that has already started!");
+			throw new ClassStartedException();
 		}
 		else if (cd.getMaxSize() <= enrolled.size()) {
-			throw new RequestException("Unable to enroll, class is full");
+			throw new ClassFullException();
 		} else {
 			addCourseDetailToStudent(student, cd);
 		}

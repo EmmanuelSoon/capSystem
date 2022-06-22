@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +24,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import team2.capSystem.exceptions.AfterTwoWeekUnenrollmentException;
-import team2.capSystem.exceptions.CourseEndedException;
-import team2.capSystem.exceptions.GpaExistException;
+import team2.capSystem.exceptions.*;
 import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
@@ -110,18 +110,23 @@ public class StudentController {
     }
     
     @RequestMapping("/enrollCourse/" )
-    public String enrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
+    public String enrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
         if (!checkUser(session)){
             return "forward:/logout";
         }
         userSessionDetails usd = getUsd(session);
         try {
             studService.studentEnrollCourse(usd,id);
-        } catch (RequestException e) {
-            //TODO: handle exception
+        } catch (ClassFullException e) {
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+            return "redirect:/student/enrollCourse/";
+        } 
+        catch(ClassStartedException e) {
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+            return "redirect:/student/enrollCourse/";
         }
-        
-    	return "redirect:/student/course-history/";
+    	redirAttrs.addFlashAttribute("Success", "Everything went just fine.");
+        return "redirect:/student/course-history/";
     }
 
     @RequestMapping("/unenrollCourse/" )
@@ -175,17 +180,13 @@ public class StudentController {
         if (!checkUser(session)){
             return "forward:/logout";
         }
-        try{
-        	if(bindingresult.hasErrors()) {
-    			return "students/student-updateProfile";
-    		}
-            studService.saveStudent(student);
-            return "students/student-profile";
+        
+        if(bindingresult.hasErrors()) {
+            return "students/student-updateProfile";
         }
-        catch(Exception e){
-            // to implement catch
-        }
+        studService.saveStudent(student);
         return "students/student-profile";
+
 
     }
     
@@ -198,14 +199,14 @@ public class StudentController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userSessionDetails usd = getUsd(session);
         if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
-            //try
+            
             Student student = studService.setStudentPassword(usd.getUserId(), userPass);
  
             userSessionDetails p = new userSessionDetails(student, student.getStudentId(), "student");
             session.setAttribute("userSessionDetails", p);
 
             return "forward:/student/profile";
-        //catch
+        
         }
         else {
         	model.addAttribute("message", "Incorrect Password!");

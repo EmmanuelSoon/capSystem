@@ -2,6 +2,11 @@ package team2.capSystem.services;
 
 import java.util.List;
 
+import team2.capSystem.exceptions.AfterTwoWeekUnenrollmentException;
+import team2.capSystem.exceptions.ClassFullException;
+import team2.capSystem.exceptions.ClassStartedException;
+import team2.capSystem.exceptions.CourseEndedException;
+import team2.capSystem.exceptions.GpaExistException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
@@ -38,9 +43,9 @@ public interface StudentService {
 
 	List<CourseDetail> getStudentAvailCourses(userSessionDetails usd, courseDetailSearchQuery search);
 
-	void studentEnrollCourse(userSessionDetails usd, int courseDetailId);
+	void studentEnrollCourse(userSessionDetails usd, int courseDetailId) throws ClassStartedException, ClassFullException;
 
-	void studentUnenrollCourse(int studcourseId, userSessionDetails usd);
+	void studentUnenrollCourse(int studcourseId, userSessionDetails usd) throws CourseEndedException, GpaExistException, AfterTwoWeekUnenrollmentException;
 
 	List<StudentCourse> findCoursesByStudentId(int id);
 
