@@ -43,19 +43,9 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(new Course(name, desc));
     };
 
-    public void updateCourse(Course course, String change){
-
-    };
-
-    public void getCourse(int id){
-
-     };
-
-
     public Course getCourseByName(String name){
         return courseRepository.findCourseByName(name);
     };
-
 
     public void addLecturer(CourseDetail courseDetail, Lecturer lecturer){
         String username = lecturer.getUsername();

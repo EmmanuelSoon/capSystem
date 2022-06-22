@@ -11,13 +11,9 @@ public interface LecturerService {
 
 	void createLecturer(String username, String password, String name, String email);
 
-	Lecturer findLecturerByEmail(String email);
-
 	Lecturer getLecturer(User u);
 
 	Lecturer findByUsername(String username);
-
-	void deleteLecturer(Lecturer lecturer);
 
 	List<Lecturer> getAllLecturers();
 
@@ -27,7 +23,6 @@ public interface LecturerService {
 
 	void deleteLecturerById(int id);
 
-	// controller
 	List<StudentCourse> getSCList(CourseDetail cd);
 
 	List<StudentCourse> getCourseListTakenByStudent(int id);
@@ -54,7 +49,6 @@ public interface LecturerService {
 
 	studentTranscript createStudentTransciptRec(StudentCourse sc);
 
-	// -----
 
 	boolean removeLecturerFromCourseDetail(CourseDetail cd, Lecturer lecturer);
 

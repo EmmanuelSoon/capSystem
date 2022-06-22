@@ -49,21 +49,6 @@ public class LecturerServiceImpl implements LecturerService {
 		return lecturerRepository.findByUsername(username);
 	};
 
-	public Lecturer findLecturerByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void deleteLecturer(Lecturer lecturer) {
-		// List<CourseDetail> cdList = lecturer.getCourses();
-		// for (CourseDetail cd : cdList){
-		// cd.removeLecturer(lecturer);
-		// cdRepository.save(cd);
-		// }
-		// lecturerRepository.delete(lecturer);
-		lecturer.setActive(false);
-		lecturerRepository.save(lecturer);
-	};
 
 	public List<Lecturer> getAllLecturers() {
 		return lecturerRepository.findAll();

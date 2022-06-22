@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import net.minidev.json.JSONObject;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,13 +48,7 @@ public class AdminController {
 
     /---------------*/
 
-	// @GetMapping
-    // public String displayDashboard() {
-    //     return "/admin/adminDashboard";
-    // }
-
     /*-----------------------------------READ FUNCTIONS--------------------------------------*/
-
 
 
     @GetMapping("/student")
@@ -130,7 +122,6 @@ public class AdminController {
         CourseDetail cd = courseService.findCourseDetailById(id);
         return cd;
     }
-
 
 
 

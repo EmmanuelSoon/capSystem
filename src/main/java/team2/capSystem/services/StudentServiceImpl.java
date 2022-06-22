@@ -1,19 +1,13 @@
 package team2.capSystem.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Predicate;
 import java.time.LocalDate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.*;
-import javax.xml.crypto.Data;
 
-import org.hibernate.resource.beans.container.internal.CdiBeanContainerExtendedAccessImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
@@ -21,8 +15,6 @@ import org.springframework.stereotype.*;
 import team2.capSystem.exceptions.*;
 import team2.capSystem.exceptions.ClassFullException;
 import team2.capSystem.exceptions.ClassStartedException;
-import team2.capSystem.exceptions.RequestException;
-import team2.capSystem.exceptions.TestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
@@ -204,9 +196,6 @@ public class StudentServiceImpl implements StudentService {
 		} else {
 			addCourseDetailToStudent(student, cd);
 		}
-		
-		
-
 	}
 
 	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd) throws CourseEndedException, GpaExistException, AfterTwoWeekUnenrollmentException {
@@ -302,9 +291,7 @@ public class StudentServiceImpl implements StudentService {
 	};
 
 	public void updateStudentCourseGPA(int coursebatchID, int studentId, double selectedGPA) {
-
 		scRepository.updateStudentCourseGPA(coursebatchID, studentId, selectedGPA);
-
 	};
 
 }

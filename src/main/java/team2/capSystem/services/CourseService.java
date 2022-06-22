@@ -16,8 +16,6 @@ public interface CourseService {
 
     //Courses
     void createCourse(String name, String desc);
-    void updateCourse(Course course, String change);
-    void getCourse(int id);
     Course getCourseByName(String name);
     void updateCourseDetails(Course course);
     
