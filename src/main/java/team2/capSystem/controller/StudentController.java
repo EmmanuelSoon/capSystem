@@ -93,7 +93,7 @@ public class StudentController {
             //TODO: handle exception
         }
         
-    	return "redirect:/student/course-history";
+    	return "redirect:/student/course-history/";
     }
 
     @RequestMapping("/unenrollCourse/" )
@@ -108,7 +108,7 @@ public class StudentController {
             //TODO: handle exception
         }
         
-    	return "forward:/student/course-history";
+    	return "redirect:/student/course-history/";
     }
 
     @RequestMapping("/profile")
