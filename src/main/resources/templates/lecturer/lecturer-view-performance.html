@@ -5,36 +5,43 @@
 
 <body>
 	<div th:replace="fragments/header :: menu"></div>
+		<div>
+			<h1>Student Transcript</h1>
+			<h5>Student Id: <span th:text=${studentId}></span></h5>
+			<h5>Student Name: <span th:text=${studentName}></span></h5>
+			<h5>Cumulative GPA : <span th:text=${avgGPA}></span></h5>
 
-	<div>
-		<h1>Class List</h1>
 
-	</div>
-	<div>
-		<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
-		<th:block th:if="${studentTranscript=='NoData'}"> Student has not taken any course.</th:block>
-		<th:block th:unless="${studentTranscript=='NoData'}">
+		</div>
+		<div>
+			<!--<h2><span th:text="#{fieldLabel.courseName}"></span></h2>-->
+			<th:block th:if="${studentTranscript=='NoData'}"> Student has not taken any course.</th:block>
+			<th:block th:unless="${studentTranscript=='NoData'}">
 
-			<table class="table table-stripped" th:object="${studentTranscript}">
+				<table class="table table-stripped" th:object="${studentTranscript}">
 
-				<tr>
-					<th><span>Course Batch Id</span></th>
-					<th><span>Course Name</span></th>
-					<th><span>Date of Completion</span></th>
-					<th><span>Grade</span></th>
-				</tr>
+					<tr>
+						<th><span>Course Batch Id</span></th>
+						<th><span>Course Name</span></th>
+						<th><span>Date of Completion</span></th>
+						<th><span>Grade</span></th>
+					</tr>
 
-				<tr th:each="st: ${studentTranscript}">
-					<td align="left" th:text="${st.courseBatchId}">Course Batch Id</td>
-					<td align="left" th:text="${st.courseName}">Course Name</td>
-					<td align="left" th:text="${#temporals.format(st.dateOfCompletion, 'dd-MM-yyyy')}">Date of Completion</td>
-					<td align="left" th:text="${st.gpa}">Grade</td>
-				</tr>
-			</table>
+					<tr th:each="st: ${studentTranscript}">
+						<td align="left" th:text="${st.courseBatchId}">Course Batch Id</td>
+						<td align="left" th:text="${st.courseName}">Course Name</td>
+						<td align="left" th:text="${#temporals.format(st.dateOfCompletion, 'dd-MM-yyyy')}">Date of
+							Completion</td>
+						<td align="left">
+							<th:block th:if="${st.gpa >= 0}"><span th:text="${st.gpa}"></span></th:block>
+							<th:block th:if="${st.gpa < 0}">Not Graded</th:block>
 
-		</th:block>
-	</div>
+						</td>
+					</tr>
+				</table>
 
+			</th:block>
+		</div>
 	<div th:replace="fragments/header.html :: jsLink"></div>
 </body>
 

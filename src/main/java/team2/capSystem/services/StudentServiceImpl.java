@@ -57,6 +57,10 @@ public class StudentServiceImpl implements StudentService {
 	public Student getStudent(User u) {
 		return studentRepository.findStudentByUsernameAndPassword(u.getUsername(), u.getPassword());
 	}
+	
+	public Student getStudent(int studentId) {
+		return studentRepository.findStudentById(studentId);
+	}
 
 	public List<Student> getAllStudents() {
 		return studentRepository.findAll();

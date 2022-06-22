@@ -14,6 +14,8 @@ public interface StudentService {
 	
 	void createStudent(String username, String password, String name, String email);
 	
+	Student getStudent(int studentId);
+	
 	Student findStudentByUsername(String username);
 	
 	Student getStudent(User u);

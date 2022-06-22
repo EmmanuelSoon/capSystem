@@ -270,7 +270,9 @@ public class LecturerController {
 
 			ArrayList<studentTranscript> studTS = new ArrayList<studentTranscript>();
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
-
+	        String getAverageGPA= String.format("%.2f", studentService.getAverageGPA(student_id));
+	        String studentName = studentService.getStudent(student_id).getName();
+			
 			if (scList.isEmpty()) {
 				model.addAttribute("studentTranscript", "NoData");
 			} else {
@@ -278,6 +280,9 @@ public class LecturerController {
 					studentTranscript singleModRec = lecturerService.createStudentTransciptRec(sc);
 					studTS.add(singleModRec);
 				}
+				model.addAttribute("studentId", student_id);
+				model.addAttribute("studentName", studentName);
+				model.addAttribute("avgGPA", getAverageGPA);
 				model.addAttribute("studentTranscript", studTS);
 
 			}
