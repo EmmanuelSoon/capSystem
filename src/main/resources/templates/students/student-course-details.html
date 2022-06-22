@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="fragments/header :: html_head"></header>
+
+<body>
+	<div th:replace="fragments/header :: menu"></div>
+	<div class="container">
+		<h3>View Class list: </h3>
+	
+			<table class="table table-striped" th:object="${classlist}">
+				<tr>
+					<th>Student Name</th>
+				</tr>
+				<tr th:if="${classlist.empty}">
+					<td colspan="4" class="p-4 border">No Students Enrolled</td>
+				</tr>
+				<tr th:each="sc: ${classlist}">
+					<td th:text="${sc.getName()}">Student Name</td>
+			</table>
+	</div>
+    <div class="container">
+        <h3>Taught by:</h3>
+        <table class="table table-striped" th:object="${lecturerlist}">
+            <tr>
+                <th>Lecturer Name</th>
+            </tr>
+            <tr th:if="${lecturerlist.empty}">
+                <td colspan="4" class="p-4 border">No lecturers!</td>
+            </tr>
+            <tr th:each="lect: ${lecturerlist}">
+                <td th:text="${lect.name}">Student Name</td>
+        </table>
+
+	</div>
+
+	<div th:replace="fragments/header :: jsLink"></div>
+</body>

@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import javax.annotation.*;
 
+import org.hibernate.resource.beans.container.internal.CdiBeanContainerExtendedAccessImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
@@ -186,7 +187,7 @@ public class StudentServiceImpl implements StudentService {
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
-		if (cd.getMaxSize() > enrolled.size()) {
+		if (cd.getMaxSize() > enrolled.size() && cd.getStartDate().isAfter(LocalDate.now())) {
 			addCourseDetailToStudent(student, cd);
 		} else {
 			throw new RequestException("Unable to enroll, class is full");
@@ -200,6 +201,16 @@ public class StudentServiceImpl implements StudentService {
 		removeStudentCourse(sc);
 	}
 
+	public List<StudentCourse> getClassList(int courseDetailId){
+		CourseDetail cd = cdRepository.findById(courseDetailId).get();
+		List<StudentCourse> scList = scRepository.findByCourse(cd);
+		return scList;
+	}
+
+	public List<Lecturer> getLecturerList(int courseDetailId){
+		CourseDetail cd = cdRepository.findById(courseDetailId).get();
+		return cd.getLecturers();
+	}
 
 
 	public Student getStudentProfile(userSessionDetails usd) {

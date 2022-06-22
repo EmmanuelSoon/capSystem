@@ -291,25 +291,6 @@ public class LecturerController {
 	public String ChangePassword(HttpSession session,
 			@ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,
 			Model model) {
-//		if (bindingresult.hasErrors()){
-//			model.addAttribute("testing", "this is testing");
-//            return "lecturer/lecturer-password-change";
-//        }
-//		
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        userSessionDetails usd = (userSessionDetails) session.getAttribute("userSessionDetails");
-//        if(encoder.matches(userPass.getOldPassword(), usd.getUser().getPassword())){
-//            //try
-//			Lecturer lecturer = lecturerService.setLecturerPassword(usd.getUserId(), userPass);
-// 
-//            userSessionDetails p = new userSessionDetails(lecturer, lecturer.getLecturerId(), "lecturer");
-//            session.setAttribute("userSessionDetails", p);
-//
-//            return "forward:/lecturer/profile";
-//        //catch
-//        }
-//        model.addAttribute("testing", "this is testing");
-//        return "lecturer/lecturer-password-change";
 
 		try {
 			if (!isUserLecturer(session))

@@ -42,6 +42,10 @@ public interface StudentService {
 
 	List<StudentCourse> findCoursesByStudentId(int id);
 
+	public List<StudentCourse> getClassList(int courseDetailId);
+
+	public List<Lecturer> getLecturerList(int courseDetailId);
+
 	Student getStudentProfile(userSessionDetails usd);
 
 	List<StudentCourseJson> convertSCToJson(List<StudentCourse> scList);
