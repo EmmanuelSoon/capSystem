@@ -69,6 +69,7 @@
 					<td th:text="${sh.course.course.name}">Course Name</td>
 					<td th:text="${sh.course.course.description}">Course Description</td>
 					<td th:text="${sh.gpa}">Grade</td>
+					<td><a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sh.course.id})}">View Post</a></td>
 				</tr>
 			</table>
 		</div>

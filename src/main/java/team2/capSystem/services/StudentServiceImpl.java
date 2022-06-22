@@ -187,17 +187,22 @@ public class StudentServiceImpl implements StudentService {
 		Student student = getStudent(usd.getUser());
 		CourseDetail cd = cdRepository.findById(courseDetailId).get();
 		List<StudentCourse> enrolled = scRepository.findByCourse(cd);
-		if (cd.getMaxSize() > enrolled.size() && cd.getStartDate().isAfter(LocalDate.now())) {
-			addCourseDetailToStudent(student, cd);
-		} else {
-			throw new RequestException("Unable to enroll, class is full");
+		if (cd.getStartDate().isBefore(LocalDate.now())){
+			throw new RequestException("Cannot enroll in a course that has already started!");
 		}
+		else if (cd.getMaxSize() <= enrolled.size()) {
+			throw new RequestException("Unable to enroll, class is full");
+		} else {
+			addCourseDetailToStudent(student, cd);
+		}
+		
+		
+
 	}
 
 	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd){
 		int studentId = usd.getUserId();
 		StudentCourse sc = scRepository.findCourseByCourseIdStudentId(studcourseId, studentId);
-		//try catch here?
 		removeStudentCourse(sc);
 	}
 
