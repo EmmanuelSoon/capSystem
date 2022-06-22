@@ -31,13 +31,14 @@
 		</div>
 		<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
 		<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+
 		<div>
 			<h5 class="mb-3 mt-5">Currently enrolled</h5>
 			<table class="table mb-5 table-hover" th:object="${studCourse}" >
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
-					<th> show Details </th>
+					<th> Show Details </th>
 					<th>Unenroll</th>
 
 				</tr>
@@ -49,13 +50,13 @@
 					<td th:text="${sc.course.course.name}">Course Name</td>
 					<td th:text="${sc.course.course.description}">Course Description</td>
 					<td>
-						<a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sc.course.id})}">View Class</a>
+						<a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sc.course.id})}">View Class <i class="fa fa-book"></i></a>
 					</td>
 					<td>
 						<form action="#" th:action="@{/student/unenrollCourse/}" method="post">
 							<input type="hidden" th:value="${sc.course.id}" name="cdId">
 							<button type="submit" class="btn btn-primary">
-								Unenroll
+								Unenroll <i class="fa fa-ban"></i>
 							</button>
 						</form>
 					</td>
@@ -85,14 +86,16 @@
 			</table>
 		</div>
 	</div>
-	<div th:replace="fragments/header :: jsLink"></div>
+	<!-- <div th:replace="fragments/header :: jsLink"></div> -->
 
-	<script lang="javascript">
+<script lang="javascript" type="text/javascript">
 	function postUrl(){
 		var action_src = "http://localhost/test/" + document.getElementsByName("keywords")[0].value;
 		var your_form = document.getElementById('your_form');
 		your_form.action = action_src ;
 	}
+
+
 </script>
 </body>
 
