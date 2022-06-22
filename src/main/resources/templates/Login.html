@@ -36,8 +36,9 @@
                         <label for="password" class="font-weight-bold">Password</label>
                     </div>
                     <div class="col">
-                        <input class="form-control" type="password" th:field="*{password}" placeholder="Enter Username">
+                        <input class="form-control" type="password" th:field="*{password}" placeholder="Enter Password">
                         <p class="text-danger" th:value="${password}" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                        <p class="text-danger" th:text="${notFound}"></p>
                     </div>
                 </div>
         <a th:href="@{/redirect/admin}">

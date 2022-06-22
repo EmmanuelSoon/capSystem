@@ -40,40 +40,54 @@ public class LoginController {
 
 	@RequestMapping("/login/authenticate")
 	public String login(@ModelAttribute("user") @Valid User user, BindingResult bindingresult, HttpSession session,
-			@RequestParam("LoginAs") String role)  {
+			@RequestParam("LoginAs") String role, Model model)  {
 	
 		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 		String password = encoder.encode(user.getPassword());
+		String msg = "Incorrect username/password";
 
 		if(bindingresult.hasErrors())
 		{
 			return "login";
 		}
-		switch (role) {
-		case "lecturer":
-			Lecturer lec = lecturerService.findByUsername(user.getUsername());
-			if (lec != null && encoder.matches(user.getPassword(), lec.getPassword()) && user.getActive()==true) {
-				userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
-				session.setAttribute("userSessionDetails", p);
-				return "forward:/lecturer/dashboard";
-			}
-			
-			break;
+		try {
+			switch (role) {
+			case "lecturer":
+				Lecturer lec = lecturerService.findByUsername(user.getUsername());
+				if (lec != null && encoder.matches(user.getPassword(), lec.getPassword()) && user.getActive()==true) {
+					userSessionDetails p = new userSessionDetails(lec, lec.getLecturerId(), role);
+					session.setAttribute("userSessionDetails", p);
+					return "forward:/lecturer/dashboard";
+				}
+				else {
+					model.addAttribute("notFound", msg);
+					throw new UsernameNotFoundException("Incorrect username and password");
+				}
+				
+			case "student":
+				Student stu = studentService.findStudentByUsername(user.getUsername());
+				if (stu != null && encoder.matches(user.getPassword(), stu.getPassword()) && user.getActive()==true) {
+					userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
+					session.setAttribute("userSessionDetails", p);
+					return "forward:/student/student-dashboard";
+				}
+				else {
+					model.addAttribute("notFound", msg);
+					throw new UsernameNotFoundException("Incorrect username and password");
+				}
 
-		case "student":
-			Student stu = studentService.findStudentByUsername(user.getUsername());
-			if (stu != null && encoder.matches(user.getPassword(), stu.getPassword()) && user.getActive()==true) {
-				userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
-				session.setAttribute("userSessionDetails", p);
-				return "forward:/student/student-dashboard";
+			default:			
+				throw new UsernameNotFoundException("Incorrect username and password");
 			}
-			break;
 
-		default:			
-			throw new UsernameNotFoundException("Incorrect username and password");
 		}
+		catch (UsernameNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		
 
 		return "Login";
+		
 	}
 	
 	@RequestMapping(value = "/redirect/admin")
