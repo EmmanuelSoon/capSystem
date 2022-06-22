@@ -29,8 +29,9 @@
 				</form>
 			</div>
 		</div>
-		<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
-		<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+		<div class="alert alert-primary" role="alert" th:id = "success" th:text="${success}" th:if="${success}"></div>
+		<div class="alert alert-danger" role="alert" th:id = "error" th:text="${error}" th:if="${error}"></div>
+		<div th:id = "timer"></div>
 		<div>
 			<h5 class="mb-3 mt-5">Currently enrolled</h5>
 			<table class="table mb-5 table-hover" th:object="${studCourse}" >
@@ -93,6 +94,25 @@
 		var your_form = document.getElementById('your_form');
 		your_form.action = action_src ;
 	}
+
+	var timeleft = 10;
+	var downloadTimer = setInterval(function(){
+		if((document.getElementById('success') === null && document.getElementById('error') === null) || timeleft <= 0){
+			document.getElementById("timer").innerHTML = '';
+			if (document.getElementById('success') !== null) {
+				document.getElementById('success').innerHTML = '';
+				document.getElementById('success').className = '';
+			}
+			if (document.getElementById('error') !== null) {
+				document.getElementById('error').innerHTML = '';
+				document.getElementById('error').className = '';
+			}
+			clearInterval(downloadTimer);
+		} else {
+			document.getElementById("timer").innerHTML = "The message will disappear in " + timeleft + " seconds";
+		}
+		timeleft -= 1;
+	}, 1000);
 </script>
 </body>
 
