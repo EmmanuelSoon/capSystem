@@ -331,13 +331,13 @@ public class SeedDBServiceImpl implements SeedDBService{
             
 
             courseService.addStudentToCourseDetail(pokemon1, emmanuel, 3);
-            courseService.addStudentToCourseDetail(pokemon1, hein, 5);
+            courseService.addStudentToCourseDetail(pokemon2, hein, -1);
             courseService.addStudentToCourseDetail(pokemon1, alyssa, 4);
 
 
             courseService.addStudentToCourseDetail(farming1, anand, 4);
-            courseService.addStudentToCourseDetail(farming1, alyssa, 3);
-            courseService.addStudentToCourseDetail(farming1, hein, 2.5);
+            courseService.addStudentToCourseDetail(farming2, alyssa, -1);
+            courseService.addStudentToCourseDetail(farming3, hein, -1);
             courseService.addStudentToCourseDetail(farming1, yc, 5);
 
             courseService.addStudentToCourseDetail(mobile3, yc, 5);

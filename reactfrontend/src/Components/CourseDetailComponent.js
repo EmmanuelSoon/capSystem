@@ -87,7 +87,7 @@ class CourseDetail extends Component {
 
         const batchList = batches.map(batch => {
             return (
-                <tr>
+                <tr key={batch.id}>
                     <td>{batch.startDate}</td>
                     <td>{batch.endDate}</td>
                     <td>{batch.size} / {batch.maxSize}</td>
@@ -111,7 +111,7 @@ class CourseDetail extends Component {
                     <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Add New Batch</Button>
                 </div>
                 <div>
-                    <h2>Batch Details</h2>
+                    <h2>Batch Details ({batches[0].course.name})</h2>
                 </div>
                 <table className='table table-hover text-center mt-3'>
                     <thead className='table-light'>
