@@ -12,10 +12,59 @@
 
 
 	<div class="container">
-		<h1>Lecturer Dashboard</h1>
-		<h2>Upcoming Courses</h2>
-
-		<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
+		<div class='container' style="height: 900px;">
+			<h2 class="my-3 mb-2">Welcome<span class="navbar-text mx-3"
+				th:utext="${session.userSessionDetails.user.username}"></span></h2>
+			<div class='row align-items-start'>
+				<div class='col-12 col-md m-1'>
+					<div body outline color="secondary" class="h-75 card border border-secondary">
+						<img class="card-img-top" th:src="@{/images/courses.jpg}" alt="My Courses" height="300">
+						<div class="card-body">
+							<h5 class="card-title text-center">Upcoming Courses</h5>
+							<p class="card-text">
+								<h6>This is Upcoming Courses</h6>
+							</p>
+							<a th:href="@{/lecturer/upcoming-course}" class="btn btn-primary w-100">Click here!</a>
+						</div>
+					</div>
+				</div>
+				<div class='col-12 col-md m-1'>
+					<div class="h-75 border border-secondary card">
+						<img class="card-img-top" th:src="@{/images/studyingpig.jpg}" alt="Enroll Course" height="300">
+						<div class="card-body">
+							<h5 class="card-title text-center">Ongoing Cources</h5>
+							<p class="card-text">
+								This is Ongoing Courses
+							</p>
+							<a th:href="@{/lecturer/course-ongoing}" class="btn btn-primary w-100">Click here!</a>
+						</div>
+					</div>
+				</div>
+				<div class='col-12 col-md m-1'>
+					<div class="h-75 border border-secondary card">
+						<img class="card-img-top" th:src="@{/images/profile.jpg}" alt="My Profile" height="300">
+						<div class="card-body">
+							<h5 class="card-title text-center">Completed Courses</h5>
+							<p class="card-text">
+								This is Completed Courses.
+							</p>
+							<a th:href="@{/lecturer/course-taught}" class="btn btn-primary w-100">Click here!</a>
+						</div>
+					</div>
+				</div>
+				<div class='col-12 col-md m-1'>
+					<div class="h-75 border border-secondary card">
+						<img class="card-img-top" th:src="@{/images/profile.jpg}" alt="My Profile" height="300">
+						<div class="card-body">
+							<h5 class="card-title text-center">My Profile</h5>
+							<p class="card-text">
+								This is My Profile
+							</p>
+							<a th:href="@{/lecturer/profile}" class="btn btn-primary w-100">Click here!</a>
+						</div>
+					</div>
+				</div>
+			</div>
 	</div>
 	<div th:replace="fragments/header :: jsLink"></div>
 </body>

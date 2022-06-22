@@ -81,7 +81,18 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/dashboard")
-	public String displayDashboard(Model model, HttpSession session,
+	public String displayDashboard(HttpSession session){
+		try {
+			if (!isUserLecturer(session))
+				return "forward:/logout";
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		return "/lecturer/lecturer-dashboard";
+	}
+
+	@RequestMapping(value = "/upcoming-course")
+	public String viewCourseUpcoming(Model model, HttpSession session,
 			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 		try {
 			if (!isUserLecturer(session))
@@ -106,7 +117,7 @@ public class LecturerController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return "/lecturer/lecturer-dashboard";
+		return "/lecturer/lecturer-course-upcoming";
 	}
 
 	@RequestMapping(value = "/course-ongoing")

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<header th:replace="fragments/header :: html_head"></header>
+
+<head>
+	<title>Courses Taught</title>
+</head>
+
+<body>
+	<header th:replace="fragments/header :: menu"></header>
+
+	<div class="container mt-5">
+		<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
+	</div>
+	<div th:replace="fragments/header :: jsLink"></div>
+</body>
+
+</html>
