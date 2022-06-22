@@ -14,24 +14,15 @@
 </head>
 
 <body>
-	<div>
+	<div class="container col-6 mx-auto text-center mt-5">
+		<img th:src="@{/images/goodbye.gif}" alt="Goodbye_pig" class="mb-5">
 		<div>
-			<img th:src="@{/images/goodbye_pig.jpg}" alt="Goodbye_pig"
-				style="position: static; float:left; width:47%;height: 100vh; z-index:100; object-fit:cover;">
-		</div>
-		<div style="text-align: center; vertical-align: middle">
-			<br><br><br><br><br><br><br><br><br>
-			<h2> Cap System </h2>
-			<br><br>
 			<h4> You have successfully signed out. </h4>
-			<p> Sign in again to continue working on awesome things!</p>
-			<br><br>
-			<a href="/">
-				<button type="submit" class="btn btn-primary mr-5"> Sign in Again </button>
+			<p class="mb-5"> Sign in again to continue working on awesome things!</p>
+			<a th:href="@{/}" class="btn btn-info w-50">
+				Sign In Again>>>
 			</a>
-
 		</div>
-
 	</div>
 
 	<div th:replace="fragments/header :: jsLink"></div>
