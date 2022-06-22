@@ -69,7 +69,7 @@ public class LoginController {
 				if (stu != null && encoder.matches(user.getPassword(), stu.getPassword()) && user.getActive()==true) {
 					userSessionDetails p = new userSessionDetails(stu, stu.getStudentId(), role);
 					session.setAttribute("userSessionDetails", p);
-					return "forward:/student/student-dashboard";
+					return "forward:/student/dashboard";
 				}
 				else {
 					model.addAttribute("notFound", msg);

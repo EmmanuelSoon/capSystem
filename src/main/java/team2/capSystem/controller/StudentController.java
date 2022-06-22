@@ -52,21 +52,23 @@ public class StudentController {
     private StudentService studService;
 
     @Autowired
-    private LecturerService lectService;
-
-    @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/student-dashboard")
+    @RequestMapping("/dashboard")
     public String showDashboard(HttpSession session){
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         return "students/student-dashboard";
     }
 
     @RequestMapping(path = "/course-history/")
     public String showCourseHistory(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
         userSessionDetails usd = getUsd(session);
         List<StudentCourse> current = studService.findStudentCoursesOngoing(usd.getUserId(), search.getKeyword());
         List<StudentCourse> hist = studService.findStudentCoursesFinish(usd.getUserId(), search.getKeyword());
@@ -83,6 +85,10 @@ public class StudentController {
 
     @RequestMapping(path = "/view-classlist/{id}")
     public String showClassList(@PathVariable("id") Integer id, HttpSession session, Model model){
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
         List<StudentCourse> classList = studService.getClassList(id);
         List<Lecturer> lectList = studService.getLecturerList(id);
         CourseDetail cd = courseService.findCourseDetailById(id);
@@ -98,8 +104,9 @@ public class StudentController {
 
     @RequestMapping(path = "/enroll*")
     public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         userSessionDetails usd = getUsd(session);
         List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, search);
@@ -111,8 +118,9 @@ public class StudentController {
     
     @RequestMapping("/enrollCourse/" )
     public String enrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         userSessionDetails usd = getUsd(session);
         try {
@@ -130,8 +138,9 @@ public class StudentController {
 
     @RequestMapping("/unenrollCourse/" )
     public String unenrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         userSessionDetails usd = getUsd(session);
         try {
@@ -154,8 +163,9 @@ public class StudentController {
 
     @RequestMapping("/profile")
     public String displayStudentProfile(Model model, HttpSession session){
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         userSessionDetails usd = getUsd(session);
         Student student = studService.getStudentProfile(usd);
@@ -165,8 +175,9 @@ public class StudentController {
 
     @RequestMapping("/editProfile")
     public String editStudentProfile(Model model, HttpSession session){
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
         userSessionDetails usd = getUsd(session);
         Student student = studService.getStudentProfile(usd);
@@ -176,10 +187,10 @@ public class StudentController {
 
     @RequestMapping("/updatedProfile")
     public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult){
-        if (!checkUser(session)){
-            return "forward:/logout";
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
         }
-        
         if(bindingresult.hasErrors()) {
             return "students/student-updateProfile";
         }
@@ -214,26 +225,18 @@ public class StudentController {
     	
         
     }
-
-    @RequestMapping("/exception")
-    public String exceptionPage(Model model){
-        model.addAttribute("error", "testing the error page");
-        return "students/handleExceptionPage";
-    }
         
     //helper functions
     
-    private boolean checkUser(HttpSession session){
-        userSessionDetails usd = getUsd(session);
-        if (usd != null && usd.getUserRole().equals("student")){
-            return true;
-        } 
-        return false;
-    }
-
     private userSessionDetails getUsd(HttpSession session){
         return (userSessionDetails)session.getAttribute("userSessionDetails");
     }
 
-
+    private String checkSession(HttpSession session){
+        userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
+        if(!usd.getUserRole().equals("student")){
+            return "redirect:/" +  usd.getUserRole() + "/dashboard";
+        }
+        return "";
+    }
 }
