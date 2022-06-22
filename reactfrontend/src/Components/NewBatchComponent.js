@@ -31,7 +31,7 @@ class NewBatch extends Component {
     }
 
     async componentDidMount() {
-        this.setState({formValid: true});
+        this.setState({formValid: false});
     }
 
     handleChange(event) {
@@ -54,23 +54,21 @@ class NewBatch extends Component {
         let end = this.state.item.endDate;
         switch(fieldName) {
             case 'startDate':
-                startValid = (value) =>  new Date(value) >= now;
-                fieldValidationErrors.startDate = startValid ? '' : ' start Date must later than ' + now.toString();
+                startValid = new Date(value) >= now ? true : false
+                fieldValidationErrors.startDate = startValid ? '' : ' start Date must later than ' + now.toDateString('DD-MM-YYYY');
                 break;
             case 'endDate':
                 if (!startValid) {
                     fieldValidationErrors.endDate = 'please comply startDate first!';
                 }
                 else {
-                    endValid = (value) => end.length > 0 && new Date(value) > now && new Date(value) > new Date(start);
+                    endValid =  end.length > 0 && new Date(value) > now && new Date(value) > new Date(start) ? true : false;
                     fieldValidationErrors.startDate = endValid ? '' : ' end Date must later than start date';
                 }
-                console.log(value);
                 break;
             case 'size':
                 sizeValid = value > 0;
                 fieldValidationErrors.size = sizeValid ? '' : 'The maximum size must be a positive number';
-                console.log(value);
                 break;
             default:
                 break;
@@ -108,7 +106,6 @@ class NewBatch extends Component {
     render() {
         const {item} = this.state;
         const title = <h2 className='mb-3 mt-3'>{'Add new Batch'}</h2>;
-
         return <div>
             <Container>
                 {title}
