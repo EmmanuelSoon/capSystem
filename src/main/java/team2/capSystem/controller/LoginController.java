@@ -86,6 +86,6 @@ public class LoginController {
 	public String logout(Model model, HttpSession session) {
 		session.invalidate();
 		model.addAttribute("user", new User());
-		return "Login";
+		return "logout";
 	}
 }

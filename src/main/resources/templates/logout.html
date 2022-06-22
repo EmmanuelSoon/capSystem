@@ -1,7 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<h1>Bye</h1>
 
+<head>
+	<meta charset="utf-9">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" <header
+		th:replace="fragments/header :: html_head">
+	</header>
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
 
+</head>
 
+<body>
+	<div>
+		<div>
+			<img th:src="@{/images/goodbye_pig.jpg}" alt="Goodbye_pig"
+				style="position: static; float:left; width:47%;height: 100vh; z-index:100; object-fit:cover;">
+		</div>
+		<div style="text-align: center; vertical-align: middle">
+			<br><br><br><br><br><br><br><br><br>
+			<h2> Cap System </h2>
+			<br><br>
+			<h4> You have successfully signed out. </h4>
+			<p> Sign in again to continue working on awesome things!</p>
+			<br><br>
+			<a href="/">
+				<button type="submit" class="btn btn-primary mr-5"> Sign in Again </button>
+			</a>
 
+		</div>
+
+	</div>
+
+	<div th:replace="fragments/header :: jsLink"></div>
+
+</body>
+
+</html>
