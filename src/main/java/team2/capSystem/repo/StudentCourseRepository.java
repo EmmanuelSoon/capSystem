@@ -29,6 +29,8 @@ public interface StudentCourseRepository extends JpaRepository<StudentCourse, In
 	@Query(value = "update student_course set gpa = :selectedGPA where student_student_id = :studentId and course_batch_id = :coursebatchID", nativeQuery = true)
 	public void updateStudentCourseGPA(@Param("coursebatchID") int coursebatchID, @Param("studentId") int studentId,
 			@Param("selectedGPA") double selectedGPA);
+
+    
     
 }
 
