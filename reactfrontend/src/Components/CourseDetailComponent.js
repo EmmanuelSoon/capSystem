@@ -45,12 +45,14 @@ class CourseDetail extends Component {
         }
         if (this.state.batches.length === 0) {
             return(
-                <div>
-                <h4>There is currently no batches for this Course.</h4>
+                <Container className="mt-5">
+                <h2><Link to={"/admin/courselist"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link>
+                    There is currently no batches for this Course.
+                </h2>
                 <div>
                     <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Click to add New Batch Now !</Button>
                 </div>
-                </div>
+                </Container>
             );
         }
 
