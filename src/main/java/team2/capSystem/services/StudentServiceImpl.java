@@ -1,7 +1,9 @@
 package team2.capSystem.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Predicate;
 import java.time.LocalDate;
 import java.util.stream.Collector;
@@ -9,14 +11,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.*;
+import javax.xml.crypto.Data;
 
 import org.hibernate.resource.beans.container.internal.CdiBeanContainerExtendedAccessImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.*;
 
-import team2.capSystem.exceptions.RequestException;
-import team2.capSystem.exceptions.TestException;
+import team2.capSystem.exceptions.*;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
@@ -204,9 +206,21 @@ public class StudentServiceImpl implements StudentService {
 
 	}
 
-	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd){
+	public void studentUnenrollCourse(int studcourseId, userSessionDetails usd) throws CourseEndedException, GpaExistException, AfterTwoWeekUnenrollmentException {
+
 		int studentId = usd.getUserId();
 		StudentCourse sc = scRepository.findCourseByCourseIdStudentId(studcourseId, studentId);
+		if (sc.getGpa() != -1.0) {
+			// If the Gpa if the student is awared
+			throw  new GpaExistException("Unenrollment failed as student has finished the course with awarded GPA!");
+		}
+		else if (sc.getCourse().getEndDate().isBefore(LocalDate.now())) {
+			//if the course has ended
+			throw new CourseEndedException("Unenrollment failed as the course had ended!");
+		}
+		else if (sc.getCourse().getStartDate().plusWeeks(2).isBefore(LocalDate.now())) {
+			throw new AfterTwoWeekUnenrollmentException("Unenrollment failed as the course has started 2 weeks!");
+		}
 		removeStudentCourse(sc);
 	}
 

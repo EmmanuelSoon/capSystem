@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import team2.capSystem.exceptions.AfterTwoWeekUnenrollmentException;
+import team2.capSystem.exceptions.CourseEndedException;
+import team2.capSystem.exceptions.GpaExistException;
 import team2.capSystem.exceptions.RequestException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
@@ -122,11 +125,20 @@ public class StudentController {
         userSessionDetails usd = getUsd(session);
         try {
             studService.studentUnenrollCourse(id, usd);
-        } catch (RequestException e) {
-            //TODO: handle exception
+            return "redirect:/student/course-history/";
         }
-        
-    	return "redirect:/student/course-history/";
+        catch (AfterTwoWeekUnenrollmentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/student/handleExceptionPage";
+        }
+        catch (CourseEndedException e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/student/handleExceptionPage";
+        }
+        catch (GpaExistException e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/student/handleExceptionPage";
+        }
     }
 
     @RequestMapping("/profile")
