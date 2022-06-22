@@ -6,7 +6,7 @@
 <body>
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container">
-		<form action="#" th:action="@{/lecturer/course-enrolment/} + ${courseId} + '/' + ${course_batch_id}"
+		<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
 			method="get" th:object="${lecturerCourseStudentSearch}">
 			<div class="row my-3">
 				<div class="col-3 mr-1">
