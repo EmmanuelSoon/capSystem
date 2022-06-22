@@ -225,12 +225,6 @@ public class StudentController {
     	
         
     }
-
-    @RequestMapping("/exception")
-    public String exceptionPage(Model model){
-        model.addAttribute("error", "testing the error page");
-        return "students/handleExceptionPage";
-    }
         
     //helper functions
     
