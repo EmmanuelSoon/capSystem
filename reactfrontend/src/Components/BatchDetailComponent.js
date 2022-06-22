@@ -76,9 +76,10 @@ class BatchDetail extends Component {
             );
         }
         return(
-            <Container>
+            <Container className='mt-5'>
                 <div>
-                    <h2 className='mt-3'>Student Registration Summary</h2>
+                    <h2 > <Link to={"/admin/coursedetails/" + this.state.batch.course.courseId}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link>
+                            Student Registration Summary</h2>
                 </div>
                 <div>
                     {batchSummary()}

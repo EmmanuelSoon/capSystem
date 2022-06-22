@@ -111,7 +111,7 @@ class CourseDetail extends Component {
                     <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Add New Batch</Button>
                 </div>
                 <div>
-                    <h2>Batch Details</h2>
+                    <h2><Link to={"/admin/courselist"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Batch Details</h2>
                 </div>
                 <table className='table table-hover text-center mt-3'>
                     <thead className='table-light'>
