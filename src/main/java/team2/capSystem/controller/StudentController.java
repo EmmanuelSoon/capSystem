@@ -117,40 +117,39 @@ public class StudentController {
         userSessionDetails usd = getUsd(session);
         try {
             studService.studentEnrollCourse(usd,id);
+            redirAttrs.addFlashAttribute("success", "Course Enrollment successful!");
+            return "redirect:/student/course-history/";
         } catch (ClassFullException e) {
             redirAttrs.addFlashAttribute("error", e.getMessage());
-            return "redirect:/student/enrollCourse/";
         } 
         catch(ClassStartedException e) {
             redirAttrs.addFlashAttribute("error", e.getMessage());
-            return "redirect:/student/enrollCourse/";
         }
-    	redirAttrs.addFlashAttribute("Success", "Everything went just fine.");
-        return "redirect:/student/course-history/";
+        return "redirect:/student/enroll/";
     }
 
     @RequestMapping("/unenrollCourse/" )
-    public String unenrollCourse(@RequestParam("cdId") int id, Model model, HttpSession session) {
+    public String unenrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
         if (!checkUser(session)){
             return "forward:/logout";
         }
         userSessionDetails usd = getUsd(session);
         try {
             studService.studentUnenrollCourse(id, usd);
-            return "redirect:/student/course-history/";
+            redirAttrs.addFlashAttribute("success", "Unenrolled from course successfully");
         }
         catch (AfterTwoWeekUnenrollmentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/student/handleExceptionPage";
+            redirAttrs.addFlashAttribute("error", e.getMessage());
         }
         catch (CourseEndedException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/student/handleExceptionPage";
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+ 
         }
         catch (GpaExistException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/student/handleExceptionPage";
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+
         }
+        return "redirect:/student/course-history/";
     }
 
     @RequestMapping("/profile")
