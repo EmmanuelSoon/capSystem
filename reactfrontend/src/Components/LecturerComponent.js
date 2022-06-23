@@ -82,19 +82,19 @@ class Lecturer extends Component {
                     <thead className='table-light'>
                         <tr>
                             <th>
-                                lecturer ID
+                                Lecturer ID
                             </th>
                             <th>
-                                lecturer Name
+                                Name
                             </th>
                             <th>
-                                lecturer Username
+                                Username
                             </th>
                             <th>
-                                lecturer Password
+                                Password
                             </th>
                             <th>
-                                lecturer Email 
+                                Email 
                             </th>
                             <th>
                                 Currently Active

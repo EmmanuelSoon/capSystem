@@ -11,6 +11,7 @@ class Student extends Component {
             students: [],
             min: 0,
             max: 10,
+            isLoading: true,
         };
         this.remove = this.remove.bind(this);
         this.decreaseCount = this.decreaseCount.bind(this);
@@ -20,7 +21,7 @@ class Student extends Component {
     async componentDidMount() {
         fetch('/admin/student')
             .then(response => response.json())
-            .then(data => this.setState({students: data}));
+            .then(data => this.setState({students: data, isLoading: false}));
       }
 
       async remove(id) {
@@ -93,19 +94,19 @@ class Student extends Component {
                     <thead className='table-light'>
                         <tr>
                             <th>
-                                student ID
+                                Student ID
                             </th>
                             <th>
-                                student Name
+                                Name
                             </th>
                             <th>
-                                student Username
+                                Username
                             </th>
                             <th>
-                                student Password
+                                Password
                             </th>
                             <th>
-                                student Email 
+                                Email 
                             </th>
                             <th>
                                 Currently Active
