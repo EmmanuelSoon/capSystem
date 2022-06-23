@@ -29,8 +29,7 @@
 				</div>
 			</div>
 		</form>
-		<!-- <div class="alert alert-primary" role="alert" th:id = "success" th:text="${success}" th:if="${success}"></div>
-		<div class="alert alert-danger" role="alert" th:id = "error" th:text="${error}" th:if="${error}"></div> -->
+
 		<div th:replace="fragments/alerts :: alert"></div>
 		<div>
 			<table class="table table-striped" th:object="${enrollCourses}">
@@ -65,6 +64,5 @@
 		</div>
 
 	</div>
-	<!-- <div th:replace="fragments/header :: jsLink"></div> -->
 
 </body>

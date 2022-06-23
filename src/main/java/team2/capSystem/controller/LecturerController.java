@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team2.capSystem.helper.lecturerCourseStudentSearch;
 import team2.capSystem.helper.lecturerCoursesHelper;
@@ -265,7 +266,7 @@ public class LecturerController {
 
 	@RequestMapping(value = "/student-performance/updateGrading/{courseId}/{courseBatchId}/{student_id}")
 	public String updateStudentCourseGPA(HttpSession session, Model model, @PathVariable int courseId,
-			@PathVariable int courseBatchId, @PathVariable int student_id, @RequestParam("gpa") double gpa) {
+			@PathVariable int courseBatchId, @PathVariable int student_id, @RequestParam("gpa") double gpa, RedirectAttributes redirattr) {
 
 		try {
 			if (!isUserLecturer(session))
@@ -282,11 +283,12 @@ public class LecturerController {
 			model.addAttribute("student_id", student_id);
 			model.addAttribute("courseId", courseId);
 			model.addAttribute("lecturerStudentGrading", lectStudentGrading);
+			redirattr.addFlashAttribute("success","GPA successfully updated!");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			redirattr.addFlashAttribute("error", e.getMessage());
 		}
 
-		return "forward:/lecturer/class-list/" + courseId + "/" + courseBatchId;
+		return "redirect:/lecturer/class-list/" + courseId + "/" + courseBatchId;
 	}
 
 	@RequestMapping(value = "/student-performance/{student_id}")
