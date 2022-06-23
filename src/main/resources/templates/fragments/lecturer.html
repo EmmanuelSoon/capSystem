@@ -5,7 +5,14 @@
 
 <body>
 
-
+	<div th:fragment="noEnrollmentPage">
+		<div class="container text-center col-8">
+			<img th:src="@{/images/no_enrol_pig.gif}" alt="Error_pig" class="rounded" height="300"/>
+			<div class="center_text">
+				<h2>No enrolment yet...</h2>
+			</div>
+		</div>
+	</div>
 
 	<div th:fragment="lecturerCourseTable">
 		<table class="table table-striped" th:object="${lecturerCourse}">
