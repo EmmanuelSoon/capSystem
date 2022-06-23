@@ -24,7 +24,7 @@
 				<th:block th:if="${studentTranscript=='NoData'}"> Student has not taken any course.</th:block>
 				<th:block th:unless="${studentTranscript=='NoData'}">
 	
-					<table class="table table-stripped" th:object="${studentTranscript}">
+					<table class="table table-striped" th:object="${studentTranscript}">
 	
 						<tr>
 							<th><span>Course Batch Id</span></th>
