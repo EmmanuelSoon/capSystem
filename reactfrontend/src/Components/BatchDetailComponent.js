@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Table , Container} from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link , Router} from 'react-router-dom';
 import {getFirstHiddenTime} from "web-vitals/dist/modules/lib/polyfills/getFirstHiddenTimePolyfill";
 
 class BatchDetail extends Component {
@@ -28,7 +28,7 @@ class BatchDetail extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        fetch('/admin/coursedetails/batch/' + this.state.id)
+        await fetch('/admin/coursedetails/batch/' + this.state.id)
             .then(res => res.json())
             .then(data => this.setState({batch: data, isLoaded: true}));
     };
@@ -54,7 +54,7 @@ class BatchDetail extends Component {
                     <td>{parseFloat(student.gpa) < 0 ? 'N.A.' : parseFloat(student.gpa).toFixed(1, 10)}</td>
                     <td>
                         <ButtonGroup>
-                            <Button size='sm' color="danger" tag={Link} onClick={() => this.remove(student.id, student.name, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
+                            <Button size='sm' color="danger" tag={Link} onClick={() => this.remove(student.id, student.userName, this.state.id)}>Remove Student <span className="fa fa-times"></span></Button>
                         </ButtonGroup>
                     </td>
                 </tr>
