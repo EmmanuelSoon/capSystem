@@ -47,8 +47,8 @@ export default function Login({setToken}) {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 offset-md-3">
-                        <h2 className="text-center text-dark mt-5"><strong>Admin Login Form</strong></h2>
-                        <div className="card my-5">
+                        <h2 className="text-center text-muted mt-5"><strong>Admin Login Page</strong></h2>
+                        <div className="card my-3">
                         <form className="card-body cardbody-color p-lg-5" onSubmit={handleSubmit}>
 
                             <div className="text-center">
