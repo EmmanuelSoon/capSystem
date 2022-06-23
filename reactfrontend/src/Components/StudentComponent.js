@@ -121,18 +121,15 @@ class Student extends Component {
                 </table>
                 <div className='row'>
                     <div className='col-1' >
-                        <Button onClick={() => this.decreaseCount()} disabled={this.state.min <= 0}><i class="fa fa-arrow-left" aria-hidden="true"></i></Button> 
+                        <Button color='success' outline className='rounded-circle' onClick={() => this.decreaseCount()} disabled={this.state.min <= 0}><i class="fa fa-arrow-left" aria-hidden="true"></i></Button> 
                     </div>
-                    <div className='col-10 text-center'>
+                    <div className='col-10 text-center lead fs-4'>
                         {this.state.min+1} ... {this.state.max}
                     </div>
                     <div className='col-1 float-end'>
-                        <Button onClick={() => this.increaseCount()}  disabled={this.state.max >= students.length}><i class="fa fa-arrow-right" aria-hidden="true"></i></Button>
+                        <Button color='success' outline className='rounded-circle' onClick={() => this.increaseCount()}  disabled={this.state.max >= students.length}><i class="fa fa-arrow-right" aria-hidden="true"></i></Button>
                     </div>
                 </div>
-                <div >
-                </div>
-            
             </Container>
         );
 
