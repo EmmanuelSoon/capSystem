@@ -67,10 +67,28 @@ public class LecturerController {
 
 	@RequestMapping("/updatedProfile")
 	public String updatedLecturerProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer,
-			BindingResult bindingresult, HttpSession session) {
+			BindingResult bindingresult, HttpSession session,Model model) {
 		try {
 			if(!isUserLecturer(session))
 				return "error";
+			if(lecturer.getName()==null || lecturer.getName()=="") {
+				if(lecturer.getEmail()=="" || lecturer.getEmail()=="") {
+					model.addAttribute("nameErrorMessage", "Name cannot be empty");
+					model.addAttribute("emailErrorMessage", "Email cannot be empty");
+					return "lecturer/lecturer-updateProfile";
+				}
+				model.addAttribute("nameErrorMessage", "Name cannot be empty");
+				return "lecturer/lecturer-updateProfile";
+			}
+			if(lecturer.getEmail()=="" || lecturer.getEmail()=="") {
+				if(lecturer.getName()==null || lecturer.getName()=="") {
+					model.addAttribute("emailErrorMessage", "Email cannot be empty");
+					model.addAttribute("nameErrorMessage", "Name cannot be empty");
+				return "lecturer/lecturer-updateProfile";
+				}
+				model.addAttribute("emailErrorMessage", "Email cannot be empty");
+					return "lecturer/lecturer-updateProfile";
+			}
 			if (bindingresult.hasErrors()) {
 				return "lecturer/lecturer-updateProfile";
 			}
@@ -333,7 +351,14 @@ public class LecturerController {
 		return "/lecturer/lecturer-view-performance";
 	}
 
-	@RequestMapping(value = "change-password")
+	@GetMapping(value="change-password")
+    public String ChangePassword(HttpSession session,Model model){
+        userChangePassword ucp=new userChangePassword();
+        model.addAttribute("userChangePassword", ucp);
+        return "lecturer/lecturer-password-change";	
+    }
+
+	@RequestMapping(value="update-password")
 	public String ChangePassword(HttpSession session,
 			@ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,
 			Model model) {
@@ -343,7 +368,6 @@ public class LecturerController {
 				return "error";
 
 			if (bindingresult.hasErrors()) {
-				// model.addAttribute("testing", "this is testing");
 				return "lecturer/lecturer-password-change";
 			}
 
