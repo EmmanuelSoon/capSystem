@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" class="container">
 
-<div th:fragment="alert">
+<div th:fragment="alert" class="container mt-3">
     <div class="alert alert-success" role="alert" th:id = "success" th:text="${success}" th:if="${success}"></div>
     <div class="alert alert-danger" role="alert" th:id = "error" th:text="${error}" th:if="${error}"></div>
 </div>
