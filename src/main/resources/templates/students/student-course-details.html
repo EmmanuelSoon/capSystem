@@ -10,8 +10,8 @@
 			<div class="col-12" th:object="${courseDetails}">
 				<p >
 					<strong>Course Name: </strong><span th:text ="${courseDetails.getName()}"></span> &emsp;
-					<strong>Course Start Date: </strong><span th:text ="${courseDetails.startDate}"></span> &emsp;
-					<strong>Course End Date: </strong><span th:text ="${courseDetails.endDate}"></span>
+					<strong>Course Start Date: </strong><span th:text ="${#temporals.format(courseDetails.startDate,'dd-MM-yyyy')}"></span> &emsp;
+					<strong>Course End Date: </strong><span th:text ="${#temporals.format(courseDetails.endDate,'dd-MM-yyyy')}"></span>
 				</p>
 			</div>
 		</div>
