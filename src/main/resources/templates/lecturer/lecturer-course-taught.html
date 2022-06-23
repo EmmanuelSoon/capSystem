@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/css/student-course.css}">
 <header th:replace="fragments/header :: html_head"></header>
 
 <head>
@@ -9,30 +8,31 @@
 
 <body>
 	<header th:replace="fragments/header :: menu"></header>
-
-
-	<div class="container mt-5">
-		<h2>Completed Course</h2>
-
-		<form action="#" th:action="@{/lecturer/course-taught}" method="get" th:object="${lecturerCourseStudentSearch}">
-			<form th:action="@{/lecturer/course-taught}" method="get">
-				<div class="row my-3">
-					<div class="col-3 mr-1">
-						<label for="Search">Search</label>
-						<input type="text" class="form-control py-2" placeholder="Search by Course Name"
-							th:field="*{keyword}">
-					</div>
-					<div class="col-3 mt-4">
-						<button type="submit" class="btn btn-success btn-outline search-button">
-							<i class="fa fa-search ml mr-2"></i>
-							Search
-						</button>
+	<div class="container">
+		<div class="row mb-3 mt-5">
+			<div class="col">
+				<h2 class="row my-3 justify-content-start">Completed Courses</h2>
+			</div>
+			<div class="col">
+				<div class="row my-3 justify-content-end">
+					<div class="col-5 mr-1">
+						<form action="#" th:action="@{/lecturer/course-taught}" method="get" th:object="${lecturerCourseStudentSearch}">
+							<div class="row my-3 justify-content-end">
+								<div class="input-group">
+									<label for="Search"></label>
+									<input type="text" class="form-control py-2" placeholder="Search Course Name"
+										th:field="*{keyword}">
+									<button type="submit" class="btn btn-success btn-outline search-button">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-			</form>
-			<br>
-			<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
-
+			</div>
+		</div>
+		<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
 	</div>
 	<div th:insert="fragments/header :: jsLink"></div>
 </body>
