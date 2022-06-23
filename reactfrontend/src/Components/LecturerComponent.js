@@ -7,14 +7,17 @@ class Lecturer extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {lecturers: []};
+        this.state = {
+            lecturers: [],
+            isLoading: false
+        };
         this.remove = this.remove.bind(this);
     }
 
     async componentDidMount() {
         fetch('/admin/lecturer')
             .then(response => response.json())
-            .then(data => this.setState({lecturers: data}));
+            .then(data => this.setState({lecturers: data, isLoading : true}));
       }
 
       async remove(id) {
@@ -26,14 +29,14 @@ class Lecturer extends Component {
             }
         })
         .then(response => response.json())
-        .then(data => this.setState({lecturers: data}));
+        .then(data => this.setState({lecturers: data, isLoading : true}));
     };
     
       
     render() {
         const {lecturers, isLoading} = this.state;
 
-        if (isLoading) {
+        if (!isLoading) {
             return <p>Loading...</p>;
         }
 

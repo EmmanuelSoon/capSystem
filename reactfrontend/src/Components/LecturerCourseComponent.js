@@ -20,6 +20,7 @@ class LecturerCourse extends Component {
             lecturerCourses: [], 
             lecturer: this.defaultLecturer,
             formErrors: {Error:''},
+            isLoading: false
 
 
         };
@@ -29,11 +30,11 @@ class LecturerCourse extends Component {
     async componentDidMount() {
         fetch(`/admin/lecturer/course/${this.props.match.params.id}`)
             .then(response => response.json())
-            .then(data => this.setState({lecturerCourses: data}));
+            .then(data => this.setState({lecturerCourses: data, isLoading: true}));
 
         if(this.state.lecturerCourses !== null){
             const currentLecturer = await (await fetch(`/admin/lecturer/${this.props.match.params.id}`)).json();
-            this.setState({lecturer: currentLecturer});
+            this.setState({lecturer: currentLecturer, isLoading: true});
         }
       }
 
@@ -61,7 +62,7 @@ class LecturerCourse extends Component {
     render() {
         const {lecturerCourses, isLoading} = this.state;
 
-        if (isLoading) {
+        if (!isLoading) {
             return <p>Loading...</p>;
         }
 
