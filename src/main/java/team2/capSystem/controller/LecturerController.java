@@ -91,7 +91,7 @@ public class LecturerController {
 		return "/lecturer/lecturer-dashboard";
 	}
 
-	@RequestMapping(value = "/upcoming-course")
+	@RequestMapping(value = "/course-upcoming")
 	public String viewCourseUpcoming(Model model, HttpSession session,
 			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 		try {
