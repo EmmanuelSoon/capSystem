@@ -69,7 +69,7 @@ class CourseDetail extends Component {
             else {
                 return (
                     <div>
-                        <Button size='sm' color="warning">Slots Available</Button>
+                        <Button size='sm' color="warning">Not Full</Button>
                     </div>
                 );
             }
@@ -130,7 +130,7 @@ class CourseDetail extends Component {
                     <Button color="success" tag={Link} to={"/admin/course/coursedetail/new/" + this.state.id}>Add New Batch</Button>
                 </div>
                 <div>
-                    <h2><Link to={"/admin/courselist"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Batch Details ({batches[0].course.name})</h2>
+                    <h2><Link to={"/admin/courselist"}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Batch List ({batches[0].course.name})</h2>
                 </div>
                 <table className='table table-hover text-center mt-3'>
                     <thead className='table-light'>
