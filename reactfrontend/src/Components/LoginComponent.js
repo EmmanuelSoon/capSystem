@@ -34,6 +34,7 @@ export default function Login({setToken}) {
           username,
           password
         })
+        console.log(token.status)
         if(token.status == null){
             setToken(token);
         }
@@ -52,7 +53,7 @@ export default function Login({setToken}) {
                         <form className="card-body cardbody-color p-lg-5" onSubmit={handleSubmit}>
 
                             <div className="text-center">
-                            <img src={logo} class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                            <img src={logo} className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
                                 width="200px" alt="profile"/>
                             </div>
 
@@ -66,8 +67,8 @@ export default function Login({setToken}) {
                             <div className="panel panel-default">
                                             <FormErrors formErrors={error} />
                             </div>
-                            <div id="emailHelp" class="form-text text-center mb-5 mt-5 text-dark">
-                                Not an Admin? <a href="http://localhost:8080" class="text-dark fw-bold text-decoration-underline"> Go to Student/Lecturer Login</a>
+                            <div id="emailHelp" className="form-text text-center mb-5 mt-5 text-dark">
+                                Not an Admin? <a href="http://localhost:8080" className="text-dark fw-bold text-decoration-underline"> Go to Student/Lecturer Login</a>
                             </div>
                         </form>
                         </div>
