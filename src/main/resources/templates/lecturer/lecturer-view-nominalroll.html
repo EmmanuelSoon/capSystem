@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <link rel="stylesheet" th:href="@{/css/student-course.css}">
+
 <head th:replace="fragments/header.html :: html_head"></head>
 
 <body>
@@ -10,7 +11,8 @@
 
 		<div th:replace="fragments/alerts :: alert"></div>
 		<div>
-			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> No Enrolment for this course </th:block>
+			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> No Enrolment for this course
+			</th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
 				<h1>Class List</h1>
 				<div class="row">
@@ -23,24 +25,27 @@
 						<h5 class="my-3">Course Batch: <span th:text="${course_batch_id}"></span></h5>
 					</div>
 				</div>
-				
-				
-				<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
-					method="get" th:object="${lecturerCourseStudentSearch}">
-					<div class="row my-3">
-						<div class="col-3 mr-1">
-							<label for="Search">Search</label>
-							<input type="text" class="form-control py-2" placeholder="Search by Student Name"
-								th:field="*{keyword}">
+
+					<div class="row my-3 justify-content-start">
+						<div class="col-5 mr-1">
+							<form action="#"
+								th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
+								method="get" th:object="${lecturerCourseStudentSearch}">
+								<div class="row my-3 justify-content-end">
+									<div class="input-group">
+										<label for="Search"></label>
+										<input type="text" class="form-control py-2"
+											placeholder="Search by Student Name" th:field="*{keyword}">
+										<button type="submit"
+											class="btn btn-success btn-outline search-button search-btn-for-course">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
 						</div>
-						<div class="col-3 mt-4">
-							<button type="submit" class="btn btn-success btn-outline search-button">
-								<i class="fa fa-search ml mr-2"></i>
-								Search
-							</button>
-						</div>
-					</div>
-				</form>
+				</div>
+
 				<table class="table table-striped" th:object="${nominalRoll}">
 
 					<tr>
