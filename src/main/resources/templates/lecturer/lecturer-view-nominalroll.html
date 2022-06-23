@@ -25,25 +25,23 @@
 						<h5 class="my-3">Course Batch: <span th:text="${course_batch_id}"></span></h5>
 					</div>
 				</div>
-
-					<div class="row my-3 justify-content-start">
-						<div class="col-5 mr-1">
-							<form action="#"
-								th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
-								method="get" th:object="${lecturerCourseStudentSearch}">
-								<div class="row my-3 justify-content-end">
-									<div class="input-group">
-										<label for="Search"></label>
-										<input type="text" class="form-control py-2"
-											placeholder="Search by Student Name" th:field="*{keyword}">
-										<button type="submit"
-											class="btn btn-success btn-outline search-button search-btn-for-course">
-											<i class="fa fa-search"></i>
-										</button>
-									</div>
+				<div class="row my-3">
+					<div class="col-5 mr-1">
+						<form action="#"
+							th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
+							method="get" th:object="${lecturerCourseStudentSearch}">
+							<div class="row my-3">
+								<div class="input-group ml-3">
+									<input type="text" class="form-control py-2"
+										placeholder="Search by Student Name" th:field="*{keyword}">
+									<button type="submit"
+										class="btn btn-success btn-outline">
+										<i class="fa fa-search"></i>
+									</button>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
+					</div>
 				</div>
 
 				<table class="table table-striped" th:object="${nominalRoll}">
