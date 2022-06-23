@@ -139,8 +139,10 @@ public class AdminController {
                 jsonObj.put("token", user.getName());
                 return new ResponseEntity<>(jsonObj, HttpStatus.ACCEPTED);
             }
-            else {
-                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            else {                
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("status", "fail");
+                return new ResponseEntity<>(jsonObj, HttpStatus.EXPECTATION_FAILED);
             }
         }
     catch (Exception e){
@@ -203,7 +205,7 @@ public class AdminController {
     @PostMapping(value ="/lecturer")
     public ResponseEntity createLecturer(@RequestBody Lecturer lecturer){
         try {
-            lecturerService.saveLecturer(lecturer);
+            lecturerService.addNewLecturer(lecturer);
             return new ResponseEntity<>(lecturer, HttpStatus.CREATED);
         }
         catch (Exception e){

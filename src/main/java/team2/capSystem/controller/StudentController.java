@@ -191,10 +191,28 @@ public class StudentController {
     }
 
     @RequestMapping("/updatedProfile")
-    public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult, RedirectAttributes redirAttr){
+    public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult, RedirectAttributes redirAttr,Model model){
         String rtn = checkSession(session);
         if (rtn != ""){
             return rtn;
+        }
+        if(student.getName()==null || student.getName()=="") {
+        	if(student.getEmail()=="" || student.getEmail()=="") {
+        		model.addAttribute("nameErrorMessage", "Name cannot be empty");
+                model.addAttribute("emailErrorMessage", "Email cannot be empty");
+                return "students/student-updateProfile";
+            }
+            model.addAttribute("nameErrorMessage", "Name cannot be empty");
+            return "students/student-updateProfile";
+        }
+        if(student.getEmail()=="" || student.getEmail()=="") {
+        	if(student.getName()==null || student.getName()=="") {
+	            model.addAttribute("emailErrorMessage", "Email cannot be empty");
+	            model.addAttribute("nameErrorMessage", "Name cannot be empty");
+            return "students/student-updateProfile";
+        	}
+        	model.addAttribute("emailErrorMessage", "Email cannot be empty");
+        	 return "students/student-updateProfile";
         }
         if(bindingresult.hasErrors()) {
             return "students/student-updateProfile";
@@ -202,12 +220,16 @@ public class StudentController {
         studService.saveStudent(student);
         redirAttr.addFlashAttribute("success","Changes saved successfully!");
         return "redirect:/student/profile";
-
-
     }
     
+    @GetMapping(value="change-password")
+    public String ChangePassword(HttpSession session,Model model){
+        userChangePassword ucp=new userChangePassword();
+        model.addAttribute("userChangePassword", ucp);
+        return "students/password-change";	
+    }
 
-    @RequestMapping(value="change-password")
+    @RequestMapping(value="update-password")
     public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model, RedirectAttributes redirAttr){
         if (bindingresult.hasErrors()){
             return "students/password-change";

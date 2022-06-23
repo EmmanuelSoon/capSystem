@@ -54,4 +54,8 @@ public class StudentCourse{
         return student.getEmail();
     }
 
+    public String getUserName() {
+        return student.getUsername();
+    }
+
 }
