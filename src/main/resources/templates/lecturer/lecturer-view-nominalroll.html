@@ -17,25 +17,24 @@
 				<h1>Class List</h1>
 				<div class="row">
 					<div class="col">
-						<h5 class="my-3">Number of Students Enrolled: <span th:text="${studCount}"></span></h5>
-						<h5 class="my-3">Course Name: <span th:text="${courseName}"></span></h5>
+						<h5 class="my-3">Number of Students Enrolled: <b><span th:text="${studCount}"></span></b></h5>
+						<h5 class="my-3">Course Id: <b><span th:text="${courseId}"></b></span></h5>
+
 					</div>
 					<div class="col">
-						<h5 class="my-3">Course Id: <span th:text="${courseId}"></span></h5>
-						<h5 class="my-3">Course Batch: <span th:text="${course_batch_id}"></span></h5>
+						<h5 class="my-3">Course Batch: <b><span th:text="${course_batch_id}"></span></b></h5>
+						<h5 class="my-3">Course Name: <b><span th:text="${courseName}"></span></b></h5>
 					</div>
 				</div>
 				<div class="row my-3">
 					<div class="col-5 mr-1">
-						<form action="#"
-							th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
+						<form action="#" th:action="@{/lecturer/class-list/} + ${courseId} + '/' + ${course_batch_id}"
 							method="get" th:object="${lecturerCourseStudentSearch}">
 							<div class="row my-3">
 								<div class="input-group ml-3">
-									<input type="text" class="form-control py-2"
-										placeholder="Search by Student Name" th:field="*{keyword}">
-									<button type="submit"
-										class="btn btn-success btn-outline">
+									<input type="text" class="form-control py-2" placeholder="Search by Student Name"
+										th:field="*{keyword}">
+									<button type="submit" class="btn btn-success btn-outline">
 										<i class="fa fa-search"></i>
 									</button>
 								</div>
