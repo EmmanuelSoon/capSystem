@@ -82,13 +82,21 @@ public class LecturerController {
 	}
 
 	@RequestMapping(value = "/dashboard")
-	public String displayDashboard(HttpSession session){
+	public String displayDashboard(HttpSession session, Model model) {
 		try {
 			if (!isUserLecturer(session))
 				return "forward:/logout";
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
+			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
+			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
+			List<CourseDetail> courseDetailUpcoming = lecturerService.getUpcomingCoursesByLecturer(lecturer);
+			List<CourseDetail> courseDetailOnging = lecturerService.getOnGoingCourseByLecturer(lecturer);
+
+			model.addAttribute("Upcoming", courseDetailUpcoming.size());
+			model.addAttribute("Ongoing", courseDetailOnging.size());
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return "/lecturer/lecturer-dashboard";
 	}
 
@@ -266,7 +274,8 @@ public class LecturerController {
 
 	@RequestMapping(value = "/student-performance/updateGrading/{courseId}/{courseBatchId}/{student_id}")
 	public String updateStudentCourseGPA(HttpSession session, Model model, @PathVariable int courseId,
-			@PathVariable int courseBatchId, @PathVariable int student_id, @RequestParam("gpa") double gpa, RedirectAttributes redirattr) {
+			@PathVariable int courseBatchId, @PathVariable int student_id, @RequestParam("gpa") double gpa,
+			RedirectAttributes redirattr) {
 
 		try {
 			if (!isUserLecturer(session))
@@ -283,7 +292,7 @@ public class LecturerController {
 			model.addAttribute("student_id", student_id);
 			model.addAttribute("courseId", courseId);
 			model.addAttribute("lecturerStudentGrading", lectStudentGrading);
-			redirattr.addFlashAttribute("success","GPA successfully updated!");
+			redirattr.addFlashAttribute("success", "GPA successfully updated!");
 		} catch (Exception e) {
 			redirattr.addFlashAttribute("error", e.getMessage());
 		}
