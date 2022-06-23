@@ -21,19 +21,19 @@
 			<p> Please go back to the homepage</p>	
 		</div>
 		<div class="d-flex justify-content-center mt-5">
-			<span >
+			<span th:if="${session.userSessionDetails==null}">
 				<a th:href="@{/}">
-					<button type="button" class="btn btn-secondary">GO TO LOGIN</button>
+					<button type="button" class="btn btn-primary mr-5">GO TO LOGIN</button>
 				</a>
 			</span>
-			<span th:if="${session.userSessionDetails.userRole=='lecturer'}">
+			<span th:if="${session.userSessionDetails!=null && session.userSessionDetails.userRole=='lecturer'}">
 				<a th:href="@{/lecturer/dashboard}">
-					<button type="submit" class="btn btn-primary mr-5"> GO HOME </button>
+					<button type="submit" class="btn btn-primary mr-5"> BACK TO HOME PAGE </button>
 				</a>
 			</span>
-			<span th:if="${session.userSessionDetails.userRole=='student'}">
+			<span th:if="${session.userSessionDetails!=null && session.userSessionDetails.userRole=='student'}">
 				<a th:href="@{/student/dashboard}">
-					<button type="submit" class="btn btn-primary mr-5"> GO HOME </button>
+					<button type="submit" class="btn btn-primary mr-5"> BACK TO HOME PAGE </button>
 				</a>
 			</span>
 		</div>

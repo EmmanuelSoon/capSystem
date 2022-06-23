@@ -55,11 +55,16 @@ public class StudentController {
     private CourseService courseService;
 
     @RequestMapping("/dashboard")
-    public String showDashboard(HttpSession session){
+    public String showDashboard(HttpSession session, Model model){
         String rtn = checkSession(session);
         if (rtn != ""){
             return rtn;
         }
+        userSessionDetails usd = getUsd(session);
+        List<StudentCourse> current = studService.findStudentCoursesOngoing(usd.getUserId(), "");
+        List<StudentCourse> hist = studService.findStudentCoursesFinish(usd.getUserId(), "");
+        model.addAttribute("currentCount", current.size());
+        model.addAttribute("finishedCount", hist.size());
         return "students/student-dashboard";
     }
 
@@ -186,7 +191,7 @@ public class StudentController {
     }
 
     @RequestMapping("/updatedProfile")
-    public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult){
+    public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult, RedirectAttributes redirAttr){
         String rtn = checkSession(session);
         if (rtn != ""){
             return rtn;
@@ -195,14 +200,15 @@ public class StudentController {
             return "students/student-updateProfile";
         }
         studService.saveStudent(student);
-        return "students/student-profile";
+        redirAttr.addFlashAttribute("success","Changes saved successfully!");
+        return "redirect:/student/profile";
 
 
     }
     
 
     @RequestMapping(value="change-password")
-    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model){
+    public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model, RedirectAttributes redirAttr){
         if (bindingresult.hasErrors()){
             return "students/password-change";
         }
@@ -215,7 +221,8 @@ public class StudentController {
             userSessionDetails p = new userSessionDetails(student, student.getStudentId(), "student");
             session.setAttribute("userSessionDetails", p);
 
-            return "forward:/student/profile";
+            redirAttr.addFlashAttribute("success","Password saved successfully!");
+            return "redirect:/student/profile";
         
         }
         else {
