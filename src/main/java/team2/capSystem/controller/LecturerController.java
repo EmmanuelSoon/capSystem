@@ -67,8 +67,10 @@ public class LecturerController {
 
 	@RequestMapping("/updatedProfile")
 	public String updatedLecturerProfile(@ModelAttribute("lecturer") @Valid Lecturer lecturer,
-			BindingResult bindingresult) {
+			BindingResult bindingresult, HttpSession session) {
 		try {
+			if(!isUserLecturer(session))
+				return "error";
 			if (bindingresult.hasErrors()) {
 				return "lecturer/lecturer-updateProfile";
 			}
@@ -85,7 +87,7 @@ public class LecturerController {
 	public String displayDashboard(HttpSession session, Model model) {
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
 			List<CourseDetail> courseDetailUpcoming = lecturerService.getUpcomingCoursesByLecturer(lecturer);
@@ -105,7 +107,7 @@ public class LecturerController {
 			@ModelAttribute("lecturerCourseStudentSearch") lecturerCourseStudentSearch keyword) {
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 			ArrayList<lecturerCoursesHelper> lectCrsUpcoming = new ArrayList<lecturerCoursesHelper>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
 			Lecturer lecturer = lecturerService.findLecturerById(user.getUserId());
@@ -135,7 +137,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			ArrayList<lecturerCoursesHelper> lectCrsOngoing = new ArrayList<lecturerCoursesHelper>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
@@ -169,7 +171,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			ArrayList<lecturerCoursesHelper> lectCrsTght = new ArrayList<lecturerCoursesHelper>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
@@ -203,7 +205,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			ArrayList<nominalRoll> nomRoll = new ArrayList<nominalRoll>();
 			userSessionDetails user = (userSessionDetails) session.getAttribute("userSessionDetails");
@@ -253,7 +255,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
 			StudentCourse sc = lecturerService.getSCByBatchId(courseBatchId, scList);
@@ -279,7 +281,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			studentService.updateStudentCourseGPA(courseBatchId, student_id, gpa);
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
@@ -305,7 +307,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			ArrayList<studentTranscript> studTS = new ArrayList<studentTranscript>();
 			List<StudentCourse> scList = lecturerService.getCourseListTakenByStudent(student_id);
@@ -338,7 +340,7 @@ public class LecturerController {
 
 		try {
 			if (!isUserLecturer(session))
-				return "forward:/logout";
+				return "error";
 
 			if (bindingresult.hasErrors()) {
 				// model.addAttribute("testing", "this is testing");
