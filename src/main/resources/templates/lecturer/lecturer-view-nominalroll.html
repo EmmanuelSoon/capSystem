@@ -8,6 +8,7 @@
 	<div th:replace="fragments/header :: menu"></div>
 	<div class="container mt-5">
 
+		<div th:replace="fragments/alerts :: alert"></div>
 		<div>
 			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> No Enrolment for this course </th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
@@ -89,7 +90,7 @@
 		</div>
 	</div>
 
-	<div th:replace="fragments/header.html :: jsLink"></div>
+	<!-- <div th:replace="fragments/header.html :: jsLink"></div> -->
 </body>
 
 </html>
