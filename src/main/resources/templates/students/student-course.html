@@ -38,6 +38,7 @@
 				<tr>
 					<th>Course Name</th>
 					<th>Course Description</th>
+					<th>Grade</th>
 					<th> Show Details </th>
 					<th>Unenroll</th>
 
@@ -49,6 +50,7 @@
 				<tr th:each="sc: ${studCourse}">
 					<td th:text="${sc.course.course.name}">Course Name</td>
 					<td th:text="${sc.course.course.description}">Course Description</td>
+					<td th:text="${sc.gpa == -1}? ' ' : ${sc.gpa}">Grade</td>
 					<td>
 						<a class="btn btn-info" th:href="@{/student/view-classlist/{id}(id = ${sc.course.id})}">View Class <i class="fa fa-book"></i></a>
 					</td>
