@@ -13,9 +13,11 @@
 					<img class="card-img-top" th:src="@{/images/courses.jpg}" alt="My Courses" height="300">
 					<div class="card-body">
 						<h5 class="card-title text-center">My Courses</h5>
-						<p class="card-text card-data-text text-wrap">
-							5/6 Courses
+						<b><p class="card-text card-data-text text-wrap"  >
+							Courses enrolled: <span th:text="${currentCount}">Course Count</span>
 						</p>
+						<p>Courses Finished: <span th:text="${finishedCount}">Course Count</span></p>
+						</b>
 						<a th:href="@{/student/course-history/}" class="btn btn-primary w-100">Click here!</a>
 					</div>
 				</div>

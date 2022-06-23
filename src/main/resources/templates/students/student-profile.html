@@ -3,7 +3,10 @@
 <header th:replace="fragments/header :: html_head"></header>
 
 <body>
+
 	<div th:replace="fragments/header :: menu"></div>
+	<div th:replace="fragments/alerts :: alert"></div>
+
 	<div class="container mt-3">
 		<div class="row mb-5 d-flex justify-content-between">
             <h3>My Profile</h3>
@@ -32,5 +35,5 @@
 
 	</div>
 
-	<div th:replace="fragments/header :: jsLink"></div>
+	<!-- <div th:replace="fragments/header :: jsLink"></div> -->
 </body>
