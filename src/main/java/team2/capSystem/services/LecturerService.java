@@ -19,6 +19,8 @@ public interface LecturerService {
 
 	Lecturer saveLecturer(Lecturer lecturer);
 
+	void addNewLecturer(Lecturer lecturer);
+
 	Lecturer findLecturerById(int id);
 
 	void deleteLecturerById(int id);

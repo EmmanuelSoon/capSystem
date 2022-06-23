@@ -205,7 +205,7 @@ public class AdminController {
     @PostMapping(value ="/lecturer")
     public ResponseEntity createLecturer(@RequestBody Lecturer lecturer){
         try {
-            lecturerService.saveLecturer(lecturer);
+            lecturerService.addNewLecturer(lecturer);
             return new ResponseEntity<>(lecturer, HttpStatus.CREATED);
         }
         catch (Exception e){
