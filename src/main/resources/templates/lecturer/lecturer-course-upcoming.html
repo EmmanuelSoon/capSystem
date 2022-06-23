@@ -11,6 +11,22 @@
 
 	<div class="container mt-5">
 		<h2>Upcoming Courses</h2>
+		<form action="#" th:action="@{/lecturer/course-upcoming}" method="get" th:object="${lecturerCourseStudentSearch}">
+			<form th:action="@{/lecturer/course-upcoming}" method="get">
+				<div class="row my-3">
+					<div class="col-3 mr-1">
+						<label for="Search">Search</label>
+						<input type="text" class="form-control py-2" placeholder="Search by Course Name"
+							th:field="*{keyword}">
+					</div>
+					<div class="col-3 mt-4">
+						<button type="submit" class="btn btn-success btn-outline search-button">
+							<i class="fa fa-search ml mr-2"></i>
+							Search
+						</button>
+					</div>
+				</div>
+			</form>
 		<div th:insert="fragments/lecturer :: lecturerCourseTable"></div>
 	</div>
 	<div th:replace="fragments/header :: jsLink"></div>
