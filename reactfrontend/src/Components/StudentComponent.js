@@ -7,8 +7,14 @@ class Student extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {students: []};
+        this.state = {
+            students: [],
+            min: 0,
+            max: 10,
+        };
         this.remove = this.remove.bind(this);
+        this.decreaseCount = this.decreaseCount.bind(this);
+        this.increaseCount = this.increaseCount.bind(this);
     }
 
     async componentDidMount() {
@@ -29,6 +35,13 @@ class Student extends Component {
         .then(data => this.setState({students: data}));
     };
     
+    increaseCount(){
+        this.setState({max : this.state.max + 10, min: this.state.min + 10})
+    }
+
+    decreaseCount(){
+        this.setState({max : this.state.max - 10, min: this.state.min - 10})
+    }
       
     render() {
         const {students, isLoading} = this.state;
@@ -37,7 +50,7 @@ class Student extends Component {
             return <p>Loading...</p>;
         }
 
-        const studentList = students.map(student => {
+        const studentList = students.filter((item, i) => i < this.state.max && i >= this.state.min).map(student => {
             return (
                 <tr key= {student.studentId}>
                     <td>
@@ -75,38 +88,48 @@ class Student extends Component {
                     <Button color="success" tag={Link} to="/admin/student/new">Add Student</Button>
                 </div>
                 
-                    <h3>Students</h3>
-                    <table className='table table-hover text-center mt-3'>
-                        <thead className='table-light'>
-                            <tr>
-                                <th>
-                                    student ID
-                                </th>
-                                <th>
-                                    student Name
-                                </th>
-                                <th>
-                                    student Username
-                                </th>
-                                <th>
-                                    student Password
-                                </th>
-                                <th>
-                                    student Email 
-                                </th>
-                                <th>
-                                    Currently Active
-                                </th>
-                                <th>
-                                    
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {studentList}
-                        </tbody>
-                    </table>
-               
+                <h3>Students</h3>
+                <table className='table table-hover text-center mt-3'>
+                    <thead className='table-light'>
+                        <tr>
+                            <th>
+                                student ID
+                            </th>
+                            <th>
+                                student Name
+                            </th>
+                            <th>
+                                student Username
+                            </th>
+                            <th>
+                                student Password
+                            </th>
+                            <th>
+                                student Email 
+                            </th>
+                            <th>
+                                Currently Active
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {studentList}
+                    </tbody>
+                </table>
+                <div className='row'>
+                    <div className='col-1' >
+                        <Button color='success' outline className='rounded-circle' onClick={() => this.decreaseCount()} disabled={this.state.min <= 0}><i class="fa fa-arrow-left" aria-hidden="true"></i></Button> 
+                    </div>
+                    <div className='col-10 text-center lead fs-4'>
+                        {this.state.min+1} ... {this.state.max}
+                    </div>
+                    <div className='col-1 float-end'>
+                        <Button color='success' outline className='rounded-circle' onClick={() => this.increaseCount()}  disabled={this.state.max >= students.length}><i class="fa fa-arrow-right" aria-hidden="true"></i></Button>
+                    </div>
+                </div>
             </Container>
         );
 
