@@ -55,7 +55,8 @@ public class LecturerServiceImpl implements LecturerService {
 	}
 
 	public Lecturer saveLecturer(Lecturer lecturer) {
-		return lecturerRepository.save(lecturer);
+		lecturerRepository.updateLecturerDetails(lecturer.getName(), lecturer.getEmail(),  lecturer.getUsername(), lecturer.getLecturerId());
+		return lecturerRepository.findLecturerByUsername(lecturer.getUsername());
 	}
 
 	public Lecturer findLecturerById(int id) {
