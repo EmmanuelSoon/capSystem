@@ -107,19 +107,17 @@ class CourseDetail extends Component {
                     <td>{batch.endDate}</td>
                     <td>{batch.size} / {batch.maxSize}</td>
                     <td>
-                        <ButtonGroup>
-                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Details</Button>
-
-                        </ButtonGroup>
-                    </td>
-                    <td>
                         {action(batch)}
                     </td>
                     <td>
                         <div className='col-12'>
                             {deleteaction(batch)}
                         </div>
-
+                    </td>
+                    <td>
+                        <ButtonGroup>
+                            <Button size="sm" color="primary" tag={Link} to={"/admin/coursedetails/batch/" + batch.id}>View Batch Details</Button>
+                        </ButtonGroup>
                     </td>
                 </tr>
             );
@@ -140,9 +138,9 @@ class CourseDetail extends Component {
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Current Batch Size</th>
-                        <th>View Details</th>
                         <th>Status</th>
                         <th>Actions</th>
+                        <th>View Details</th>
                     </tr></thead>
                     <tbody>
                     {batchList}
