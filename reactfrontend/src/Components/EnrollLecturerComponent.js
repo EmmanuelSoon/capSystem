@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 class EnrollLecturer extends Component {
     defaultLecturer = {
+        lecturerId: 0,
         name: '',
         username: '',
         password: '',
@@ -79,7 +80,7 @@ class EnrollLecturer extends Component {
 
         return (
             <Container className='mt-5'>
-                <h3>Available Courses for {this.state.lecturer.name}</h3>
+                <h3><Link to={"/admin/lecturer/course/" + this.state.lecturer.lecturerId}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Available Courses for {this.state.lecturer.name}</h3>
                 <table className='table table-hover table-striped text-center mt-3'>
                         <thead className='table-light'>
                         <tr>

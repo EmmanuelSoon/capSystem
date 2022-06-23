@@ -7,6 +7,7 @@ import { FormErrors } from './FormErrors';
 
 class Enrolment extends Component {
     defaultStudent = {
+        studentId: 0,
         name: '',
         username: '',
         password: '',
@@ -97,7 +98,7 @@ class Enrolment extends Component {
 
         return (
             <Container className='mt-5'>
-                <h3>Available Courses for {this.state.student.name}</h3>
+                <h3><Link to={"/admin/student/course/" + this.state.student.studentId}><span className="fa fa-arrow-circle-left" aria-hidden="true"></span></Link> Available Courses for {this.state.student.name}</h3>
                 <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>
