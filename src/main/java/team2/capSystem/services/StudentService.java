@@ -25,7 +25,7 @@ public interface StudentService {
 	
 	Student getStudent(User u);
 
-	StudentCourse addCourseDetailToStudent(Student student, CourseDetail courseDetail);
+	boolean addCourseDetailToStudent(Student student, CourseDetail courseDetail);
 
 	List<Student> getAllStudents();
 

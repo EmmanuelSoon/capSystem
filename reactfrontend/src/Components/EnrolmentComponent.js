@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Table, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FormErrors } from './FormErrors';
+
 
 
 class Enrolment extends Component {
@@ -15,7 +17,11 @@ class Enrolment extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { availableCourses: [], student: this.defaultStudent };
+        this.state = { 
+            availableCourses: [], 
+            student: this.defaultStudent,
+            formErrors: {Error:''},
+         };
         this.add = this.add.bind(this);
     }
 
@@ -41,7 +47,17 @@ class Enrolment extends Component {
 
         })
             .then(response => response.json())
-            .then(data => this.setState({ availableCourses: data }));
+            .then(data => {
+                if(data.message !== 'Item couldnt be added'){
+                    this.setState({ availableCourses: data, formErrors: {Error: ""} })
+                }
+                else{
+                    this.setState({formErrors: {Error: ": Sorry... unable to enroll as selected course is full"}})
+
+                }
+                
+            
+            });
     };
 
 
@@ -80,10 +96,13 @@ class Enrolment extends Component {
         });
 
         return (
-            <Container fluid>
+            <Container className='mt-5'>
                 <h3>Available Courses for {this.state.student.name}</h3>
-                <Table className='mb-5'>
-                    <thead>
+                <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
+                <table className='table table-hover text-center'>
+                        <thead className='table-light'>
                         <tr>
                             <th>
                                 Course Name
@@ -97,12 +116,15 @@ class Enrolment extends Component {
                             <th>
                                 Current Enrolment
                             </th>
+                            <th>
+
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {availableCourseList}
                     </tbody>
-                </Table>
+                </table>
                 {/* <Button outline color="success" tag={Link} to={`/admin/student/course/${this.state.student.username}/new`}>Enroll Student into a new Course</Button> */}
             </Container>
         );

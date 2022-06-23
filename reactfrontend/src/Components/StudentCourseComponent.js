@@ -66,7 +66,7 @@ class StudentCourse extends Component {
                         {studentCourseDetail.endDate}
                     </td>
                     <td>
-                        {studentCourseDetail.gpa}
+                        {parseFloat(studentCourseDetail.gpa) < 0 ? 'N.A' : parseFloat(studentCourseDetail.gpa).toFixed(1,10)}
                     </td>
 
                     <td>

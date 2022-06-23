@@ -83,7 +83,7 @@ class BatchDetail extends Component {
                 <div>
                     {batchSummary()}
                 </div>
-                <table className='table table-hover text-center mt-3'>
+                <table className='table table-hover table-striped text-center mt-3'>
                     <thead className='table-light'>
                     <tr>
                         <th>S/N</th>

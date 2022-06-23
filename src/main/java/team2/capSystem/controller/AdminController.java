@@ -227,11 +227,18 @@ public class AdminController {
         try {
             Student currStudent = studentService.findStudentByUsername(username);
             CourseDetail cd = courseService.findCourseDetailById(id);
-            studentService.addCourseDetailToStudent(currStudent, cd);
-            return new ResponseEntity<>(studentService.findAvailableCoursesByStudentId(currStudent.getStudentId()), HttpStatus.CREATED);
+            boolean check = studentService.addCourseDetailToStudent(currStudent, cd);
+            if(check){
+                return new ResponseEntity<>(studentService.findAvailableCoursesByStudentId(currStudent.getStudentId()), HttpStatus.CREATED);
+            }
+            else {
+                throw new Exception();
+            }
         }
         catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("message", "Item couldnt be added");
+            return ResponseEntity.badRequest().body(jsonObj);
         }
     }
 

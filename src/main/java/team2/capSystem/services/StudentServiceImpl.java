@@ -89,11 +89,14 @@ public class StudentServiceImpl implements StudentService {
 		}
 	}
 
-	public StudentCourse addCourseDetailToStudent(Student s, CourseDetail c) {
+	public boolean addCourseDetailToStudent(Student s, CourseDetail c) {
+		if(c.isFull()){
+			return false;
+		}
 		StudentCourse sc = new StudentCourse(s, c);
 		s.getCourses().add(sc);
 		studentRepository.save(s);
-		return sc;
+		return true;
 	}
 
 	// Student controller methods

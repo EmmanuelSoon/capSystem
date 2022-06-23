@@ -67,6 +67,7 @@ class EnrollLecturer extends Component {
                     <td>
                         {CourseDetail.size}/{CourseDetail.maxSize}
                     </td>
+                    
                     <td>
                         <ButtonGroup>
                             <Button outline size="sm" color="primary" onClick={() => this.add(CourseDetail.id)}>Add Lecturer</Button>
@@ -77,10 +78,10 @@ class EnrollLecturer extends Component {
         });
 
         return (
-            <Container fluid>
+            <Container className='mt-5'>
                 <h3>Available Courses for {this.state.lecturer.name}</h3>
-                <Table className='mb-5'>
-                    <thead>
+                <table className='table table-hover table-striped text-center mt-3'>
+                        <thead className='table-light'>
                         <tr>
                             <th>
                                 Course Name
@@ -94,12 +95,14 @@ class EnrollLecturer extends Component {
                             <th>
                                 Current Enrolment
                             </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {availableCourseList}
                     </tbody>
-                </Table>
+                </table>
             </Container>
         );
 
