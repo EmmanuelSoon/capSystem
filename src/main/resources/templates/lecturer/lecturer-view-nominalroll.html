@@ -11,7 +11,8 @@
 
 		<div th:replace="fragments/alerts :: alert"></div>
 		<div>
-			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> No Enrolment for this course
+			<th:block th:if="${nominalRoll=='NoData'}" class="border p-4 text-center"> 
+				<div th:insert="fragments/lecturer :: noEnrollmentPage"></div>
 			</th:block>
 			<th:block th:unless="${nominalRoll=='NoData'}">
 				<h1>Class List</h1>
