@@ -19,7 +19,6 @@
 			<tr>
 				<th> Batch Number</th>
 				<th> Course Name </th>
-				<th> Course Description </th>
 				<th> Course Start Date </th>
 				<th> Course End Date </th>
 				<th> View Class List </th>
@@ -30,7 +29,6 @@
 			<tr th:each="lectCrs : ${lecturerCourse}">
 				<td align="left" th:text="${lectCrs.courseBatchId}">Course Batch Id</td>
 				<td align="left" th:text="${lectCrs.courseName}">Course Name</td>
-				<td align="left" th:text="${lectCrs.courseDescription}">Course Description</td>
 				<td align="left" th:text="${#temporals.format(lectCrs.startDate, 'dd-MM-yyyy')}">Course Start
 					Date</td>
 				<td align="left" th:text="${#temporals.format(lectCrs.endDate, 'dd-MM-yyyy')}">Course End Date
