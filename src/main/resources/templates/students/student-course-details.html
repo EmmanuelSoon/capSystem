@@ -23,7 +23,7 @@
 
 				</tr>
 				<tr th:if="${classlist.empty}">
-					<td colspan="4" class="p-4 border">No Students Enrolled</td>
+					<td colspan="2" class="p-4 border">No Students Enrolled</td>
 				</tr>
 				<tr th:each="sc: ${classlist}">
 					<td th:text="${sc.getName()}"></td>
@@ -40,7 +40,7 @@
 
             </tr>
             <tr th:if="${lecturerlist.empty}">
-                <td colspan="4" class="p-4 border">No lecturers!</td>
+                <td colspan="2" class="p-4 border">No lecturers!</td>
             </tr>
             <tr th:each="lect: ${lecturerlist}">
                 <td th:text="${lect.name}"></td>
