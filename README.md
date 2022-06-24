@@ -15,5 +15,5 @@ In order to use this app, you will need to launch the React app and the springbo
 - please ensure MySQL is running and the seeding service will take care of the creation of the database. 
 
 Note: 
-    - the react application runs on localhost:3000 
-    - the springboot application runs on localhost:8080 
+- the react application runs on localhost:3000 
+- the springboot application runs on localhost:8080 
