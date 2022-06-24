@@ -205,8 +205,14 @@ public class CascadingTest {
         lecturerService.deleteLecturerById(test.getLecturerId());
         Assertions.assertNull(lecturerService.findByUsername("test"));
 
+        
 		CourseDetail course = cdRepo.findByCourseNameAndTime(cookingCourse, LocalDate.of(2024, 06, 20), LocalDate.of(2025, 06, 15));
-        Assertions.assertEquals(course.getLecturers().size(), 2);
+        Assertions.assertNotNull(course);
+
+        Lecturer liufan2 = lecturerService.findByUsername("liufan");
+        Lecturer tin2 = lecturerService.findByUsername("tin");
+        Assertions.assertTrue(liufan2.getCourses().contains(course));
+        Assertions.assertTrue(tin2.getCourses().contains(course));
 
 	}
 }
