@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.convert.Jsr310Converters;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.w3c.dom.ls.LSInput;
 import team2.capSystem.model.Course;
 import team2.capSystem.model.CourseDetail;
@@ -77,11 +78,15 @@ public class CascadingTest {
     @Order(2)
     public void updateTest() {
 
-        studentService.createStudent("teststd", "testpw", "testname", "testemail");
-        Student s = studentService.findStudentByUsername("teststd");
+        studentService.createStudent("testsusername", "testpassword", "testname", "testemail@gmail.com");
+        Student s = studentService.findStudentByUsername("testsusername");
+
         Assertions.assertNotNull(s);
-        Assertions.assertEquals("teststd", s.getUsername());
-        Assertions.assertEquals("testpw", s.getPassword());
+        Assertions.assertEquals("testsusername", s.getUsername());
+
+        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+        String password = encoder.encode("testpassword");
+        Assertions.assertTrue(encoder.matches( "testpassword", s.getPassword()));
 
         s.setUsername("teststd-updated");
         studentService.saveStudent(s);
@@ -89,7 +94,7 @@ public class CascadingTest {
         Student after = studentService.findStudentByUsername("teststd-updated");
         Assertions.assertEquals("teststd-updated", after.getUsername());
         Assertions.assertEquals("testname", after.getName());
-        Assertions.assertEquals("testemail", after.getEmail());
+        Assertions.assertEquals("testemail@gmail.com", after.getEmail());
         Assertions.assertNull(studentService.findStudentByUsername("teststd"));
     }
 
@@ -97,27 +102,29 @@ public class CascadingTest {
     @Order(3)
     public void deleteTest1() {
         //lecturer and course
-        Lecturer l = new Lecturer("test", "test", "test", "test@gmail.com");
+        Lecturer l = new Lecturer("testlecture", "testpassword", "testname", "test@gmail.com");
         Course c =  new Course("testname", "testdesc");
-        CourseDetail cd1 = new CourseDetail(LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30), c);
-        CourseDetail cd2 = new CourseDetail(LocalDate.of(2022, 1, 01), LocalDate.of(2023, 12, 30), c);
+        CourseDetail cd1 = new CourseDetail(LocalDate.of(2023, 1, 01), LocalDate.of(2023, 12, 30), c);
+        CourseDetail cd2 = new CourseDetail(LocalDate.of(2024, 1, 01), LocalDate.of(2024, 12, 30), c);
         List<CourseDetail> list = new ArrayList<>();
         list.add(cd1);
         list.add(cd2);
         c.setCourseDetails(list);
         l.setCourses(list);
-        lecturerService.saveLecturer(l);
+        lecturerService.addNewLecturer(l);
         courseService.saveCourse(c);
-        Assertions.assertNotNull(lecturerService.findByUsername("test"));
+
+        Assertions.assertNotNull(lecturerService.findByUsername("testlecture"));
         Assertions.assertNotNull(courseService.getCourseByName("testname"));
         Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd1.getStartDate(), cd1.getEndDate()));
         Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd2.getStartDate(), cd2.getEndDate()));
-        Assertions.assertEquals(2, lecturerService.findByUsername("test").getCourses().size());
+        Assertions.assertEquals(2, lecturerService.findByUsername("testlecture").getCourses().size());
 
 
-        lecturerService.delete(lecturerService.findByUsername("test"));
-        Assertions.assertEquals(0, lecturerService.findByUsername("test").getCourses().size());
-        Assertions.assertEquals(false, lecturerService.findByUsername("test").getActive());
+        lecturerService.delete(lecturerService.findByUsername("testlecture"));
+        lecturerService.deleteLecturerById(lecturerService.findByUsername("testlecture").getLecturerId());
+        Assertions.assertNull(lecturerService.findByUsername("testlecture"));
+        /*Assertions.assertEquals(false, lecturerService.findByUsername("testlecture").getActive());*/
 
         courseService.deleteCourseById(courseService.getCourseByName("testname").getCourseId());
         Assertions.assertNull(courseService.getCourseByName("testname"));
@@ -127,18 +134,26 @@ public class CascadingTest {
     @Test
     @Order(4)
     public void deleteTest2() {
-        Student s = new Student("teststd", "testpw", "testname", "testemail");
+        //Delete Stduent and stduentcourse
         Course c =  new Course("testname", "testdesc");
         CourseDetail cd = new CourseDetail(LocalDate.of(2021, 1, 01), LocalDate.of(2021, 12, 30), c);
         c.Add(cd);
-        studentService.saveStudent(s);
         courseService.saveCourse(c);
+        Student s = new Student("teststd", "testpw", "testname", "testemail@gmail.com");
+        s.getCourses().add(new StudentCourse(s, cd, 5.0));
+        studentService.saveStudent(s);
         Assertions.assertNotNull(studentService.findStudentByUsername("teststd"));
         Assertions.assertNotNull(courseService.getCourseByName("testname"));
+        Assertions.assertEquals(1, courseService.getCourseByName("testname").getCourseDetails().size());
         Assertions.assertNotNull(courseService.findExactCourseDetail(c, cd.getStartDate(), cd.getEndDate()));
+        Assertions.assertEquals(1, studentService.findStudentByUsername("teststd").getCourses().size());
+
+        studentService.deleteStudentById(studentService.findStudentByUsername("teststd").getStudentId());
+        Assertions.assertNull(studentService.findStudentByUsername("teststd"));
+        Assertions.assertEquals(0, courseService.getCourseByName("testname").getCourseDetails().get(0).getStudent_course().size());
     }
 
-    @Test
+/*    @Test
     @Order(5)
     public void Test5() {
         Course c =  new Course("testcourse", "testdesc");
@@ -154,7 +169,7 @@ public class CascadingTest {
 
         //Assertions.assertEquals(testlect.getCourses().get(0), testc);
 
-    }
+    }*/
 
     @Test
 	@Order(6)
@@ -177,22 +192,21 @@ public class CascadingTest {
         
         
         Course cookingCourse = courseService.getCourseByName("Cooking with Pork");
-        CourseDetail cook1 = courseService.createCourseDetail(cookingCourse, LocalDate.of(2023, 06, 15), LocalDate.of(2024, 06, 15));
+        CourseDetail cook1 = courseService.createCourseDetail(cookingCourse, LocalDate.of(2024, 06, 20), LocalDate.of(2025, 06, 15));
+/*
+        System.out.println(courseService.findExactCourseDetail(cookingCourse, LocalDate.of(2024, 06, 20), LocalDate.of(2025, 06, 15)).getLecturers().size());
+*/
         courseService.addLecturer(cook1, liufan);
         courseService.addLecturer(cook1, tin);
         courseService.addLecturer(cook1, test);
-
+/*
+        System.out.println(courseService.findExactCourseDetail(cookingCourse, LocalDate.of(2024, 06, 20), LocalDate.of(2025, 06, 15)).getLecturers().size());
+*/
         lecturerService.deleteLecturerById(test.getLecturerId());
         Assertions.assertNull(lecturerService.findByUsername("test"));
 
-		CourseDetail course = cdRepo.findByCourseNameAndTime(cookingCourse, LocalDate.of(2023, 06, 15), LocalDate.of(2024, 06, 15));
+		CourseDetail course = cdRepo.findByCourseNameAndTime(cookingCourse, LocalDate.of(2024, 06, 20), LocalDate.of(2025, 06, 15));
         Assertions.assertEquals(course.getLecturers().size(), 2);
 
-	}
-
-    @Test
-	@Order(7)
-	public void getAllStudentsTest() {
-        Assertions.assertEquals(studentService.getAllStudents().size(), 8);
 	}
 }
