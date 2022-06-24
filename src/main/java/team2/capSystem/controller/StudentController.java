@@ -1,33 +1,27 @@
 package team2.capSystem.controller;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import team2.capSystem.exceptions.*;
-import team2.capSystem.exceptions.RequestException;
+import team2.capSystem.exceptions.AfterTwoWeekUnenrollmentException;
+import team2.capSystem.exceptions.ClassFullException;
+import team2.capSystem.exceptions.ClassStartedException;
+import team2.capSystem.exceptions.CourseEndedException;
+import team2.capSystem.exceptions.GpaExistException;
 import team2.capSystem.helper.courseDetailSearchQuery;
 import team2.capSystem.helper.userChangePassword;
 import team2.capSystem.helper.userSessionDetails;
@@ -35,13 +29,8 @@ import team2.capSystem.model.CourseDetail;
 import team2.capSystem.model.Lecturer;
 import team2.capSystem.model.Student;
 import team2.capSystem.model.StudentCourse;
-import team2.capSystem.repo.CourseDetailRepository;
-import team2.capSystem.repo.StudentCourseRepository;
-import team2.capSystem.repo.StudentRepository;
 import team2.capSystem.services.CourseService;
-import team2.capSystem.services.LecturerService;
 import team2.capSystem.services.StudentService;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
@@ -53,6 +42,9 @@ public class StudentController {
 
     @Autowired
     private CourseService courseService;
+
+
+     /*-----------------------Student dashboard page---------------------------*/
 
     @RequestMapping("/dashboard")
     public String showDashboard(HttpSession session, Model model){
@@ -68,7 +60,10 @@ public class StudentController {
         return "students/student-dashboard";
     }
 
-    @RequestMapping(path = "/course-history/")
+    /*-----------------------My courses page and functions---------------------------*/
+
+    //returning the my course page
+    @RequestMapping("/course-history/")
     public String showCourseHistory(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
         String rtn = checkSession(session);
         if (rtn != ""){
@@ -88,7 +83,8 @@ public class StudentController {
 
     }
 
-    @RequestMapping(path = "/view-classlist/{id}")
+    //to view the course details page
+    @RequestMapping("/view-classlist/{id}")
     public String showClassList(@PathVariable("id") Integer id, HttpSession session, Model model){
         String rtn = checkSession(session);
         if (rtn != ""){
@@ -105,42 +101,7 @@ public class StudentController {
         return "students/student-course-details";
     }
 
-
-
-    @RequestMapping(path = "/enroll*")
-    public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
-        String rtn = checkSession(session);
-        if (rtn != ""){
-            return rtn;
-        }
-        userSessionDetails usd = getUsd(session);
-        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, search);
-        model.addAttribute("enrollCourses", enrollCourses);
-
-        return "students/student-enroll-course";
-
-    }
-    
-    @RequestMapping("/enrollCourse/" )
-    public String enrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
-        String rtn = checkSession(session);
-        if (rtn != ""){
-            return rtn;
-        }
-        userSessionDetails usd = getUsd(session);
-        try {
-            studService.studentEnrollCourse(usd,id);
-            redirAttrs.addFlashAttribute("success", "Course Enrollment successful!");
-            return "redirect:/student/course-history/";
-        } catch (ClassFullException e) {
-            redirAttrs.addFlashAttribute("error", e.getMessage());
-        } 
-        catch(ClassStartedException e) {
-            redirAttrs.addFlashAttribute("error", e.getMessage());
-        }
-        return "redirect:/student/enroll/";
-    }
-
+    //un enroll from course function
     @RequestMapping("/unenrollCourse/" )
     public String unenrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
         String rtn = checkSession(session);
@@ -166,6 +127,49 @@ public class StudentController {
         return "redirect:/student/course-history/";
     }
 
+    /*-----------------------Enroll in course page and functions---------------------------*/
+
+    //show courses available to enroll in
+    @RequestMapping("/enroll*")
+    public String showAvailbleCourses(HttpSession session, Model model, @ModelAttribute("courseDetailSearchQuery") courseDetailSearchQuery search){
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
+        userSessionDetails usd = getUsd(session);
+        List<CourseDetail> enrollCourses = studService.getStudentAvailCourses(usd, search);
+        model.addAttribute("enrollCourses", enrollCourses);
+
+        return "students/student-enroll-course";
+
+    }
+    
+    //enroll in course function
+    @RequestMapping("/enrollCourse/" )
+    public String enrollCourse(@RequestParam("cdId") int id, HttpSession session, RedirectAttributes redirAttrs) {
+        String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
+        userSessionDetails usd = getUsd(session);
+        try {
+            studService.studentEnrollCourse(usd,id);
+            redirAttrs.addFlashAttribute("success", "Course Enrollment successful!");
+            return "redirect:/student/course-history/";
+        } catch (ClassFullException e) {
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+        } 
+        catch(ClassStartedException e) {
+            redirAttrs.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/student/enroll/";
+    }
+
+
+    /*-----------------------My profile page and functions---------------------------*/
+
+
+    //showing the my profile page
     @RequestMapping("/profile")
     public String displayStudentProfile(Model model, HttpSession session){
         String rtn = checkSession(session);
@@ -178,6 +182,7 @@ public class StudentController {
         return "students/student-profile";
     }
 
+    //editing user profile details form page
     @RequestMapping("/editProfile")
     public String editStudentProfile(Model model, HttpSession session){
         String rtn = checkSession(session);
@@ -190,6 +195,7 @@ public class StudentController {
         return "students/student-updateProfile";
     }
 
+    //updating the changes to the profile
     @RequestMapping("/updatedProfile")
     public String updatedStudentProfile(HttpSession session, @ModelAttribute("student") @Valid Student student, BindingResult bindingresult, RedirectAttributes redirAttr,Model model){
         String rtn = checkSession(session);
@@ -222,18 +228,20 @@ public class StudentController {
         return "redirect:/student/profile";
     }
     
-    @GetMapping(value="change-password")
+    //showing change password page
+    @GetMapping("change-password")
     public String ChangePassword(HttpSession session,Model model){
     	String rtn = checkSession(session);
         if (rtn != ""){
             return rtn;
         }
-        userChangePassword ucp=new userChangePassword();
+        userChangePassword ucp = new userChangePassword();
         model.addAttribute("userChangePassword", ucp);
         return "students/password-change";	
     }
 
-    @RequestMapping(value="update-password")
+    //Updating password function
+    @RequestMapping("update-password")
     public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model, RedirectAttributes redirAttr){
     	String rtn = checkSession(session);
         if (rtn != ""){
@@ -263,12 +271,14 @@ public class StudentController {
         
     }
         
-    //helper functions
-    
+    /*-----------------------helper functions---------------------------*/
+
+    //mapping the httpsession to the userSessionDetail helperclass so we can get id and role from the session
     private userSessionDetails getUsd(HttpSession session){
         return (userSessionDetails)session.getAttribute("userSessionDetails");
     }
 
+    //check user role from session to make sure user is student else redirect to person's dashboard
     private String checkSession(HttpSession session){
         userSessionDetails usd = (userSessionDetails)session.getAttribute("userSessionDetails");
         if(!usd.getUserRole().equals("student")){
