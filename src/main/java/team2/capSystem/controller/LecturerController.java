@@ -353,8 +353,14 @@ public class LecturerController {
 
 	@GetMapping(value="change-password")
     public String ChangePassword(HttpSession session,Model model){
-        userChangePassword ucp=new userChangePassword();
-        model.addAttribute("userChangePassword", ucp);
+		try {
+			if (!isUserLecturer(session))
+				return "error";
+			 userChangePassword ucp=new userChangePassword();
+		     model.addAttribute("userChangePassword", ucp);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
         return "lecturer/lecturer-password-change";	
     }
 

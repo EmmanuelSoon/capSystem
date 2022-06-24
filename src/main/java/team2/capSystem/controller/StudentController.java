@@ -224,6 +224,10 @@ public class StudentController {
     
     @GetMapping(value="change-password")
     public String ChangePassword(HttpSession session,Model model){
+    	String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
         userChangePassword ucp=new userChangePassword();
         model.addAttribute("userChangePassword", ucp);
         return "students/password-change";	
@@ -231,6 +235,10 @@ public class StudentController {
 
     @RequestMapping(value="update-password")
     public String ChangePassword(HttpSession session, @ModelAttribute("userChangePassword") @Valid userChangePassword userPass, BindingResult bindingresult,Model model, RedirectAttributes redirAttr){
+    	String rtn = checkSession(session);
+        if (rtn != ""){
+            return rtn;
+        }
         if (bindingresult.hasErrors()){
             return "students/password-change";
         }
